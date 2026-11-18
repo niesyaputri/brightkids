@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#FFF8F1">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="BrightKids">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" href="icon-192.png">
+<title>BrightKids · Learn, Grow, Shine</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#2B2D5B;--ink:#3A3C66;--muted:#8D8FAE;--bg:#FFF8F1;--card:#fff;--line:#F1E9E1;
+--lav:#B9A8F2;--lav2:#F0ECFF;--mint:#9FDFC2;--mint2:#E5F7EE;--peach:#FFC6A6;--peach2:#FFF0E6;
+--sky:#A9D3F2;--sky2:#E7F3FC;--pink:#F6BBD3;--pink2:#FDECF3;--coral:#EFA3A3;--coral2:#FCEBEB;--r:22px}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:'Nunito',system-ui,-apple-system,sans-serif;font-size:15px}
+h1,h2,h3,.baloo{font-family:'Baloo 2','Nunito',sans-serif;color:var(--navy);margin:0;line-height:1.15}
+button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit;font-size:inherit}
+input,select,textarea{font-family:inherit;font-size:16px;color:var(--ink);width:100%;padding:12px 14px;border:2px solid var(--line);border-radius:14px;background:#fff;outline:none;-webkit-appearance:none;appearance:none}
+select{background-image:linear-gradient(45deg,transparent 50%,var(--muted) 50%),linear-gradient(135deg,var(--muted) 50%,transparent 50%);background-position:calc(100% - 18px) 52%,calc(100% - 13px) 52%;background-size:5px 5px;background-repeat:no-repeat;padding-right:32px}
+input:focus,select:focus,textarea:focus{border-color:var(--lav)}
+textarea{min-height:90px;resize:vertical}
+label.lb{display:block;font-weight:800;font-size:13px;color:var(--muted);margin:12px 2px 6px}
+.app{max-width:540px;margin:0 auto;min-height:100vh;padding:env(safe-area-inset-top) 0 calc(96px + env(safe-area-inset-bottom))}
+.top{display:flex;align-items:center;justify-content:space-between;padding:14px 16px 6px;gap:8px}
+.kidbtn{display:flex;align-items:center;gap:10px;text-align:left;padding:4px 10px 4px 4px;border-radius:999px;background:#fff;box-shadow:0 3px 12px rgba(43,45,91,.07);min-width:0}
+.kidbtn .nm{font-family:'Baloo 2','Nunito',system-ui,sans-serif;font-weight:800;font-size:17px;color:var(--navy);line-height:1}
+.kidbtn .sub{font-size:12px;color:var(--muted);font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:190px}
+.av{border-radius:50%;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;background:var(--lav2);overflow:hidden}
+.av img{width:100%;height:100%;object-fit:cover}
+.ib{width:42px;height:42px;border-radius:50%;background:#fff;box-shadow:0 3px 12px rgba(43,45,91,.07);font-size:20px;display:inline-flex;align-items:center;justify-content:center}
+.card{background:var(--card);border-radius:var(--r);padding:16px;margin:12px 16px;box-shadow:0 4px 16px rgba(43,45,91,.06)}
+.card h3{font-size:19px;display:flex;align-items:center;gap:8px}
+.card .hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;gap:8px}
+.link{color:#7A66D9;font-weight:800;font-size:13px}
+.hero{border-radius:28px;padding:20px;margin:10px 16px;position:relative;overflow:hidden;background:linear-gradient(135deg,#E9E3FF 0%,#FFE9DC 100%)}
+.hero h1{font-size:26px}
+.hero p{margin:4px 0 0;font-weight:700;color:var(--ink)}
+.hero .spark{position:absolute;right:14px;top:10px;font-size:46px;opacity:.9}
+.moods{display:flex;gap:6px;margin-top:14px;flex-wrap:wrap}
+.mood{flex:1 0 calc(25% - 6px);background:rgba(255,255,255,.75);border-radius:16px;padding:8px 2px;text-align:center;font-size:26px;border:2px solid transparent;transition:.15s}
+.mood small{display:block;font-size:11px;font-weight:800;color:var(--muted)}
+.mood.on{border-color:var(--lav);background:#fff;transform:scale(1.05)}
+.row{display:flex;align-items:center;gap:10px}
+.grow{flex:1;min-width:0}
+.item{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px dashed var(--line)}
+.item:last-child{border-bottom:0}
+.emo{width:44px;height:44px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:23px;flex-shrink:0}
+.ttl{font-weight:800;color:var(--navy);line-height:1.25;word-break:break-word}
+.meta{font-size:12.5px;color:var(--muted);font-weight:700;margin-top:2px}
+.chip{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:999px;font-size:12px;font-weight:800;background:var(--lav2);color:#6650C8;white-space:nowrap}
+.chip.mint{background:var(--mint2);color:#2F8A63}.chip.peach{background:var(--peach2);color:#C0673A}.chip.sky{background:var(--sky2);color:#2E79B0}.chip.pink{background:var(--pink2);color:#B84D7C}.chip.coral{background:var(--coral2);color:#B65454}.chip.gray{background:#F3F1EE;color:var(--muted)}
+.bg-lav{background:var(--lav2)}.bg-mint{background:var(--mint2)}.bg-peach{background:var(--peach2)}.bg-sky{background:var(--sky2)}.bg-pink{background:var(--pink2)}.bg-coral{background:var(--coral2)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:12px 18px;border-radius:16px;font-weight:800;background:var(--navy);color:#fff;font-size:15px}
+.btn.soft{background:var(--lav2);color:#5B47BE}.btn.mint{background:var(--mint2);color:#2F8A63}.btn.peach{background:var(--peach2);color:#B85F33}.btn.ghost{background:#F5F2EE;color:var(--ink)}.btn.danger{background:var(--coral2);color:#B04848}
+.btn.block{width:100%}.btn.sm{padding:8px 12px;font-size:13px;border-radius:12px}
+.btns{display:flex;gap:8px;flex-wrap:wrap}
+.check{width:28px;height:28px;border-radius:10px;border:2.5px solid var(--lav);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:15px;color:#fff;font-weight:900}
+.check.on{background:var(--mint);border-color:var(--mint)}
+.done .ttl{text-decoration:line-through;opacity:.55}
+.seg{display:flex;gap:6px;margin:6px 16px 4px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.seg::-webkit-scrollbar{display:none}
+.seg button{padding:9px 14px;border-radius:999px;background:#fff;font-weight:800;color:var(--muted);white-space:nowrap;box-shadow:0 2px 8px rgba(43,45,91,.05);font-size:14px}
+.seg button.on{background:var(--navy);color:#fff}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chips button{padding:8px 12px;border-radius:999px;background:#F6F2EE;font-weight:800;font-size:13px;border:2px solid transparent}
+.chips button.on{background:var(--lav2);border-color:var(--lav);color:#5B47BE}
+nav.bot{position:fixed;bottom:0;left:0;right:0;z-index:20;background:rgba(255,255,255,.96);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-top:1px solid var(--line);padding:6px 6px calc(6px + env(safe-area-inset-bottom))}
+nav.bot .in{max-width:540px;margin:0 auto;display:flex}
+nav.bot button{flex:1;display:flex;flex-direction:column;align-items:center;gap:1px;padding:5px 0;border-radius:16px;font-size:11.5px;font-weight:800;color:var(--muted)}
+nav.bot button .i{font-size:23px;line-height:1.1;filter:grayscale(.6);opacity:.75;transition:.15s}
+nav.bot button.on{color:var(--navy);background:var(--lav2)}
+nav.bot button.on .i{filter:none;opacity:1;transform:translateY(-1px) scale(1.08)}
+.fab{position:fixed;right:max(18px,calc(50% - 252px));bottom:calc(84px + env(safe-area-inset-bottom));width:58px;height:58px;border-radius:20px;background:linear-gradient(135deg,#8E7CE8,#F29EBE);color:#fff;font-size:30px;font-weight:800;box-shadow:0 8px 22px rgba(142,124,232,.45);z-index:21}
+.ov{position:fixed;inset:0;background:rgba(43,45,91,.35);z-index:50;display:flex;align-items:flex-end;justify-content:center;animation:fi .18s}
+.sheet{background:var(--bg);width:100%;max-width:540px;max-height:92vh;overflow-y:auto;border-radius:28px 28px 0 0;padding:10px 18px calc(22px + env(safe-area-inset-bottom));animation:su .22s ease-out;-webkit-overflow-scrolling:touch}
+.sheet .grab{width:44px;height:5px;border-radius:9px;background:#E2D9D0;margin:0 auto 12px}
+.sheet h2{font-size:22px;margin-bottom:4px}
+.sheet .sh{display:flex;align-items:center;justify-content:space-between;gap:10px;position:sticky;top:-10px;background:var(--bg);padding:6px 0 8px;z-index:2}
+@keyframes su{from{transform:translateY(40px);opacity:.4}to{transform:none;opacity:1}}
+@keyframes fi{from{opacity:0}to{opacity:1}}
+.toast{position:fixed;left:50%;bottom:calc(100px + env(safe-area-inset-bottom));transform:translateX(-50%);background:var(--navy);color:#fff;padding:12px 18px;border-radius:16px;font-weight:800;z-index:99;box-shadow:0 8px 20px rgba(0,0,0,.18);max-width:88vw;text-align:center;animation:fi .2s}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.stat{border-radius:20px;padding:14px}
+.stat .v{font-family:'Baloo 2','Nunito',system-ui,sans-serif;font-size:26px;font-weight:800;color:var(--navy);line-height:1.1}
+.stat .l{font-size:12px;font-weight:800;color:var(--muted)}
+.empty{text-align:center;padding:18px 10px;color:var(--muted);font-weight:700}
+.empty .e{font-size:40px;display:block;margin-bottom:4px}
+.bar{height:10px;border-radius:9px;background:#F3EEE9;overflow:hidden}
+.bar>i{display:block;height:100%;border-radius:9px}
+.sc{font-family:'Baloo 2','Nunito',system-ui,sans-serif;font-weight:800;font-size:20px;min-width:40px;text-align:right;color:var(--navy)}
+.emopick{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}
+.emopick button{font-size:28px;padding:6px 0;border-radius:14px;background:#fff;border:2px solid transparent}
+.emopick button.on{border-color:var(--lav);background:var(--lav2)}
+.rrow{display:flex;gap:6px;align-items:center;margin-bottom:6px}
+.rrow input.s{width:78px;flex-shrink:0;text-align:center;font-weight:800}
+.x{width:34px;height:34px;border-radius:10px;background:var(--coral2);color:#B04848;font-weight:900;flex-shrink:0}
+.lock{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:30px;text-align:center}
+.dots{display:flex;gap:14px;margin:20px 0}
+.dots i{width:16px;height:16px;border-radius:50%;border:2.5px solid var(--lav)}
+.dots i.on{background:var(--lav)}
+.pad{display:grid;grid-template-columns:repeat(3,72px);gap:14px}
+.pad button{height:72px;border-radius:50%;background:#fff;font-family:'Baloo 2','Nunito',system-ui,sans-serif;font-size:28px;font-weight:800;color:var(--navy);box-shadow:0 3px 12px rgba(43,45,91,.08)}
+.logo{width:96px;height:96px;border-radius:28px;box-shadow:0 10px 26px rgba(43,45,91,.18)}
+.credit{text-align:center;font-size:12px;color:var(--muted);font-weight:800;margin:18px 0 6px}
+.credit b{color:#7A66D9}
+.badges{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.badge{text-align:center;padding:10px 2px;border-radius:18px;background:#FBF8F5}
+.badge .b{font-size:30px;display:block}
+.badge small{font-size:10.5px;font-weight:800;color:var(--muted);display:block;line-height:1.2;margin-top:2px}
+.badge.off{filter:grayscale(1);opacity:.4}
+.daynav{display:flex;align-items:center;justify-content:space-between;margin:8px 16px}
+.daynav button{width:42px;height:42px;border-radius:14px;background:#fff;font-size:20px;font-weight:900;box-shadow:0 3px 10px rgba(43,45,91,.06)}
+.daynav .d{font-family:'Baloo 2','Nunito',system-ui,sans-serif;font-size:19px;font-weight:800;color:var(--navy);text-align:center}
+.info{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.info div{background:#FBF8F5;border-radius:16px;padding:10px 12px}
+.info small{display:block;font-size:11.5px;font-weight:800;color:var(--muted)}
+.info b{color:var(--navy);font-size:14.5px;word-break:break-word}
+.banner{margin:10px 16px;padding:12px 14px;border-radius:18px;font-weight:800;display:flex;gap:10px;align-items:center}
+.photo{width:100%;border-radius:16px;margin-top:8px;display:block}
+.prog{height:12px;border-radius:9px;background:#F3EEE9;overflow:hidden;margin-top:8px}
+.prog i{display:block;height:100%;background:linear-gradient(90deg,#9FDFC2,#A9D3F2)}
+svg text{font-family:'Nunito',sans-serif;font-weight:700}
+.muted{color:var(--muted)}.small{font-size:12.5px}.b8{font-weight:800}
+.mt{margin-top:10px}.mt2{margin-top:16px}
+.hint{font-size:12.5px;color:var(--muted);font-weight:700;margin-top:6px;line-height:1.45}
+a{color:#6650C8;font-weight:800}
+</style>
+</head>
+<body>
+<div id="app" class="app"></div>
+<div id="layer"></div>
+<script>
+'use strict';
+/* =========================================================
+   BrightKids — Learn · Grow · Shine
+   Created by CreanovativeCo
+   Data tersimpan di HP (localStorage + IndexedDB untuk foto)
+   ========================================================= */
+const APP_VERSION = '1.0.0';
+const INVITE_CODES = ['BRIGHTKIDS']; // ganti/tambah kode undangan di sini
+const KEY = 'brightkids_v1';
+let S, U = {tab:'home', school:'agenda', filter:'up', sday:null, gm:'h', subj:null, unlocked:false, pinBuf:''};
+
+/* ---------- helpers ---------- */
+const $ = id => document.getElementById(id);
+const L = (id, en) => (S && S.lang === 'en') ? en : id;
+const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+const pad2 = n => String(n).padStart(2, '0');
+const ds = (d = new Date()) => d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate());
+const pd = s => { const [y, m, d] = s.split('-').map(Number); return new Date(y, m - 1, d); };
+const addDays = (s, n) => { const d = pd(s); d.setDate(d.getDate() + n); return ds(d); };
+const diffDays = (a, b) => Math.round((pd(b) - pd(a)) / 86400000);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const rp = n => 'Rp' + Math.round(+n || 0).toLocaleString('id-ID');
+const num = v => { const n = parseFloat(String(v).replace(',', '.')); return isNaN(n) ? null : n; };
+const DAY_ID = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+const DAY_EN = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const MON_ID = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+const MON_EN = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const dayName = i => (S.lang === 'en' ? DAY_EN : DAY_ID)[i];
+function fmtDate(s, long) {
+  if (!s) return '';
+  const d = pd(s), M = S.lang === 'en' ? MON_EN : MON_ID;
+  return (long ? dayName(d.getDay()) : dayName(d.getDay()).slice(0, 3)) + ', ' + d.getDate() + ' ' + M[d.getMonth()] + (long || d.getFullYear() !== new Date().getFullYear() ? ' ' + d.getFullYear() : '');
+}
+function countdown(s) {
+  const d = diffDays(ds(), s);
+  if (d === 0) return ['chip coral', L('Hari ini', 'Today')];
+  if (d === 1) return ['chip peach', L('Besok', 'Tomorrow')];
+  if (d < 0) return ['chip gray', L('Lewat ' + (-d) + ' hr', (-d) + 'd ago')];
+  if (d <= 7) return ['chip', 'H-' + d];
+  return ['chip sky', 'H-' + d];
+}
+function toast(msg) {
+  const t = document.createElement('div'); t.className = 'toast'; t.textContent = msg;
+  document.body.appendChild(t); setTimeout(() => t.remove(), 2300);
+}
+function ageOf(b) {
+  if (!b) return '';
+  const d = pd(b), n = new Date(); let y = n.getFullYear() - d.getFullYear(), m = n.getMonth() - d.getMonth();
+  if (n.getDate() < d.getDate()) m--; if (m < 0) { y--; m += 12; }
+  return L(y + ' th ' + m + ' bln', y + ' y ' + m + ' m');
+}
+async function hash(s) {
+  try { const b = await crypto.subtle.digest('SHA-256', new TextEncoder().encode('bk::' + s)); return [...new Uint8Array(b)].map(x => x.toString(16).padStart(2, '0')).join(''); }
+  catch (e) { let h = 0; for (const c of 'bk::' + s) h = (h * 31 + c.charCodeAt(0)) | 0; return 'f' + h; }
+}
+
+/* ---------- storage ---------- */
+function load() {
+  try { S = JSON.parse(localStorage.getItem(KEY)); } catch (e) { S = null; }
+  if (!S) S = {v:1, lang:'id', invited:false, pin:null, rec:null, activeKid:null, kids:[], lastBackup:null};
+}
+function save() {
+  try { localStorage.setItem(KEY, JSON.stringify(S)); }
+  catch (e) { toast(L('Memori penuh — hapus beberapa foto atau backup dulu', 'Storage full — remove some photos or back up')); }
+}
+const PDB = {
+  db: null,
+  open() { return new Promise((res, rej) => { if (this.db) return res(this.db); const r = indexedDB.open('brightkids_photos', 1); r.onupgradeneeded = () => r.result.createObjectStore('p'); r.onsuccess = () => { this.db = r.result; res(this.db); }; r.onerror = () => rej(r.error); }); },
+  async tx(mode, fn) { const db = await this.open(); return new Promise((res, rej) => { const t = db.transaction('p', mode); const st = t.objectStore('p'); const r = fn(st); t.oncomplete = () => res(r && r.result); t.onerror = () => rej(t.error); }); },
+  put(id, v) { return this.tx('readwrite', s => s.put(v, id)); },
+  get(id) { return this.tx('readonly', s => s.get(id)); },
+  del(id) { return this.tx('readwrite', s => s.delete(id)); },
+  async all() { const keys = await this.tx('readonly', s => s.getAllKeys()); const vals = await this.tx('readonly', s => s.getAll()); const o = {}; keys.forEach((k, i) => o[k] = vals[i]); return o; }
+};
+function compressImage(file, max = 1400, q = .82) {
+  return new Promise((res, rej) => {
+    const img = new Image(), url = URL.createObjectURL(file);
+    img.onload = () => { const s = Math.min(1, max / Math.max(img.width, img.height)); const c = document.createElement('canvas'); c.width = Math.round(img.width * s); c.height = Math.round(img.height * s); c.getContext('2d').drawImage(img, 0, 0, c.width, c.height); URL.revokeObjectURL(url); res(c.toDataURL('image/jpeg', q)); };
+    img.onerror = rej; img.src = url;
+  });
+}
+function pickFile(accept = 'image/*', capture) {
+  return new Promise(res => { const i = document.createElement('input'); i.type = 'file'; i.accept = accept; if (capture) i.setAttribute('capture', 'environment'); i.onchange = () => res(i.files[0] || null); i.click(); });
+}
+
+/* ---------- data model ---------- */
+function newKid(name) {
+  return {id:uid(), profile:{name, nick:'', avatar:'🦁', photo:null, birth:'', gender:'', blood:'', allergy:'', shirt:'', shoe:'', hobby:'', dream:'', favFood:'', favColor:'', nis:'', nisn:'', note:''},
+    classes:[], reports:[], agenda:[], schedule:{1:[],2:[],3:[],4:[],5:[],6:[]}, snacks:[], moods:{}, growth:[], achievements:[],
+    pocket:{daily:0, goals:[]}, checks:{}, customSubjects:[]};
+}
+const kid = () => S.kids.find(k => k.id === S.activeKid) || S.kids[0];
+function currentClass(k) {
+  if (!k.classes.length) return null;
+  return [...k.classes].sort((a, b) => (b.year || '').localeCompare(a.year || '') || (+b.grade || 0) - (+a.grade || 0))[0];
+}
+const classLabel = c => c ? (c.name || (L('Kelas ', 'Grade ') + c.grade)) + (c.school ? ' · ' + c.school : '') : '';
+
+/* ---------- catalogs ---------- */
+const SUBJECTS = {
+  TK: ['Nilai Agama dan Budi Pekerti','Jati Diri','Literasi','Matematika Dasar','Sains','Seni','Motorik'],
+  SD: ['Pendidikan Agama dan Budi Pekerti','Pendidikan Pancasila','Bahasa Indonesia','Matematika','Ilmu Pengetahuan Alam dan Sosial','Seni Budaya dan Prakarya','Pendidikan Jasmani Olahraga dan Kesehatan','Bahasa Inggris','Informatika','Bahasa Arab'],
+  SMP: ['Pendidikan Agama dan Budi Pekerti','Pendidikan Pancasila','Bahasa Indonesia','Matematika','Ilmu Pengetahuan Alam','Ilmu Pengetahuan Sosial','Bahasa Inggris','Pendidikan Jasmani Olahraga dan Kesehatan','Informatika','Seni Budaya','Prakarya','Bahasa Arab'],
+  SMA: ['Pendidikan Agama dan Budi Pekerti','Pendidikan Pancasila','Bahasa Indonesia','Matematika','Bahasa Inggris','Pendidikan Jasmani Olahraga dan Kesehatan','Sejarah','Seni Budaya','Fisika','Kimia','Biologi','Ekonomi','Sosiologi','Geografi','Informatika','Matematika Tingkat Lanjut','Bahasa Inggris Tingkat Lanjut','Bahasa Indonesia Tingkat Lanjut','Antropologi','Prakarya dan Kewirausahaan'],
+  EXTRA: ['Bahasa Arab','Bahasa Jepang','Bahasa Mandarin','Bahasa Jerman','Bahasa Prancis','Bahasa Korea','Bahasa Sunda','Bahasa Jawa','Seni Musik','Seni Rupa','Seni Tari','Seni Teater','Tahfidz','Tahsin','BTQ','Coding','Robotik']
+};
+const GRADES = {TK:['TK A','TK B'], SD:['1','2','3','4','5','6'], SMP:['7','8','9'], SMA:['10','11','12']};
+const SUBJ_META = [
+  [/alam dan sosial|\bipas\b/i,'🌏','IPAS'],
+  [/agama|\bpai\b|budi pekerti|fiqih|aqidah|akhlak/i,'🕌','PAI'],
+  [/pancasila|\bppkn\b|\bpkn\b|civic/i,'🦅','Pancasila'],
+  [/jasmani|\bpjok\b|olahraga|penjas|\bsports?\b|\bp\.?e\.?\b/i,'⚽','PJOK'],
+  [/bahasa indonesia|\bb\.? ?indo|\bbindo\b/i,'📖','B. Indonesia'],
+  [/matematika|\bmaths?\b|\bmtk\b|mathematics/i,'➗','Matematika'],
+  [/\bipa\b|pengetahuan alam|\bscience\b|\bsains\b/i,'🔬','IPA'],
+  [/\bips\b|pengetahuan sosial|social stud/i,'🗺️','IPS'],
+  [/inggris|\benglish\b/i,'🔤','B. Inggris'],
+  [/informatika|\btik\b|computer|coding|robot/i,'💻','Informatika'],
+  [/\barab/i,'✍️','B. Arab'],
+  [/tahfi|tahsin|qur'?an|\bbtq\b|hafalan/i,'📗','Al-Qur\'an'],
+  [/fisika|physics/i,'⚛️','Fisika'],[/kimia|chemistry/i,'⚗️','Kimia'],[/biologi|biology/i,'🧬','Biologi'],
+  [/ekonomi|econom/i,'💰','Ekonomi'],[/sosiologi|sociology/i,'👥','Sosiologi'],[/geografi|geography/i,'🧭','Geografi'],
+  [/sejarah|history/i,'🏛️','Sejarah'],[/antropologi/i,'🗿','Antropologi'],
+  [/\b(seni|art|arts|musik|music|tari|rupa|teater|prakarya|craft|sbdp)\b/i,'🎨','Seni'],
+  [/jepang|mandarin|jerman|prancis|korea|sunda|jawa|japanese|chinese|german|french|korean/i,'🗣️','']
+];
+const subjMeta = n => { for (const m of SUBJ_META) if (m[0].test(n || '')) return m; return null; };
+const subjEmoji = n => (subjMeta(n) || [0, '📘'])[1];
+const shortSubj = n => { if (!n) return ''; if (n.length <= 20) return n; const m = subjMeta(n); return m && m[2] ? m[2] : n.slice(0, 18) + '…'; };
+const TYPES = {
+  task:  {e:'📝', c:'lav',   id:'Tugas',  en:'Task'},
+  exam:  {e:'🧪', c:'peach', id:'Ujian',  en:'Exam'},
+  bring: {e:'🎒', c:'mint',  id:'Bawa',   en:'Bring'},
+  event: {e:'🎉', c:'pink',  id:'Acara',  en:'Event'},
+  info:  {e:'📢', c:'sky',   id:'Info',   en:'Info'}
+};
+const MOODS = [['happy','😄','Senang','Happy'],['good','🙂','Baik','Good'],['excited','🤩','Semangat','Excited'],['ok','😐','Biasa','Okay'],['tired','😴','Capek','Tired'],['sad','😢','Sedih','Sad'],['angry','😠','Kesal','Upset'],['sick','🤒','Kurang fit','Unwell']];
+const moodOf = k => MOODS.find(m => m[0] === k);
+const SNACK_CATS = [['meal','🍱','Makan','Meal'],['snack','🍢','Jajanan','Street snack'],['sweet','🍩','Manis','Sweets'],['drink','🧋','Minuman','Drink'],['fruit','🍎','Buah','Fruit'],['bekal','🥪','Bekal rumah','Home lunch'],['other','🛍️','Lainnya','Other']];
+const SNACK_PRESETS = [['Cilok','snack'],['Batagor','snack'],['Siomay','snack'],['Cireng','snack'],['Cimol','snack'],['Telur gulung','snack'],['Sosis bakar','snack'],['Pisang goreng','snack'],['Nasi uduk','meal'],['Mie ayam','meal'],['Nasi goreng','meal'],['Roti','sweet'],['Donat','sweet'],['Es krim','sweet'],['Coklat','sweet'],['Es teh','drink'],['Susu kotak','drink'],['Air mineral','drink'],['Jus buah','drink'],['Buah potong','fruit']];
+const AVATARS = ['🦁','🐼','🐨','🦊','🐰','🐯','🐻','🦄','🐧','🐬','🦋','🐱','🐶','🐸','🦉','🐳','🌻','🚀','⚽','🎨','🌈','⭐','🎧','🧸'];
+const ACH_KINDS = [['lomba','🏆','Lomba','Competition'],['cert','🎖️','Sertifikat','Certificate'],['ekskul','⚽','Ekskul','Extracurricular'],['hafalan','📗','Hafalan','Memorization'],['karya','🎨','Karya','Artwork'],['other','🌟','Lainnya','Other']];
+const LEVELS = ['Kelas','Sekolah','Kecamatan','Kota/Kab','Provinsi','Nasional','Internasional'];
+const REPORT_TYPES = [['PTS','Tengah Semester (PTS/STS)','Mid-semester'],['PAS','Akhir Semester (PAS/SAS)','End of semester'],['AKHIR','Rapor Akhir Tahun','End of year'],['LAIN','Lainnya','Other']];
+const scoreColor = s => s >= 90 ? '#7FD1AE' : s >= 80 ? '#93C6EE' : s >= 70 ? '#B9A8F2' : '#F5B08F';
+
+/* ---------- message parser (pesan guru / email) ---------- */
+const MON3 = {jan:0,feb:1,mar:2,apr:3,mei:4,may:4,jun:5,jul:6,agu:7,agt:7,aug:7,sep:8,okt:9,oct:9,nov:10,des:11,dec:11};
+const WD = {minggu:0,ahad:0,sunday:0,senin:1,monday:1,selasa:2,tuesday:2,rabu:3,wednesday:3,kamis:4,thursday:4,jumat:5,"jum'at":5,friday:5,sabtu:6,saturday:6};
+function inferYear(m, d, base) {
+  let dt = new Date(base.getFullYear(), m, d);
+  if ((base - dt) / 86400000 > 120) dt = new Date(base.getFullYear() + 1, m, d);
+  return dt;
+}
+function parseDateText(txt, base = new Date()) {
+  const s = txt.toLowerCase();
+  const monRe = '(jan(?:uari|uary)?|feb(?:ruari|ruary)?|mar(?:et|ch)?|apr(?:il)?|mei|may|jun[ie]?|jul[iy]?|agu(?:stus)?|agt|aug(?:ust)?|sep(?:t(?:ember)?)?|okt(?:ober)?|oct(?:ober)?|nov(?:ember)?|des(?:ember)?|dec(?:ember)?)';
+  const cands = [];
+  let m;
+  const r1 = new RegExp('\\b(\\d{1,2})(?:st|nd|rd|th)?\\s+' + monRe + '\\.?(?:\\s+(\\d{4}))?\\b', 'g');
+  while ((m = r1.exec(s))) cands.push({i:m.index, d:+m[1], mo:MON3[m[2].slice(0, 3)], y:m[3] && +m[3]});
+  const r2 = new RegExp('\\b' + monRe + '\\.?\\s+(\\d{1,2})(?:st|nd|rd|th)?\\b(?:,?\\s+(\\d{4}))?', 'g');
+  while ((m = r2.exec(s))) cands.push({i:m.index, d:+m[2], mo:MON3[m[1].slice(0, 3)], y:m[3] && +m[3]});
+  const r3 = /\b(\d{1,2})[\/\-](\d{1,2})(?:[\/\-](\d{2,4}))?\b/g;
+  while ((m = r3.exec(s))) if (+m[2] >= 1 && +m[2] <= 12 && +m[1] >= 1 && +m[1] <= 31) cands.push({i:m.index, d:+m[1], mo:+m[2] - 1, y:m[3] && (m[3].length === 2 ? 2000 + +m[3] : +m[3])});
+  const valid = cands.filter(c => c.mo !== undefined && c.d >= 1 && c.d <= 31);
+  if (valid.length) {
+    // prioritaskan tanggal yang dekat kata due/deadline/paling lambat
+    const kw = s.search(/\b(due|deadline|paling lambat|dikumpulkan|batas|sebelum|before|by)\b/);
+    let best = valid[0];
+    if (kw >= 0) best = valid.reduce((a, c) => Math.abs(c.i - kw) < Math.abs(a.i - kw) ? c : a, valid[0]);
+    const dt = best.y ? new Date(best.y, best.mo, best.d) : inferYear(best.mo, best.d, base);
+    return ds(dt);
+  }
+  const today = ds(base);
+  if (/\b(hari ini|today|tonight|nanti malam)\b/.test(s)) return today;
+  if (/\b(lusa|day after tomorrow)\b/.test(s)) return addDays(today, 2);
+  if (/\b(besok|tomorrow)\b/.test(s)) return addDays(today, 1);
+  // "minggu" juga berarti "pekan", jadi hanya dianggap hari Minggu bila ditulis "hari minggu"
+  const wd = s.match(/\b(ahad|sunday|senin|monday|selasa|tuesday|rabu|wednesday|kamis|thursday|jum'?at|friday|sabtu|saturday)\b/) || s.match(/\bhari (minggu)\b/);
+  if (wd) {
+    const key = wd[1].replace("'", '') === 'jumat' ? 'jumat' : wd[1];
+    let diff = (WD[key] - base.getDay() + 7) % 7; if (diff === 0) diff = 7;
+    if (/\b(minggu depan|pekan depan|next week)\b/.test(s) && diff < 7) diff += 7;
+    return addDays(today, diff);
+  }
+  return '';
+}
+function parseTimeText(txt) {
+  const m = txt.match(/\b(?:jam|pukul|at)?\s*([01]?\d|2[0-3])[:.]([0-5]\d)\s*(wib|am|pm)?\b/i);
+  if (!m) return '';
+  let h = +m[1]; const ap = (m[3] || '').toLowerCase();
+  if (ap === 'pm' && h < 12) h += 12; if (ap === 'am' && h === 12) h = 0;
+  return pad2(h) + ':' + m[2];
+}
+function detectType(t) {
+  const s = t.toLowerCase();
+  if (/\b(ujian|ulangan|exam|exams|test|tes|quiz|kuis|asesmen|assessment|penilaian harian|try ?out|evaluasi|sumatif|formatif)\b/.test(s) || /\b(PTS|PAS|STS|SAS|UTS|UAS|ASTS|ASAS)\b/.test(t)) return 'exam';
+  if (/\b(tugas|pr|homework|assignment|submit|kumpulkan|dikumpulkan|deadline|due|project|proyek|projek|infografis|infographic|poster|laporan|essay|esai|presentasi|presentation|worksheet|lks)\b/.test(s)) return 'task';
+  if (/\b(bawa|bring|membawa|siapkan|wear|memakai|pakai)\b/.test(s)) return 'bring';
+  if (/\b(acara|event|lomba|competition|field ?trip|outing|kunjungan|pentas|market day|perayaan|celebration|parade|manasik|outbound|camp|kemah)\b/.test(s)) return 'event';
+  return 'info';
+}
+function detectBring(t) {
+  const out = []; let m; const re = /\b(?:bawa|bring|membawa|siapkan|please prepare|prepare|wear|memakai)\b\s*:?\s*([^.\n!?]+)/gi;
+  while ((m = re.exec(t))) m[1].split(/,|;|\bdan\b|\band\b|&|\+/i).map(x => x.trim().replace(/^(a|an|the|your|sebuah)\s+/i, '')).filter(x => x.length >= 2 && x.length <= 40).forEach(x => out.push(x));
+  return [...new Set(out)].slice(0, 8);
+}
+function detectSubject(t, k) {
+  const s = t.toLowerCase();
+  for (const c of (k ? k.customSubjects : [])) if (c && s.includes(c.toLowerCase())) return c;
+  const m = subjMeta(t);
+  if (!m) return '';
+  // pilih nama mapel lengkap dari daftar yang dipakai anak bila ada
+  if (k) { const lv = (currentClass(k) || {}).level || 'SD'; const full = (SUBJECTS[lv] || []).find(x => m[0].test(x)); if (full) return full; }
+  return m[2] || '';
+}
+function guessTitle(t) {
+  let m = t.match(/submit (?:the |your )?([A-Z][^.\n!?]{2,60})/);
+  if (m) return m[1].trim();
+  m = t.match(/(?:tugas|project|proyek|projek|assignment)\s*:\s*([^.\n!?]{3,60})/i);
+  if (m) return m[1].trim();
+  const skip = /^(assalamu|wa'?alaikum|selamat (pagi|siang|sore|malam)|good (morning|afternoon|evening)|thank|terima kasih|fighting|semangat|hi\b|hello|halo|dear)/i;
+  const lines = t.split(/\n+/).map(x => x.trim()).filter(Boolean);
+  let line = lines.find(x => !skip.test(x) && x.replace(/[^a-z]/gi, '').length > 8) || lines[0] || '';
+  line = line.replace(/^(teman-teman|dear|hi|hello|halo|ananda|anak-anak|students?)[^,]{0,40},\s*/i, '')
+             .replace(/^(i'?d like to inform you that|we'?d like to inform you that|i would like to inform you that|please note that|kami informasikan bahwa|diinformasikan bahwa|mohon diperhatikan,?|here'?s|here is)\s*/i, '');
+  line = line.split(/(?<=[.!?])\s/)[0].replace(/[.!?]+$/, '');
+  if (line.length > 70) line = line.slice(0, 70).replace(/\s+\S*$/, '') + '…';
+  return line.charAt(0).toUpperCase() + line.slice(1);
+}
+function parseMessage(t, k) {
+  const link = (t.match(/https?:\/\/\S+/) || [''])[0];
+  return {type:detectType(t), subject:detectSubject(t, k), title:guessTitle(t), date:parseDateText(t), time:parseTimeText(t), bring:detectBring(t), notes:t.trim(), link};
+}
+
+/* ---------- rapor OCR parser ---------- */
+function bigrams(s) { s = s.toLowerCase().replace(/[^a-z]/g, ''); const o = []; for (let i = 0; i < s.length - 1; i++) o.push(s.slice(i, i + 2)); return o; }
+function dice(a, b) { const A = bigrams(a), B = bigrams(b); if (!A.length || !B.length) return 0; const m = new Map(); A.forEach(x => m.set(x, (m.get(x) || 0) + 1)); let n = 0; B.forEach(x => { const c = m.get(x); if (c) { n++; m.set(x, c - 1); } }); return 2 * n / (A.length + B.length); }
+function matchSubject(name, k) {
+  const pool = [...new Set([...(k ? k.customSubjects : []), ...SUBJECTS.SD, ...SUBJECTS.SMP, ...SUBJECTS.SMA, ...SUBJECTS.EXTRA, ...SUBJECTS.TK])];
+  let best = '', bs = 0; for (const p of pool) { const sc = dice(name, p); if (sc > bs) { bs = sc; best = p; } }
+  if (bs >= .62) return best;
+  return name.replace(/\s+/g, ' ').trim().replace(/\b\w/g, c => c.toUpperCase());
+}
+function parseReportText(txt, k) {
+  const T = txt.replace(/[|¦]/g, ' ').replace(/[“”]/g, '"');
+  const out = {rows:[], meta:{}, abs:{}};
+  let m;
+  if ((m = T.match(/kelas\s*[:;.]?\s*(\d{1,2})\s*([A-Za-z' ]{0,30})/i))) { out.meta.grade = m[1]; out.meta.name = (m[1] + ' ' + m[2]).replace(/\s+(fase|semester|tahun).*$/i, '').trim(); }
+  if ((m = T.match(/semester\s*[:;.]?\s*(\d)/i))) out.meta.sem = m[1];
+  else if (/ganjil/i.test(T)) out.meta.sem = '1'; else if (/genap/i.test(T)) out.meta.sem = '2';
+  if ((m = T.match(/(20\d{2})\s*[\/\-]\s*(20\d{2})/))) out.meta.year = m[1] + '/' + m[2];
+  if (/tengah semester|\bpts\b|\bsts\b|mid/i.test(T)) out.meta.type = 'PTS';
+  else if (/akhir semester|\bpas\b|\bsas\b/i.test(T)) out.meta.type = 'PAS';
+  else if (/akhir tahun|kenaikan/i.test(T)) out.meta.type = 'AKHIR';
+  if ((m = T.match(/nama sekolah\s*[:;]?\s*(.+?)(?:\s{2,}|\s+semester|\s+kelas|\n|$)/i))) out.meta.school = m[1].trim();
+  for (const key of ['sakit','izin','alpa']) { const r = T.match(new RegExp(key + '\\w*\\s*[:.]?\\s*(\\d+|-)', 'i')); if (r) out.abs[key] = r[1] === '-' ? 0 : +r[1]; }
+  if (out.abs.alpa === undefined) { const r = T.match(/tanpa keterangan\s*[:.]?\s*(\d+|-)/i); if (r) out.abs.alpa = r[1] === '-' ? 0 : +r[1]; }
+  for (const raw of T.split('\n')) {
+    const line = raw.replace(/\s+/g, ' ').trim();
+    const mm = line.match(/^(?:\d{1,2}\s*[.)]?\s*|[a-hA-H]\s*[.)]\s*)?([A-Za-z][A-Za-z .,'’&\/()-]{2,80}?)\s+(\d{2,3}(?:[.,]\d{1,2})?)\s*(?:[A-E][+-]?)?\s*$/);
+    if (!mm) continue;
+    const name = mm[1].trim().replace(/[.,:;\-]+$/, '');
+    const sc = num(mm[2]);
+    if (sc === null || sc > 100 || sc < 10) continue;
+    if (/^(no|nomor|nis|nisn|fase|kelas|semester|sakit|izin|alpa|tahun|jumlah|rata|total|ranking|peringkat)/i.test(name)) continue;
+    if (name.replace(/[^a-z]/gi, '').length < 4) continue;
+    out.rows.push({subject:matchSubject(name, k), score:sc});
+  }
+  return out;
+}
+function loadScript(src) { return new Promise((res, rej) => { if (document.querySelector('script[src="' + src + '"]')) return res(); const s = document.createElement('script'); s.src = src; s.onload = res; s.onerror = rej; document.head.appendChild(s); }); }
+async function runOCR(dataUrl, onProg) {
+  await loadScript('https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js');
+  const w = await Tesseract.createWorker('ind', 1, {logger: m => { if (m.status === 'recognizing text') onProg(Math.round(m.progress * 100)); }});
+  const {data} = await w.recognize(dataUrl);
+  await w.terminate();
+  return data.text;
+}
+
+/* ---------- charts ---------- */
+function lineChart(pts, o = {}) {
+  const W = 320, H = o.h || 160, P = {l:34, r:12, t:14, b:26};
+  if (!pts.length) return '';
+  const ys = pts.map(p => p.y); let mn = o.min ?? Math.min(...ys), mx = o.max ?? Math.max(...ys);
+  if (mn === mx) { mn -= 5; mx += 5; } const padv = (mx - mn) * .12; mn = Math.floor(mn - padv); mx = Math.ceil(mx + padv);
+  const X = i => P.l + (pts.length === 1 ? (W - P.l - P.r) / 2 : i * (W - P.l - P.r) / (pts.length - 1));
+  const Y = v => P.t + (1 - (v - mn) / (mx - mn)) * (H - P.t - P.b);
+  const col = o.color || '#8E7CE8';
+  let g = ''; for (let i = 0; i <= 3; i++) { const v = mn + (mx - mn) * i / 3; g += `<line x1="${P.l}" x2="${W - P.r}" y1="${Y(v)}" y2="${Y(v)}" stroke="#F1E9E1" stroke-dasharray="3 4"/><text x="${P.l - 6}" y="${Y(v) + 4}" font-size="10" fill="#A9AAC2" text-anchor="end">${Math.round(v)}</text>`; }
+  const path = pts.map((p, i) => (i ? 'L' : 'M') + X(i).toFixed(1) + ' ' + Y(p.y).toFixed(1)).join(' ');
+  const area = path + ` L${X(pts.length - 1)} ${H - P.b} L${X(0)} ${H - P.b} Z`;
+  const step = Math.ceil(pts.length / 6);
+  const lbl = pts.map((p, i) => (i % step === 0 || i === pts.length - 1) ? `<text x="${X(i)}" y="${H - 8}" font-size="9.5" fill="#A9AAC2" text-anchor="middle">${esc(p.x)}</text>` : '').join('');
+  const dots = pts.map((p, i) => `<circle cx="${X(i)}" cy="${Y(p.y)}" r="4.5" fill="#fff" stroke="${col}" stroke-width="2.5"/>` + (pts.length <= 8 ? `<text x="${X(i)}" y="${Y(p.y) - 9}" font-size="10" fill="${o.lc || '#5B47BE'}" text-anchor="middle">${p.y}</text>` : '')).join('');
+  return `<svg viewBox="0 0 ${W} ${H}" width="100%" role="img"><defs><linearGradient id="lg${o.id || 0}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${col}" stop-opacity=".28"/><stop offset="1" stop-color="${col}" stop-opacity="0"/></linearGradient></defs>${g}<path d="${area}" fill="url(#lg${o.id || 0})"/><path d="${path}" fill="none" stroke="${col}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>${dots}${lbl}</svg>`;
+}
+function barChart(items, o = {}) {
+  const W = 320, H = 150, P = {l:6, r:6, t:18, b:24}; const mx = Math.max(1, ...items.map(i => i.v));
+  const bw = (W - P.l - P.r) / items.length;
+  return `<svg viewBox="0 0 ${W} ${H}" width="100%">` + items.map((it, i) => { const h = (it.v / mx) * (H - P.t - P.b); const x = P.l + i * bw + bw * .18; const y = H - P.b - h;
+    return `<rect x="${x}" y="${y}" width="${bw * .64}" height="${Math.max(h, 2)}" rx="7" fill="${it.hi ? '#B9A8F2' : '#FFD3BA'}"/>` + (it.v ? `<text x="${x + bw * .32}" y="${y - 5}" font-size="9" fill="#8D8FAE" text-anchor="middle">${o.fmt ? o.fmt(it.v) : it.v}</text>` : '') + `<text x="${x + bw * .32}" y="${H - 8}" font-size="10.5" fill="#8D8FAE" text-anchor="middle">${esc(it.l)}</text>`; }).join('') + '</svg>';
+}
+const kfmt = v => v >= 1000 ? Math.round(v / 1000) + 'k' : v;
+
+/* ---------- sheet ---------- */
+function openSheet(html, title, extra = '') {
+  $('layer').innerHTML = `<div class="ov" id="ov" onclick="if(event.target.id==='ov')closeSheet()"><div class="sheet"><div class="grab"></div>${title ? `<div class="sh"><h2>${title}</h2><div class="row">${extra}<button class="ib" onclick="closeSheet()">✕</button></div></div>` : ''}${html}</div></div>`;
+}
+function closeSheet() { $('layer').innerHTML = ''; }
+function avatarHtml(p, size = 44) {
+  return `<span class="av" style="width:${size}px;height:${size}px;font-size:${Math.round(size * .58)}px">${p.photo ? `<img src="${p.photo}" alt="">` : esc(p.avatar || '🙂')}</span>`;
+}
+
+/* =========================================================
+   RENDER
+   ========================================================= */
+function render() {
+  const app = $('app');
+  if (!S.invited) return app.innerHTML = vInvite();
+  if (S.pin && !U.unlocked) return app.innerHTML = vLock();
+  if (!S.kids.length) return app.innerHTML = vWelcome();
+  const k = kid(); if (!S.activeKid) S.activeKid = k.id;
+  const views = {home:vHome, school:vSchool, snack:vSnack, grow:vGrow, me:vMe};
+  app.innerHTML = header(k) + views[U.tab]() + `<div class="credit">BrightKids v${APP_VERSION} · Created by <b>CreanovativeCo</b> ✨</div>` + nav() + (['home','school','snack'].includes(U.tab) ? `<button class="fab" onclick="A.quick()" aria-label="add">+</button>` : '');
+}
+function header(k) {
+  const p = k.profile, c = currentClass(k);
+  return `<div class="top"><button class="kidbtn" onclick="A.kidSwitch()">${avatarHtml(p)}<div class="grow"><div class="nm">${esc(p.nick || p.name)} <span style="font-size:12px;color:#A9AAC2">▾</span></div><div class="sub">${c ? esc(classLabel(c)) : L('Atur kelas di Sekolahku', 'Set class in My School')}</div></div></button>
+  <div class="row"><button class="ib" onclick="A.toggleLang()" title="Language">${S.lang === 'en' ? '🇬🇧' : '🇮🇩'}</button></div></div>`;
+}
+function nav() {
+  const t = [['home','🏠',L('Beranda','Home')],['school','📚',L('Sekolah','School')],['snack','🍡',L('Jajan','Snacks')],['grow','🌱',L('Tumbuh','Growth')],['me','🧒',L('Aku','Me')]];
+  return `<nav class="bot"><div class="in">${t.map(x => `<button class="${U.tab === x[0] ? 'on' : ''}" onclick="A.tab('${x[0]}')"><span class="i">${x[1]}</span>${x[2]}</button>`).join('')}</div></nav>`;
+}
+
+/* ---------- invite / lock / welcome ---------- */
+function vInvite() {
+  return `<div class="lock"><img src="icon-192.png" class="logo" alt="" onerror="this.style.display='none'"><h1 class="mt2" style="font-size:30px">BrightKids</h1><p class="b8 muted" style="margin:4px 0 18px">Learn · Grow · Shine ✨</p>
+  <div class="card" style="width:100%;max-width:360px;margin:0;text-align:left"><label class="lb">🔑 ${L('Kode undangan', 'Invitation code')}</label><input id="inv" placeholder="${L('Masukkan kode', 'Enter code')}" autocapitalize="characters" onkeydown="if(event.key==='Enter')A.invite()">
+  <button class="btn block mt" onclick="A.invite()">${L('Masuk', 'Continue')} →</button><div class="hint">${L('Aplikasi ini khusus keluarga & teman. Minta kodenya ke yang membagikan aplikasi.', 'This app is for family & friends only. Ask the person who shared it for the code.')}</div></div>
+  <button class="link mt2" onclick="A.toggleLang()">${S.lang === 'en' ? '🇮🇩 Bahasa Indonesia' : '🇬🇧 English'}</button>
+  <div class="credit">Created by <b>CreanovativeCo</b></div></div>`;
+}
+function vLock() {
+  const n = U.pinBuf.length;
+  return `<div class="lock"><div style="font-size:54px">🔒</div><h2 class="mt">${L('Masukkan PIN', 'Enter PIN')}</h2><div class="dots">${[0,1,2,3].map(i => `<i class="${i < n ? 'on' : ''}"></i>`).join('')}</div>
+  <div class="pad">${[1,2,3,4,5,6,7,8,9].map(d => `<button onclick="A.pinKey('${d}')">${d}</button>`).join('')}<button onclick="A.pinForgot()" style="font-size:13px;font-family:Nunito">${L('Lupa?', 'Forgot?')}</button><button onclick="A.pinKey('0')">0</button><button onclick="A.pinKey('del')" style="font-size:22px">⌫</button></div>
+  <div class="credit" style="margin-top:30px">BrightKids · Created by <b>CreanovativeCo</b></div></div>`;
+}
+function vWelcome() {
+  return `<div class="hero" style="margin-top:24px"><span class="spark">🌟</span><h1>${L('Selamat datang!', 'Welcome!')}</h1><p>${L('Yuk buat profil anak pertama.', "Let's create the first child profile.")}</p></div>
+  <div class="card">${kidForm({}, true)}<button class="btn block mt2" onclick="A.saveKid(null,true)">✨ ${L('Mulai', 'Start')}</button></div>`;
+}
+function kidForm(p, withClass) {
+  const lv = 'SD';
+  return `<label class="lb">${L('Pilih avatar', 'Pick an avatar')}</label><div class="emopick" id="avp">${AVATARS.map(a => `<button type="button" class="${(p.avatar || '🦁') === a ? 'on' : ''}" onclick="A.pickAv(this,'${a}')">${a}</button>`).join('')}</div><input type="hidden" id="kAv" value="${esc(p.avatar || '🦁')}">
+  <div class="grid2"><div><label class="lb">${L('Nama lengkap', 'Full name')}</label><input id="kName" value="${esc(p.name || '')}"></div><div><label class="lb">${L('Panggilan', 'Nickname')}</label><input id="kNick" value="${esc(p.nick || '')}"></div></div>
+  <label class="lb">🎂 ${L('Tanggal lahir', 'Birth date')}</label><input id="kBirth" type="date" value="${esc(p.birth || '')}">
+  ${withClass ? `<label class="lb">🏫 ${L('Kelas sekarang', 'Current class')}</label><div class="grid2"><select id="cLv" onchange="A.lvChange(this.value,'cGr')">${Object.keys(GRADES).map(x => `<option ${x === lv ? 'selected' : ''}>${x}</option>`).join('')}</select><select id="cGr">${GRADES[lv].map(g => `<option>${g}</option>`).join('')}</select></div>
+  <div class="grid2 mt"><input id="cName" placeholder="${L('Nama kelas (mis. 6 Al Aqsho)', 'Class name (e.g. 6 Al Aqsho)')}"><input id="cYear" placeholder="${L('Tahun ajaran', 'School year')}" value="${schoolYear()}"></div>
+  <input id="cSchool" class="mt" placeholder="${L('Nama sekolah', 'School name')}">` : ''}`;
+}
+function schoolYear(d = new Date()) { const y = d.getFullYear(); return d.getMonth() >= 6 ? y + '/' + (y + 1) : (y - 1) + '/' + y; }
+
+/* ---------- HOME ---------- */
+function vHome() {
+  const k = kid(), p = k.profile, td = ds(), tm = addDays(td, 1);
+  const h = new Date().getHours();
+  const greet = h < 11 ? L('Selamat pagi', 'Good morning') : h < 15 ? L('Selamat siang', 'Good afternoon') : h < 18 ? L('Selamat sore', 'Good evening') : L('Selamat malam', 'Good night');
+  const mood = (k.moods[td] || {}).m;
+  const open = k.agenda.filter(a => !a.done && a.date && a.type !== 'info');
+  const overdue = open.filter(a => a.date < td && a.type === 'task');
+  const soon = k.agenda.filter(a => !a.done && a.date && a.date >= td && diffDays(td, a.date) <= 7).sort((a, b) => (a.date + a.time).localeCompare(b.date + b.time));
+  const bring = bringList(k, tm); const chk = k.checks[tm] || [];
+  const snacks = k.snacks.filter(s => s.date === td); const spent = snacks.reduce((a, s) => a + (+s.price || 0), 0);
+  let html = `<div class="hero"><span class="spark">${mood ? moodOf(mood)[1] : '☀️'}</span><h1>${greet},<br>${esc(p.nick || p.name.split(' ')[0])}! 👋</h1><p>${fmtDate(td, true)}</p>
+  <div class="b8 mt small">${L('Gimana perasaanmu hari ini?', 'How do you feel today?')}</div><div class="moods">${MOODS.map(m => `<button class="mood ${mood === m[0] ? 'on' : ''}" onclick="A.mood('${td}','${m[0]}')">${m[1]}<small>${L(m[2], m[3])}</small></button>`).join('')}</div></div>`;
+  if (overdue.length) html += `<div class="banner bg-coral" onclick="A.tab('school')">⏰ <span>${L(overdue.length + ' tugas lewat tenggat — yuk dicek!', overdue.length + ' overdue task(s) — take a look!')}</span></div>`;
+  html += `<div class="card"><div class="hd"><h3>🗓️ ${L('7 hari ke depan', 'Next 7 days')}</h3><button class="link" onclick="A.tab('school')">${L('Semua', 'All')} →</button></div>${soon.length ? soon.slice(0, 6).map(agendaItem).join('') : `<div class="empty"><span class="e">🌤️</span>${L('Belum ada tugas atau ujian. Santai dulu!', 'No tasks or exams yet. Enjoy!')}</div>`}
+  <div class="btns mt"><button class="btn soft sm" onclick="A.paste()">📋 ${L('Tempel pesan guru', 'Paste teacher message')}</button><button class="btn ghost sm" onclick="A.agendaForm()">＋ ${L('Tambah', 'Add')}</button></div></div>`;
+  html += `<div class="card"><div class="hd"><h3>🎒 ${L('Bawa apa besok?', 'What to bring tomorrow?')}</h3><span class="chip mint">${dayName(pd(tm).getDay())}</span></div>${bring.length ? bring.map(b => { const on = chk.includes(b.t); return `<div class="item ${on ? 'done' : ''}" onclick="A.check('${tm}',${esc(JSON.stringify(b.t))})"><span class="check ${on ? 'on' : ''}">${on ? '✓' : ''}</span><div class="grow"><div class="ttl">${esc(b.t)}</div><div class="meta">${esc(b.from)}</div></div></div>`; }).join('') : `<div class="empty"><span class="e">🎒</span>${L('Belum ada. Isi jadwal pelajaran biar otomatis muncul.', 'Nothing yet. Fill the class schedule to see it here.')}</div>`}</div>`;
+  html += `<div class="card"><div class="hd"><h3>🍡 ${L('Jajan hari ini', "Today's snacks")}</h3><button class="link" onclick="A.tab('snack')">${L('Detail', 'Details')} →</button></div><div class="grid2"><div class="stat bg-peach"><div class="v">${rp(spent)}</div><div class="l">${snacks.length} ${L('jajanan', 'items')}</div></div><div class="stat bg-mint"><div class="v">${k.pocket.daily ? rp(Math.max(0, k.pocket.daily - spent)) : '—'}</div><div class="l">${L('Sisa uang saku', 'Pocket money left')}</div></div></div></div>`;
+  html += `<div class="card"><div class="hd"><h3>🏅 ${L('Lencana', 'Badges')}</h3></div><div class="badges">${badges(k).map(b => `<div class="badge ${b.ok ? '' : 'off'}"><span class="b">${b.e}</span><small>${b.l}</small></div>`).join('')}</div></div>`;
+  return html;
+}
+function bringList(k, date) {
+  const out = []; const dow = pd(date).getDay();
+  k.agenda.filter(a => a.date === date && !a.done).forEach(a => { (a.bring || []).forEach(b => out.push({t:b, from:(TYPES[a.type] || TYPES.info).e + ' ' + (a.title || '')})); if (a.type === 'exam') out.push({t:L('Belajar untuk ', 'Study for ') + (shortSubj(a.subject) || a.title), from:'🧪 ' + L('Ujian', 'Exam')}); });
+  (k.schedule[dow] || []).forEach(r => { if (r.bring) r.bring.split(/,|;/).map(x => x.trim()).filter(Boolean).forEach(b => out.push({t:b, from:subjEmoji(r.subject) + ' ' + shortSubj(r.subject)})); });
+  const seen = new Set(); return out.filter(o => { const key = o.t.toLowerCase(); if (seen.has(key)) return false; seen.add(key); return true; });
+}
+function moodStreak(k) { let n = 0, d = ds(); if (!k.moods[d]) d = addDays(d, -1); while (k.moods[d]) { n++; d = addDays(d, -1); } return n; }
+function badges(k) {
+  const done = k.agenda.filter(a => a.done && (a.type === 'task' || a.type === 'exam')).length;
+  const st = moodStreak(k); const saved = k.pocket.goals.reduce((a, g) => a + goalSaved(g), 0);
+  const last = sortedReports(k).slice(-1)[0]; const avg = last ? repAvg(last) : 0;
+  const goalDone = k.pocket.goals.some(g => goalSaved(g) >= g.target && g.target > 0);
+  return [
+    {e:'😊', l:L('Mood pertama', 'First mood'), ok:Object.keys(k.moods).length > 0},
+    {e:'🔥', l:L('7 hari mood', '7-day mood'), ok:st >= 7},
+    {e:'✅', l:L('10 tugas beres', '10 tasks done'), ok:done >= 10},
+    {e:'📒', l:L('Rapor tercatat', 'Report saved'), ok:k.reports.length > 0},
+    {e:'⭐', l:L('Rata-rata ≥ 85', 'Average ≥ 85'), ok:avg >= 85},
+    {e:'🐷', l:L('Mulai menabung', 'Started saving'), ok:saved > 0},
+    {e:'🎯', l:L('Target tercapai', 'Goal reached'), ok:goalDone},
+    {e:'🏆', l:L('Punya prestasi', 'Achievement'), ok:k.achievements.length > 0}
+  ];
+}
+function agendaItem(a) {
+  const T = TYPES[a.type] || TYPES.info; const [cc, ct] = a.date ? countdown(a.date) : ['chip gray', L('Tanpa tanggal', 'No date')];
+  return `<div class="item ${a.done ? 'done' : ''}"><button class="check ${a.done ? 'on' : ''}" onclick="A.toggleDone('${a.id}')">${a.done ? '✓' : ''}</button><div class="emo bg-${T.c}" onclick="A.agendaView('${a.id}')">${a.subject ? subjEmoji(a.subject) : T.e}</div>
+  <div class="grow" onclick="A.agendaView('${a.id}')"><div class="ttl">${esc(a.title || L(T.id, T.en))}</div><div class="meta">${T.e} ${L(T.id, T.en)}${a.subject ? ' · ' + esc(shortSubj(a.subject)) : ''}${a.date ? ' · ' + fmtDate(a.date) : ''}${a.time ? ' ' + a.time : ''}${a.score != null && a.score !== '' ? ' · ⭐ ' + a.score : ''}</div>${(a.bring || []).length ? `<div class="meta">🎒 ${esc(a.bring.join(', '))}</div>` : ''}</div>${a.done ? '' : `<span class="${cc}">${ct}</span>`}</div>`;
+}
+
+/* ---------- SCHOOL ---------- */
+function vSchool() {
+  const segs = [['agenda','🗓️ ' + L('Tugas & Ujian', 'Tasks & Exams')],['sched','⏰ ' + L('Jadwal', 'Timetable')],['grades','📊 ' + L('Nilai & Rapor', 'Grades')],['classes','🏫 ' + L('Sekolahku', 'My School')]];
+  const v = {agenda:vAgenda, sched:vSched, grades:vGrades, classes:vClasses}[U.school]();
+  return `<div class="seg">${segs.map(s => `<button class="${U.school === s[0] ? 'on' : ''}" onclick="A.seg('${s[0]}')">${s[1]}</button>`).join('')}</div>` + v;
+}
+function vAgenda() {
+  const k = kid(), td = ds();
+  const f = U.filter; const filters = [['up',L('Akan datang', 'Upcoming')],['task','📝 ' + L('Tugas', 'Tasks')],['exam','🧪 ' + L('Ujian', 'Exams')],['info','📢 Info'],['done','✅ ' + L('Selesai', 'Done')],['all',L('Semua', 'All')]];
+  let list = k.agenda.slice();
+  if (f === 'up') list = list.filter(a => !a.done);
+  else if (f === 'done') list = list.filter(a => a.done);
+  else if (f !== 'all') list = list.filter(a => a.type === f || (f === 'info' && ['info','event','bring'].includes(a.type)));
+  list.sort((a, b) => f === 'done' ? (b.date || '').localeCompare(a.date || '') : ((a.date || '9999') + (a.time || '')).localeCompare((b.date || '9999') + (b.time || '')));
+  const groups = {}; list.forEach(a => { const g = !a.date ? L('Tanpa tanggal', 'No date') : a.date < td && !a.done ? '⏰ ' + L('Lewat tenggat', 'Overdue') : fmtDate(a.date, true); (groups[g] = groups[g] || []).push(a); });
+  return `<div class="card"><div class="chips">${filters.map(x => `<button class="${f === x[0] ? 'on' : ''}" onclick="A.filter('${x[0]}')">${x[1]}</button>`).join('')}</div>
+  <div class="btns mt"><button class="btn soft sm" onclick="A.paste()">📋 ${L('Tempel pesan/email guru', 'Paste teacher message')}</button><button class="btn ghost sm" onclick="A.agendaForm()">＋ ${L('Tambah manual', 'Add manually')}</button></div></div>` +
+  (list.length ? Object.entries(groups).map(([g, items]) => `<div class="card"><div class="hd"><h3 style="font-size:16px">${g}</h3></div>${items.map(agendaItem).join('')}</div>`).join('') : `<div class="card"><div class="empty"><span class="e">📭</span>${L('Belum ada catatan di sini.', 'Nothing here yet.')}</div></div>`);
+}
+function vSched() {
+  const k = kid(); const today = new Date().getDay();
+  return `<div class="card"><div class="hint" style="margin:0">${L('Isi pelajaran tiap hari + barang yang perlu dibawa. Nanti muncul otomatis di “Bawa apa besok?”.', 'Fill subjects for each day + things to bring. They show up in “What to bring tomorrow?”.')}</div></div>` +
+  [1,2,3,4,5,6].map(d => { const rows = k.schedule[d] || []; return `<div class="card" ${d === today ? 'style="border:2.5px solid var(--lav)"' : ''}><div class="hd"><h3 style="font-size:17px">${['','🟣','🔵','🟢','🟠','🩷','⚪'][d]} ${dayName(d)} ${d === today ? `<span class="chip">${L('Hari ini', 'Today')}</span>` : ''}</h3><button class="link" onclick="A.schedEdit(${d})">✏️ ${L('Ubah', 'Edit')}</button></div>
+  ${rows.length ? rows.map(r => `<div class="item"><div class="emo bg-lav" style="width:38px;height:38px;font-size:20px">${subjEmoji(r.subject)}</div><div class="grow"><div class="ttl">${esc(r.subject)}</div>${r.time || r.bring ? `<div class="meta">${r.time ? '🕒 ' + esc(r.time) : ''}${r.time && r.bring ? ' · ' : ''}${r.bring ? '🎒 ' + esc(r.bring) : ''}</div>` : ''}</div></div>`).join('') : `<div class="meta">${L('Belum diisi', 'Empty')}</div>`}</div>`; }).join('');
+}
+function sortKey(r) { const y = parseInt((r.year || '').slice(0, 4)) || (2000 + (+r.grade || 0)); return y * 100 + (+r.sem || 1) * 10 + ({PTS:1, PAS:2, AKHIR:3, LAIN:4}[r.type] || 4); }
+const sortedReports = k => [...k.reports].sort((a, b) => sortKey(a) - sortKey(b));
+const repAvg = r => { const s = (r.rows || []).filter(x => x.score != null && x.score !== ''); return s.length ? Math.round(s.reduce((a, x) => a + +x.score, 0) / s.length * 10) / 10 : 0; };
+const repLabel = r => `${L('Kelas', 'Gr.')} ${r.grade || '?'} · Smt ${r.sem || '?'} · ${r.type === 'PTS' ? 'PTS' : r.type === 'PAS' ? 'PAS' : r.type === 'AKHIR' ? L('Akhir', 'Final') : L('Lain', 'Other')}`;
+function vGrades() {
+  const k = kid(); const reps = sortedReports(k);
+  let html = `<div class="card"><div class="hd"><h3>📒 ${L('Rapor', 'Report cards')}</h3></div><div class="grid2"><button class="btn mint" onclick="A.scan()">📷 ${L('Scan rapor', 'Scan report')}</button><button class="btn soft" onclick="A.reportForm()">✍️ ${L('Isi manual', 'Enter manually')}</button></div>
+  <div class="hint">${L('Scan: foto rapor → angka dibaca otomatis → kamu cek & simpan. Cocok untuk memasukkan rapor kelas 1–5 sekaligus.', 'Scan: photo the report → numbers read automatically → you check & save. Great for adding past years at once.')}</div></div>`;
+  if (reps.length) {
+    const pts = reps.map(r => ({x:'K' + (r.grade || '?') + '.' + (r.sem || '') + (r.type === 'PTS' ? 'm' : ''), y:repAvg(r)}));
+    html += `<div class="card"><div class="hd"><h3>📈 ${L('Rata-rata rapor', 'Report average')}</h3><span class="chip mint">${L('Terbaru', 'Latest')}: ${pts[pts.length - 1].y}</span></div>${lineChart(pts, {id:1, color:'#8E7CE8'})}<div class="hint">K5.1m = ${L('Kelas 5, semester 1, tengah semester', 'Grade 5, semester 1, mid-term')}</div></div>`;
+    const subs = [...new Set(reps.flatMap(r => r.rows.map(x => x.subject)))];
+    const cur = U.subj && subs.includes(U.subj) ? U.subj : subs[0];
+    const sp = reps.filter(r => r.rows.some(x => x.subject === cur)).map(r => ({x:'K' + (r.grade || '?') + '.' + (r.sem || '') + (r.type === 'PTS' ? 'm' : ''), y:+r.rows.find(x => x.subject === cur).score}));
+    html += `<div class="card"><div class="hd"><h3>🔎 ${L('Per mata pelajaran', 'By subject')}</h3></div><select onchange="A.subj(this.value)">${subs.map(s => `<option ${s === cur ? 'selected' : ''} value="${esc(s)}">${subjEmoji(s)} ${esc(s)}</option>`).join('')}</select><div class="mt">${lineChart(sp, {id:2, color:'#F29EBE', lc:'#B84D7C'})}</div></div>`;
+    const byYear = {}; [...reps].reverse().forEach(r => { const g = (r.level || 'SD') + ' ' + L('Kelas ', 'Grade ') + (r.grade || '?') + (r.year ? ' · ' + r.year : ''); (byYear[g] = byYear[g] || []).push(r); });
+    html += Object.entries(byYear).map(([g, rs]) => `<div class="card"><div class="hd"><h3 style="font-size:16px">🎓 ${esc(g)}</h3></div>${rs.map(r => { const av = repAvg(r); const top = [...r.rows].sort((a, b) => b.score - a.score)[0];
+      return `<div class="item" onclick="A.reportView('${r.id}')"><div class="emo" style="background:${scoreColor(av)}33">📒</div><div class="grow"><div class="ttl">${repLabel(r)}</div><div class="meta">${r.rows.length} ${L('mapel', 'subjects')}${top ? ' · 🌟 ' + esc(shortSubj(top.subject)) + ' ' + top.score : ''}${r.photo ? ' · 📷' : ''}</div></div><div class="sc">${av}</div></div>`; }).join('')}</div>`).join('');
+  } else html += `<div class="card"><div class="empty"><span class="e">📒</span>${L('Belum ada rapor. Mulai dari scan rapor terbaru!', 'No report cards yet. Start by scanning the latest one!')}</div></div>`;
+  // nilai harian dari tugas/ujian
+  const scored = k.agenda.filter(a => a.score !== '' && a.score != null && a.subject);
+  if (scored.length) {
+    const by = {}; scored.forEach(a => { (by[a.subject] = by[a.subject] || []).push(+a.score / (+a.max || 100) * 100); });
+    html += `<div class="card"><div class="hd"><h3>🧪 ${L('Nilai ulangan & tugas', 'Test & task scores')}</h3></div>${Object.entries(by).map(([s, v]) => { const av = Math.round(v.reduce((a, b) => a + b, 0) / v.length); return `<div class="item"><div class="emo bg-sky" style="width:38px;height:38px;font-size:20px">${subjEmoji(s)}</div><div class="grow"><div class="ttl">${esc(shortSubj(s))}</div><div class="bar mt"><i style="width:${av}%;background:${scoreColor(av)}"></i></div><div class="meta">${v.length}× ${L('nilai', 'scores')}</div></div><div class="sc">${av}</div></div>`; }).join('')}</div>`;
+  }
+  return html;
+}
+function vClasses() {
+  const k = kid(); const p = k.profile;
+  const cls = [...k.classes].sort((a, b) => (b.year || '').localeCompare(a.year || '') || (+b.grade || 0) - (+a.grade || 0));
+  return `<div class="card"><div class="hd"><h3>🏫 ${L('Riwayat kelas & sekolah', 'Class & school history')}</h3><button class="link" onclick="A.classForm()">＋ ${L('Tambah', 'Add')}</button></div>
+  ${cls.length ? cls.map((c, i) => `<div class="item" onclick="A.classForm('${c.id}')"><div class="emo ${i === 0 ? 'bg-mint' : 'bg-lav'}">${c.level === 'TK' ? '🧸' : c.level === 'SD' ? '🎒' : c.level === 'SMP' ? '📐' : '🎓'}</div><div class="grow"><div class="ttl">${esc(c.name || (L('Kelas ', 'Grade ') + c.grade))} ${i === 0 ? `<span class="chip mint">${L('Sekarang', 'Current')}</span>` : ''}</div><div class="meta">${esc(c.level)} · ${esc(c.school || '-')} · ${esc(c.year || '')}</div>${c.teacher ? `<div class="meta">👩‍🏫 ${esc(c.teacher)}${c.phone ? ' · 📞 ' + esc(c.phone) : ''}</div>` : ''}</div></div>`).join('') : `<div class="empty"><span class="e">🏫</span>${L('Tambahkan kelas sekarang dan kelas-kelas sebelumnya.', 'Add the current class and previous ones.')}</div>`}</div>
+  <div class="card"><div class="hd"><h3>🆔 ${L('Data siswa', 'Student ID')}</h3><button class="link" onclick="A.profileForm()">✏️</button></div><div class="info"><div><small>NIS</small><b>${esc(p.nis || '-')}</b></div><div><small>NISN</small><b>${esc(p.nisn || '-')}</b></div></div></div>
+  <div class="card"><div class="hd"><h3>📚 ${L('Mapel tambahan sekolah', 'Extra school subjects')}</h3></div><div class="hint" style="margin-top:0">${L('Tambahkan mapel khas sekolah (mis. HNEC, Tahfidz, Coding) supaya terdeteksi saat menempel pesan guru.', 'Add school-specific subjects (e.g. HNEC, Tahfidz, Coding) so they are detected in pasted messages.')}</div>
+  <div class="chips mt">${k.customSubjects.map((s, i) => `<button onclick="A.delCustom(${i})">${subjEmoji(s)} ${esc(s)} ✕</button>`).join('')}</div><div class="row mt"><input id="cs" placeholder="${L('Nama mapel', 'Subject name')}"><button class="btn sm" onclick="A.addCustom()">＋</button></div></div>`;
+}
+
+/* ---------- SNACKS & MOOD ---------- */
+function vSnack() {
+  const k = kid(); const d = U.sday || ds(); const list = k.snacks.filter(s => s.date === d).sort((a, b) => (a.time || '').localeCompare(b.time || ''));
+  const spent = list.reduce((a, s) => a + (+s.price || 0), 0); const md = k.moods[d] || {};
+  const week = [...Array(7)].map((_, i) => { const x = addDays(d, i - 6); return {l:dayName(pd(x).getDay()).slice(0, 3), v:k.snacks.filter(s => s.date === x).reduce((a, s) => a + (+s.price || 0), 0), hi:x === d}; });
+  const wk = week.reduce((a, b) => a + b.v, 0);
+  const m30 = k.snacks.filter(s => diffDays(s.date, d) >= 0 && diffDays(s.date, d) < 30); const fav = {}; m30.forEach(s => { const n = s.name.trim().toLowerCase(); fav[n] = fav[n] || {n:s.name, c:0, cat:s.cat}; fav[n].c++; });
+  const favs = Object.values(fav).sort((a, b) => b.c - a.c).slice(0, 5);
+  let html = `<div class="daynav"><button onclick="A.sday(-1)">‹</button><div class="d">${d === ds() ? L('Hari ini', 'Today') : fmtDate(d)}<div class="small muted">${fmtDate(d, true)}</div></div><button onclick="A.sday(1)" ${d >= ds() ? 'style="opacity:.3" disabled' : ''}>›</button></div>`;
+  html += `<div class="card"><div class="hd"><h3>💭 ${L('Mood hari ini', "Today's mood")}</h3>${md.m ? `<span class="chip pink">${moodOf(md.m)[1]} ${L(moodOf(md.m)[2], moodOf(md.m)[3])}</span>` : ''}</div><div class="moods" style="margin-top:0">${MOODS.map(m => `<button class="mood ${md.m === m[0] ? 'on' : ''}" style="background:#FBF8F5" onclick="A.mood('${d}','${m[0]}')">${m[1]}<small>${L(m[2], m[3])}</small></button>`).join('')}</div>
+  <input class="mt" id="mnote" value="${esc(md.note || '')}" placeholder="${L('Hal seru hari ini apa? ✨', 'What was fun today? ✨')}" onchange="A.moodNote('${d}',this.value)"></div>`;
+  html += `<div class="card"><div class="hd"><h3>🍡 ${L('Jajan', 'Snacks')}</h3><button class="link" onclick="A.snackForm()">＋ ${L('Tambah', 'Add')}</button></div><div class="grid2"><div class="stat bg-peach"><div class="v">${rp(spent)}</div><div class="l">${L('Total jajan', 'Total spent')}</div></div><div class="stat bg-mint"><div class="v">${k.pocket.daily ? rp(k.pocket.daily - spent) : '—'}</div><div class="l">${L('Sisa uang saku', 'Pocket money left')} ${k.pocket.daily ? '' : `· <a onclick="A.pocketForm()">${L('atur', 'set')}</a>`}</div></div></div>
+  ${list.length ? list.map(s => { const c = SNACK_CATS.find(x => x[0] === s.cat) || SNACK_CATS[6]; return `<div class="item" onclick="A.snackForm('${s.id}')"><div class="emo bg-peach">${c[1]}</div><div class="grow"><div class="ttl">${esc(s.name)}</div><div class="meta">${s.time ? '🕒 ' + esc(s.time) + ' · ' : ''}${L(c[2], c[3])}${s.place ? ' · 📍 ' + esc(s.place) : ''}</div></div><div class="b8" style="color:var(--navy)">${rp(s.price)}</div></div>`; }).join('') : `<div class="empty"><span class="e">🍽️</span>${L('Belum ada jajan dicatat.', 'No snacks logged.')}</div>`}
+  ${k.pocket.daily && spent < k.pocket.daily && k.pocket.goals.length ? `<button class="btn mint block mt" onclick="A.saveRest('${d}',${k.pocket.daily - spent})">🐷 ${L('Tabung sisa ' + rp(k.pocket.daily - spent), 'Save the rest ' + rp(k.pocket.daily - spent))}</button>` : ''}</div>`;
+  html += `<div class="card"><div class="hd"><h3>📊 ${L('7 hari terakhir', 'Last 7 days')}</h3><span class="chip peach">${rp(wk)}</span></div>${barChart(week, {fmt:kfmt})}
+  ${favs.length ? `<div class="b8 small muted mt">${L('Paling sering (30 hari)', 'Most frequent (30 days)')}</div><div class="chips mt">${favs.map(f => `<span class="chip peach">${(SNACK_CATS.find(x => x[0] === f.cat) || SNACK_CATS[6])[1]} ${esc(f.n)} ×${f.c}</span>`).join('')}</div>` : ''}</div>`;
+  html += `<div class="card"><div class="hd"><h3>🐷 ${L('Celengan impian', 'Dream piggy bank')}</h3><button class="link" onclick="A.goalForm()">＋ ${L('Target', 'Goal')}</button></div>
+  ${k.pocket.goals.length ? k.pocket.goals.map(g => { const sv = goalSaved(g); const pc = g.target ? Math.min(100, Math.round(sv / g.target * 100)) : 0; return `<div class="item" style="display:block" onclick="A.goalView('${g.id}')"><div class="row"><div class="emo bg-mint">${esc(g.emoji || '🎁')}</div><div class="grow"><div class="ttl">${esc(g.name)} ${pc >= 100 ? '🎉' : ''}</div><div class="meta">${rp(sv)} / ${rp(g.target)} · ${pc}%</div></div></div><div class="prog"><i style="width:${pc}%"></i></div></div>`; }).join('') : `<div class="empty"><span class="e">🐷</span>${L('Mau nabung buat apa? Buat target pertamamu!', 'What are you saving for? Create your first goal!')}</div>`}
+  <button class="btn ghost sm mt" onclick="A.pocketForm()">💵 ${L('Uang saku harian', 'Daily pocket money')}: ${k.pocket.daily ? rp(k.pocket.daily) : '—'}</button></div>`;
+  return html;
+}
+const goalSaved = g => (g.deposits || []).reduce((a, d) => a + (+d.amt || 0), 0);
+
+/* ---------- GROWTH ---------- */
+function vGrow() {
+  const k = kid(); const g = [...k.growth].sort((a, b) => a.date.localeCompare(b.date));
+  const lastH = [...g].reverse().find(x => x.h), lastW = [...g].reverse().find(x => x.w);
+  const prevH = lastH && [...g].reverse().find(x => x.h && x.date < lastH.date), prevW = lastW && [...g].reverse().find(x => x.w && x.date < lastW.date);
+  const dl = (a, b, u) => a && b ? `<span class="chip ${a - b >= 0 ? 'mint' : 'sky'}">${a - b >= 0 ? '▲' : '▼'} ${Math.abs(Math.round((a - b) * 10) / 10)} ${u}</span>` : '';
+  const bmi = lastH && lastW ? Math.round(lastW.w / Math.pow(lastH.h / 100, 2) * 10) / 10 : null;
+  let html = `<div class="card"><div class="hd"><h3>📏 ${L('Tinggi & berat', 'Height & weight')}</h3><button class="link" onclick="A.growForm()">＋ ${L('Ukur', 'Measure')}</button></div>
+  <div class="grid2"><div class="stat bg-sky"><div class="l">📏 ${L('Tinggi', 'Height')}</div><div class="v">${lastH ? lastH.h + ' cm' : '—'}</div>${dl(lastH && lastH.h, prevH && prevH.h, 'cm')}</div><div class="stat bg-lav"><div class="l">⚖️ ${L('Berat', 'Weight')}</div><div class="v">${lastW ? lastW.w + ' kg' : '—'}</div>${dl(lastW && lastW.w, prevW && prevW.w, 'kg')}</div></div>
+  ${bmi ? `<div class="hint">IMT/BMI: <b>${bmi}</b> · ${L('Untuk anak, IMT dibaca dengan grafik pertumbuhan sesuai usia — tanyakan ke dokter anak/posyandu bila ragu.', 'For children, BMI is read on age-based growth charts — ask your pediatrician if unsure.')}</div>` : ''}
+  ${g.length ? `<div class="chips mt"><button class="${U.gm === 'h' ? 'on' : ''}" onclick="A.gm('h')">📏 ${L('Tinggi', 'Height')}</button><button class="${U.gm === 'w' ? 'on' : ''}" onclick="A.gm('w')">⚖️ ${L('Berat', 'Weight')}</button></div><div class="mt">${lineChart(g.filter(x => x[U.gm]).map(x => ({x:(S.lang === 'en' ? MON_EN : MON_ID)[pd(x.date).getMonth()] + "'" + String(pd(x.date).getFullYear()).slice(2), y:x[U.gm]})), {id:3, color:U.gm === 'h' ? '#6FB7E8' : '#9E8CEB'})}</div>` : `<div class="empty"><span class="e">🌱</span>${L('Catat tinggi & berat tiap bulan untuk melihat pertumbuhan.', 'Log height & weight monthly to see growth.')}</div>`}
+  ${g.length ? `<div class="mt">${[...g].reverse().slice(0, 6).map(x => `<div class="item" onclick="A.growForm('${x.id}')"><div class="emo bg-sky" style="width:38px;height:38px;font-size:18px">📅</div><div class="grow"><div class="ttl">${fmtDate(x.date)}</div><div class="meta">${x.h ? '📏 ' + x.h + ' cm' : ''} ${x.w ? '⚖️ ' + x.w + ' kg' : ''} ${x.note ? '· ' + esc(x.note) : ''}</div></div><span class="muted">›</span></div>`).join('')}</div>` : ''}</div>`;
+  const ach = [...k.achievements].sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+  html += `<div class="card"><div class="hd"><h3>🏆 ${L('Prestasi, ekskul & hafalan', 'Achievements, clubs & memorization')}</h3><button class="link" onclick="A.achForm()">＋ ${L('Tambah', 'Add')}</button></div>
+  ${ach.length ? ach.map(a => { const kd = ACH_KINDS.find(x => x[0] === a.kind) || ACH_KINDS[5]; return `<div class="item" onclick="A.achForm('${a.id}')"><div class="emo bg-pink">${kd[1]}</div><div class="grow"><div class="ttl">${esc(a.title)}</div><div class="meta">${L(kd[2], kd[3])}${a.level ? ' · ' + esc(a.level) : ''}${a.date ? ' · ' + fmtDate(a.date) : ''}${a.photo ? ' · 📷' : ''}</div></div></div>`; }).join('') : `<div class="empty"><span class="e">🏆</span>${L('Juara lomba, sertifikat, ekskul, hafalan surat — catat semua di sini!', 'Competitions, certificates, clubs, memorization — log them here!')}</div>`}</div>`;
+  const md = Object.entries(k.moods).filter(([d]) => diffDays(d, ds()) < 30); const cnt = {}; md.forEach(([, v]) => cnt[v.m] = (cnt[v.m] || 0) + 1);
+  if (md.length) html += `<div class="card"><div class="hd"><h3>💭 ${L('Mood 30 hari', 'Mood · 30 days')}</h3><span class="chip pink">🔥 ${moodStreak(k)} ${L('hari beruntun', 'day streak')}</span></div>${Object.entries(cnt).sort((a, b) => b[1] - a[1]).map(([m, c]) => { const mm = moodOf(m); return `<div class="row" style="margin:6px 0"><span style="font-size:22px;width:30px">${mm[1]}</span><div class="grow"><div class="bar"><i style="width:${c / md.length * 100}%;background:#F6BBD3"></i></div></div><span class="b8 small" style="width:56px;text-align:right">${c} ${L('hari', 'days')}</span></div>`; }).join('')}</div>`;
+  return html;
+}
+
+/* ---------- ME / SETTINGS ---------- */
+function vMe() {
+  const k = kid(), p = k.profile; const c = currentClass(k);
+  const bk = S.lastBackup ? diffDays(S.lastBackup, ds()) : null;
+  const info = [['🎂',L('Lahir', 'Born'),p.birth ? fmtDate(p.birth) + ' · ' + ageOf(p.birth) : ''],['🩸',L('Gol. darah', 'Blood type'),p.blood],['⚠️',L('Alergi', 'Allergies'),p.allergy],['👕',L('Ukuran baju', 'Shirt size'),p.shirt],['👟',L('Ukuran sepatu', 'Shoe size'),p.shoe],['🎨',L('Hobi', 'Hobbies'),p.hobby],['🚀',L('Cita-cita', 'Dream job'),p.dream],['🍜',L('Makanan favorit', 'Favourite food'),p.favFood],['🌈',L('Warna favorit', 'Favourite colour'),p.favColor]];
+  return `<div class="hero" style="text-align:center"><div style="display:flex;justify-content:center">${avatarHtml(p, 92)}</div><h1 class="mt" style="font-size:24px">${esc(p.name)}</h1><p>${esc(p.nick ? '“' + p.nick + '”' : '')} ${c ? '· ' + esc(classLabel(c)) : ''}</p><button class="btn soft sm mt" onclick="A.profileForm()">✏️ ${L('Ubah profil', 'Edit profile')}</button></div>
+  <div class="card"><div class="hd"><h3>🧒 ${L('Tentang aku', 'About me')}</h3></div><div class="info">${info.map(i => `<div><small>${i[0]} ${i[1]}</small><b>${esc(i[2] || '-')}</b></div>`).join('')}</div>${p.note ? `<div class="hint">📝 ${esc(p.note)}</div>` : ''}</div>
+  ${bk === null || bk > 30 ? `<div class="banner bg-peach">💾 <span>${bk === null ? L('Belum pernah backup. Data ada di HP ini saja — yuk backup!', 'Never backed up. Data lives only on this phone — back it up!') : L('Backup terakhir ' + bk + ' hari lalu.', 'Last backup ' + bk + ' days ago.')}</span></div>` : ''}
+  <div class="card"><div class="hd"><h3>⚙️ ${L('Pengaturan', 'Settings')}</h3></div>
+  ${[['👨‍👩‍👧',L('Profil anak lain / tambah anak', 'Other children / add child'),'A.kidSwitch()'],['🌐',L('Bahasa: Indonesia', 'Language: English'),'A.toggleLang()'],['🔒',S.pin ? L('Ubah / hapus PIN', 'Change / remove PIN') : L('Pasang PIN 4 digit', 'Set a 4-digit PIN'),'A.pinSetup()'],['💾',L('Backup data (simpan file)', 'Back up data (save file)'),'A.backup()'],['📥',L('Pulihkan / gabung dari backup', 'Restore / merge from backup'),'A.restore()'],['📊',L('Ekspor nilai & jajan (CSV/Excel)', 'Export grades & snacks (CSV/Excel)'),'A.csv()'],['📲',L('Bagikan aplikasi ke keluarga', 'Share app with family'),'A.shareApp()'],['📖',L('Cara pasang di HP', 'How to install'),'A.installGuide()'],['🗑️',L('Hapus profil anak ini', "Delete this child's profile"),'A.delKid()']].map(x => `<div class="item" onclick="${x[2]}"><div class="emo bg-lav" style="width:38px;height:38px;font-size:19px">${x[0]}</div><div class="grow ttl" style="font-size:14.5px">${x[1]}</div><span class="muted">›</span></div>`).join('')}</div>`;
+}
+
+/* =========================================================
+   ACTIONS
+   ========================================================= */
+const A = {
+  tab(t) { U.tab = t; render(); window.scrollTo(0, 0); },
+  seg(s) { U.school = s; render(); },
+  filter(f) { U.filter = f; render(); },
+  subj(s) { U.subj = s; render(); },
+  gm(m) { U.gm = m; render(); },
+  sday(n) { const d = addDays(U.sday || ds(), n); if (d > ds()) return; U.sday = d; render(); },
+  toggleLang() { S.lang = S.lang === 'en' ? 'id' : 'en'; save(); render(); },
+  invite() { const v = ($('inv').value || '').trim().toUpperCase(); if (INVITE_CODES.includes(v)) { S.invited = true; save(); render(); } else toast(L('Kode tidak cocok 🙈', 'Code does not match 🙈')); },
+  async pinKey(d) {
+    if (d === 'del') U.pinBuf = U.pinBuf.slice(0, -1); else if (U.pinBuf.length < 4) U.pinBuf += d;
+    render();
+    if (U.pinBuf.length === 4) { const ok = (await hash(U.pinBuf)) === S.pin; U.pinBuf = ''; if (ok) { U.unlocked = true; render(); } else { toast(L('PIN salah', 'Wrong PIN')); render(); } }
+  },
+  pinForgot() {
+    openSheet(`<p class="b8">${L('Masukkan kode pemulihan yang muncul saat PIN dibuat.', 'Enter the recovery code shown when the PIN was created.')}</p><input id="rc" placeholder="XXXX-XXXX" autocapitalize="characters"><button class="btn block mt" onclick="A.pinRecover()">${L('Buka & hapus PIN', 'Unlock & remove PIN')}</button>`, '🔑 ' + L('Lupa PIN', 'Forgot PIN'));
+  },
+  async pinRecover() { const v = ($('rc').value || '').trim().toUpperCase(); if (S.rec && (await hash(v)) === S.rec) { S.pin = null; S.rec = null; U.unlocked = true; save(); closeSheet(); render(); toast(L('PIN dihapus', 'PIN removed')); } else toast(L('Kode salah', 'Wrong code')); },
+  pinSetup() {
+    openSheet(`<label class="lb">${L('PIN baru (4 angka)', 'New PIN (4 digits)')}</label><input id="p1" inputmode="numeric" maxlength="4" type="password"><label class="lb">${L('Ulangi PIN', 'Repeat PIN')}</label><input id="p2" inputmode="numeric" maxlength="4" type="password">
+    <button class="btn block mt2" onclick="A.pinSave()">${L('Simpan PIN', 'Save PIN')}</button>${S.pin ? `<button class="btn danger block mt" onclick="A.pinRemove()">${L('Hapus PIN', 'Remove PIN')}</button>` : ''}`, '🔒 PIN');
+  },
+  async pinSave() {
+    const a = $('p1').value, b = $('p2').value; if (!/^\d{4}$/.test(a)) return toast(L('PIN harus 4 angka', 'PIN must be 4 digits')); if (a !== b) return toast(L('PIN tidak sama', 'PINs do not match'));
+    const code = Math.random().toString(36).slice(2, 6).toUpperCase() + '-' + Math.random().toString(36).slice(2, 6).toUpperCase();
+    S.pin = await hash(a); S.rec = await hash(code); U.unlocked = true; save();
+    openSheet(`<div class="empty"><span class="e">🔑</span></div><p class="b8">${L('Simpan kode pemulihan ini (screenshot/catat). Dipakai kalau lupa PIN:', 'Keep this recovery code (screenshot/write it down). Use it if you forget the PIN:')}</p><div class="hero" style="text-align:center;margin:10px 0"><h1 style="letter-spacing:3px">${code}</h1></div><button class="btn block" onclick="closeSheet()">${L('Sudah kusimpan', 'Saved it')}</button>`, '✅ ' + L('PIN aktif', 'PIN on'));
+  },
+  pinRemove() { S.pin = null; S.rec = null; save(); closeSheet(); toast(L('PIN dihapus', 'PIN removed')); render(); },
+  pickAv(btn, a) { document.querySelectorAll('#avp button').forEach(b => b.classList.remove('on')); btn.classList.add('on'); $('kAv').value = a; },
+  lvChange(lv, target) { $(target).innerHTML = GRADES[lv].map(g => `<option>${g}</option>`).join(''); },
+  saveKid(id, first) {
+    const name = $('kName').value.trim(); if (!name) return toast(L('Nama wajib diisi', 'Name is required'));
+    let k = id ? S.kids.find(x => x.id === id) : null;
+    if (!k) { k = newKid(name); S.kids.push(k); }
+    Object.assign(k.profile, {name, nick:$('kNick').value.trim(), avatar:$('kAv').value, birth:$('kBirth').value});
+    if ($('cLv')) { const lv = $('cLv').value; k.classes.push({id:uid(), level:lv, grade:$('cGr').value, name:$('cName').value.trim(), year:$('cYear').value.trim(), school:$('cSchool').value.trim(), teacher:'', phone:''}); }
+    S.activeKid = k.id; save(); closeSheet(); U.tab = 'home'; render();
+    if (first) toast('🎉 ' + L('Profil dibuat!', 'Profile created!'));
+  },
+  kidSwitch() {
+    openSheet(S.kids.map(k => `<div class="item" onclick="A.useKid('${k.id}')">${avatarHtml(k.profile, 46)}<div class="grow"><div class="ttl">${esc(k.profile.name)}</div><div class="meta">${esc(classLabel(currentClass(k)) || '')}</div></div>${k.id === kid().id ? '<span class="chip mint">✓</span>' : ''}</div>`).join('') +
+      `<div class="card" style="margin:14px 0 0">${kidForm({}, true)}<button class="btn block mt2" onclick="A.saveKid(null)">＋ ${L('Tambah anak', 'Add child')}</button></div>`, '👨‍👩‍👧 ' + L('Pilih anak', 'Choose child'));
+  },
+  useKid(id) { S.activeKid = id; save(); closeSheet(); render(); },
+  delKid() {
+    const k = kid(); if (!confirm(L('Hapus semua data ' + k.profile.name + '? Tidak bisa dibatalkan.', 'Delete all data of ' + k.profile.name + '? This cannot be undone.'))) return;
+    S.kids = S.kids.filter(x => x.id !== k.id); S.activeKid = S.kids[0] ? S.kids[0].id : null; save(); U.tab = 'home'; render();
+  },
+  profileForm() {
+    const p = kid().profile; U.tmpPhoto = undefined;
+    const f = (id, lb, v, ph = '') => `<div><label class="lb">${lb}</label><input id="${id}" value="${esc(v || '')}" placeholder="${ph}"></div>`;
+    openSheet(`<div class="row"><div id="phPrev">${avatarHtml(p, 64)}</div><div class="btns"><button class="btn soft sm" onclick="A.profPhoto()">📷 ${L('Foto', 'Photo')}</button>${p.photo ? `<button class="btn ghost sm" onclick="A.profPhotoDel()">${L('Pakai emoji', 'Use emoji')}</button>` : ''}</div></div>${kidForm(p, false)}
+    <div class="grid2">${f('pG', '⚧ ' + L('Jenis kelamin', 'Gender'), p.gender)}${f('pB', '🩸 ' + L('Gol. darah', 'Blood type'), p.blood)}${f('pS', '👕 ' + L('Ukuran baju', 'Shirt size'), p.shirt)}${f('pSh', '👟 ' + L('Ukuran sepatu', 'Shoe size'), p.shoe)}${f('pNis', 'NIS', p.nis)}${f('pNisn', 'NISN', p.nisn)}</div>
+    ${f('pA', '⚠️ ' + L('Alergi', 'Allergies'), p.allergy, L('mis. udang, debu', 'e.g. shrimp, dust'))}${f('pH', '🎨 ' + L('Hobi', 'Hobbies'), p.hobby)}${f('pD', '🚀 ' + L('Cita-cita', 'Dream job'), p.dream)}<div class="grid2">${f('pF', '🍜 ' + L('Makanan favorit', 'Favourite food'), p.favFood)}${f('pC', '🌈 ' + L('Warna favorit', 'Favourite colour'), p.favColor)}</div>
+    <label class="lb">📝 ${L('Catatan', 'Notes')}</label><textarea id="pN">${esc(p.note || '')}</textarea><button class="btn block mt2" onclick="A.profileSave()">💾 ${L('Simpan', 'Save')}</button>`, '✏️ ' + L('Profil', 'Profile'));
+  },
+  profileSave() {
+    const k = kid(); const name = $('kName').value.trim(); if (!name) return toast(L('Nama wajib diisi', 'Name is required'));
+    Object.assign(k.profile, {name, nick:$('kNick').value.trim(), avatar:$('kAv').value, birth:$('kBirth').value, gender:$('pG').value, blood:$('pB').value, shirt:$('pS').value, shoe:$('pSh').value, nis:$('pNis').value, nisn:$('pNisn').value, allergy:$('pA').value, hobby:$('pH').value, dream:$('pD').value, favFood:$('pF').value, favColor:$('pC').value, note:$('pN').value});
+    if (U.tmpPhoto !== undefined) { k.profile.photo = U.tmpPhoto; U.tmpPhoto = undefined; }
+    save(); closeSheet(); render(); toast('✅ ' + L('Tersimpan', 'Saved'));
+  },
+  async profPhoto() { const f = await pickFile(); if (!f) return; U.tmpPhoto = await compressImage(f, 320, .8); $('phPrev').innerHTML = avatarHtml({photo:U.tmpPhoto}, 64); },
+  profPhotoDel() { U.tmpPhoto = null; $('phPrev').innerHTML = avatarHtml({avatar:$('kAv').value}, 64); },
+  mood(d, m) { const k = kid(); const cur = k.moods[d] || {}; k.moods[d] = {...cur, m}; save(); render(); if (moodStreak(k) === 7) toast('🔥 ' + L('7 hari beruntun! Keren!', '7-day streak! Awesome!')); },
+  moodNote(d, v) { const k = kid(); k.moods[d] = {...(k.moods[d] || {}), note:v}; save(); },
+  check(date, t) { const k = kid(); const c = k.checks[date] = k.checks[date] || []; const i = c.indexOf(t); i >= 0 ? c.splice(i, 1) : c.push(t); Object.keys(k.checks).forEach(d => { if (d < addDays(ds(), -14)) delete k.checks[d]; }); save(); render(); },
+  quick() {
+    openSheet(`<div class="grid2">${[['📋',L('Tempel pesan guru', 'Paste message'),'A.paste()','lav'],['📝',L('Tugas / ujian', 'Task / exam'),'A.agendaForm()','peach'],['🍡',L('Catat jajan', 'Log snack'),'A.snackForm()','mint'],['📷',L('Scan rapor', 'Scan report'),'A.scan()','sky'],['📏',L('Tinggi & berat', 'Height & weight'),'A.growForm()','pink'],['🏆',L('Prestasi', 'Achievement'),'A.achForm()','lav']].map(x => `<button class="stat bg-${x[3]}" style="text-align:left" onclick="${x[2]}"><div style="font-size:30px">${x[0]}</div><div class="b8" style="color:var(--navy)">${x[1]}</div></button>`).join('')}</div>`, '✨ ' + L('Tambah cepat', 'Quick add'));
+  },
+  /* agenda */
+  paste() {
+    openSheet(`<p class="b8 muted" style="margin-top:0">${L('Salin pesan dari email / WhatsApp / Google Classroom, lalu tempel di sini. Tanggal, mapel, jenis & barang bawaan dibaca otomatis.', 'Copy the message from email / WhatsApp / Google Classroom and paste it here. Date, subject, type & items are detected automatically.')}</p>
+    <textarea id="msg" style="min-height:170px" placeholder="${L('Tempel pesan di sini…', 'Paste message here…')}"></textarea><div class="btns mt"><button class="btn ghost sm" onclick="A.pasteClip()">📋 ${L('Tempel dari clipboard', 'Paste from clipboard')}</button></div><button class="btn block mt2" onclick="A.parseMsg()">✨ ${L('Baca pesan', 'Read message')}</button>`, '📋 ' + L('Pesan guru', 'Teacher message'));
+  },
+  async pasteClip() { try { $('msg').value = await navigator.clipboard.readText(); } catch (e) { toast(L('Tekan lama di kotak lalu pilih Tempel', 'Long-press the box and choose Paste')); } },
+  parseMsg() { const t = $('msg').value.trim(); if (!t) return toast(L('Pesannya masih kosong', 'Message is empty')); const r = parseMessage(t, kid()); A.agendaForm(null, r); toast('✨ ' + L('Dibaca! Cek lagi ya', 'Read! Please double-check')); },
+  agendaForm(id, pre) {
+    const k = kid(); const a = id ? k.agenda.find(x => x.id === id) : (pre || {type:'task', date:ds()});
+    openSheet(`<label class="lb">${L('Jenis', 'Type')}</label><div class="chips" id="tp">${Object.entries(TYPES).map(([key, T]) => `<button class="${a.type === key ? 'on' : ''}" onclick="A.pickType(this,'${key}')">${T.e} ${L(T.id, T.en)}</button>`).join('')}</div><input type="hidden" id="aType" value="${a.type}">
+    <label class="lb">${L('Judul', 'Title')}</label><input id="aTitle" value="${esc(a.title || '')}" placeholder="${L('mis. Infografis Climate Change', 'e.g. Climate Change Infographic')}">
+    <label class="lb">${L('Mata pelajaran', 'Subject')}</label><input id="aSubj" list="dlS" value="${esc(a.subject || '')}" placeholder="${L('ketik / pilih', 'type / pick')}"><datalist id="dlS">${allSubjects(k).map(s => `<option value="${esc(s)}">`).join('')}</datalist>
+    <div class="grid2"><div><label class="lb">📅 ${L('Tanggal / tenggat', 'Date / due')}</label><input id="aDate" type="date" value="${a.date || ''}"></div><div><label class="lb">🕒 ${L('Jam', 'Time')}</label><input id="aTime" type="time" value="${a.time || ''}"></div></div>
+    <label class="lb">🎒 ${L('Yang perlu dibawa (pisahkan koma)', 'Things to bring (comma separated)')}</label><input id="aBring" value="${esc((a.bring || []).join(', '))}" placeholder="${L('mis. buku gambar, krayon', 'e.g. sketchbook, crayons')}">
+    <label class="lb">🔗 Link</label><input id="aLink" value="${esc(a.link || '')}" placeholder="https://classroom.google.com/…">
+    <label class="lb">📝 ${L('Catatan / isi pesan', 'Notes / message')}</label><textarea id="aNotes">${esc(a.notes || '')}</textarea>
+    <div class="grid2"><div><label class="lb">⭐ ${L('Nilai (opsional)', 'Score (optional)')}</label><input id="aScore" inputmode="decimal" value="${a.score ?? ''}"></div><div><label class="lb">${L('Dari maks.', 'Out of')}</label><input id="aMax" inputmode="decimal" value="${a.max || 100}"></div></div>
+    <button class="btn block mt2" onclick="A.agendaSave(${id ? `'${id}'` : 'null'})">💾 ${L('Simpan', 'Save')}</button>${id ? `<button class="btn danger block mt" onclick="A.agendaDel('${id}')">🗑️ ${L('Hapus', 'Delete')}</button>` : ''}`, (id ? '✏️ ' : '＋ ') + L('Tugas / Ujian / Info', 'Task / Exam / Info'));
+  },
+  pickType(btn, t) { document.querySelectorAll('#tp button').forEach(b => b.classList.remove('on')); btn.classList.add('on'); $('aType').value = t; },
+  agendaSave(id) {
+    const k = kid(); const o = {type:$('aType').value, title:$('aTitle').value.trim(), subject:$('aSubj').value.trim(), date:$('aDate').value, time:$('aTime').value, bring:$('aBring').value.split(',').map(x => x.trim()).filter(Boolean), link:$('aLink').value.trim(), notes:$('aNotes').value, score:$('aScore').value.trim() === '' ? null : num($('aScore').value), max:num($('aMax').value) || 100};
+    if (!o.title && !o.subject) return toast(L('Isi judul atau mapel dulu', 'Fill in a title or subject'));
+    if (id) Object.assign(k.agenda.find(x => x.id === id), o); else k.agenda.push({id:uid(), done:false, created:ds(), ...o});
+    save(); closeSheet(); render(); toast('✅ ' + L('Tersimpan', 'Saved'));
+  },
+  agendaDel(id) { const k = kid(); k.agenda = k.agenda.filter(x => x.id !== id); save(); closeSheet(); render(); },
+  agendaView(id) {
+    const a = kid().agenda.find(x => x.id === id); if (!a) return; const T = TYPES[a.type] || TYPES.info;
+    openSheet(`<div class="row"><div class="emo bg-${T.c}" style="width:56px;height:56px;font-size:30px">${a.subject ? subjEmoji(a.subject) : T.e}</div><div class="grow"><div class="ttl" style="font-size:18px">${esc(a.title)}</div><div class="meta">${T.e} ${L(T.id, T.en)}${a.subject ? ' · ' + esc(a.subject) : ''}</div></div></div>
+    <div class="info mt"><div><small>📅 ${L('Tanggal', 'Date')}</small><b>${a.date ? fmtDate(a.date, true) : '-'}</b></div><div><small>🕒 ${L('Jam', 'Time')}</small><b>${a.time || '-'}</b></div>${(a.bring || []).length ? `<div style="grid-column:1/-1"><small>🎒 ${L('Bawa', 'Bring')}</small><b>${esc(a.bring.join(', '))}</b></div>` : ''}${a.score != null && a.score !== '' ? `<div><small>⭐ ${L('Nilai', 'Score')}</small><b>${a.score} / ${a.max || 100}</b></div>` : ''}</div>
+    ${a.link ? `<p><a href="${esc(a.link)}" target="_blank" rel="noopener">🔗 ${L('Buka link', 'Open link')}</a></p>` : ''}${a.notes ? `<div class="card" style="margin:12px 0;white-space:pre-wrap;font-size:14px">${esc(a.notes)}</div>` : ''}
+    ${a.date ? `<div class="b8 small muted mt">📅 ${L('Pasang pengingat di kalender HP', 'Add a reminder to the phone calendar')}</div><div class="grid2 mt"><a class="btn ghost sm" href="${gcalUrl(a)}" target="_blank" rel="noopener">Google Calendar</a><button class="btn ghost sm" onclick="A.ics('${a.id}')">${L('Kalender iPhone (.ics)', 'iPhone Calendar (.ics)')}</button></div>` : ''}
+    <div class="grid2 mt2"><button class="btn ${a.done ? 'ghost' : 'mint'}" onclick="A.toggleDone('${a.id}')">${a.done ? '↩️ ' + L('Belum selesai', 'Not done') : '✅ ' + L('Selesai', 'Done')}</button><button class="btn soft" onclick="A.agendaForm('${a.id}')">✏️ ${L('Ubah', 'Edit')}</button></div>`, '');
+  },
+  toggleDone(id) {
+    const k = kid(); const a = k.agenda.find(x => x.id === id); a.done = !a.done; save(); closeSheet(); render();
+    if (a.done) { toast(['🎉', '🌟', '💪', '🚀'][Math.floor(Math.random() * 4)] + ' ' + L('Hebat, selesai!', 'Great job!')); if (a.type === 'exam' && (a.score == null || a.score === '')) setTimeout(() => A.scoreAsk(id), 600); }
+  },
+  scoreAsk(id) {
+    openSheet(`<p class="b8">${L('Sudah tahu nilainya? Catat biar kelihatan perkembangannya.', 'Know the score? Log it to track progress.')}</p><div class="grid2"><input id="qs" inputmode="decimal" placeholder="${L('Nilai', 'Score')}"><input id="qm" inputmode="decimal" value="100"></div><button class="btn block mt" onclick="A.scoreSave('${id}')">💾 ${L('Simpan nilai', 'Save score')}</button><button class="btn ghost block mt" onclick="closeSheet()">${L('Nanti saja', 'Later')}</button>`, '⭐ ' + L('Nilai ujian', 'Exam score'));
+  },
+  scoreSave(id) { const a = kid().agenda.find(x => x.id === id); a.score = num($('qs').value); a.max = num($('qm').value) || 100; save(); closeSheet(); render(); },
+  ics(id) {
+    const a = kid().agenda.find(x => x.id === id); const d = a.date.replace(/-/g, ''); const T = TYPES[a.type] || TYPES.info;
+    let dt; if (a.time) { const t = a.time.replace(':', '') + '00'; const end = pad2((+a.time.slice(0, 2) + 1) % 24) + a.time.slice(3) + '00'; dt = `DTSTART:${d}T${t}\r\nDTEND:${d}T${end}`; } else { dt = `DTSTART;VALUE=DATE:${d}\r\nDTEND;VALUE=DATE:${addDays(a.date, 1).replace(/-/g, '')}`; }
+    const txt = s => String(s || '').replace(/[\\,;]/g, m => '\\' + m).replace(/\n/g, '\\n');
+    const ics = `BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//CreanovativeCo//BrightKids//ID\r\nBEGIN:VEVENT\r\nUID:${a.id}@brightkids\r\nDTSTAMP:${new Date().toISOString().replace(/[-:]/g, '').slice(0, 15)}Z\r\n${dt}\r\nSUMMARY:${txt(T.e + ' ' + kid().profile.nick + ': ' + a.title)}\r\nDESCRIPTION:${txt(((a.bring || []).length ? 'Bawa: ' + a.bring.join(', ') + '\n' : '') + (a.notes || ''))}\r\nBEGIN:VALARM\r\nTRIGGER:${a.time ? '-PT12H' : '-PT3H'}\r\nACTION:DISPLAY\r\nDESCRIPTION:Reminder\r\nEND:VALARM\r\nEND:VEVENT\r\nEND:VCALENDAR`;
+    downloadFile(ics, 'brightkids-' + a.date + '.ics', 'text/calendar');
+  },
+  /* schedule */
+  schedEdit(d) {
+    const k = kid(); const rows = k.schedule[d] || [];
+    openSheet(`<div class="hint" style="margin-top:0">${L('Satu baris = satu pelajaran. Kolom bawa boleh kosong.', 'One row = one subject. “Bring” can be empty.')}</div><div id="sr" class="mt">${rows.map(schedRow).join('')}</div><datalist id="dlS">${allSubjects(k).map(s => `<option value="${esc(s)}">`).join('')}</datalist>
+    <button class="btn ghost sm mt" onclick="A.schedAdd()">＋ ${L('Pelajaran', 'Subject')}</button><button class="btn block mt2" onclick="A.schedSave(${d})">💾 ${L('Simpan', 'Save')}</button>`, '⏰ ' + dayName(d));
+    if (!rows.length) A.schedAdd();
+  },
+  schedAdd() { $('sr').insertAdjacentHTML('beforeend', schedRow({})); },
+  schedSave(d) { kid().schedule[d] = [...document.querySelectorAll('#sr .card')].map(c => ({subject:c.querySelector('.ss').value.trim(), time:c.querySelector('.st').value.trim(), bring:c.querySelector('.sb').value.trim()})).filter(r => r.subject); save(); closeSheet(); render(); },
+  /* reports */
+  async scan() {
+    const f = await pickFile(); if (!f) return;
+    const big = await compressImage(f, 2000, .9); const small = await compressImage(f, 1400, .78);
+    openSheet(`<img src="${small}" class="photo"><div class="card" style="margin:12px 0;text-align:center"><div style="font-size:36px">🔍</div><div class="b8" id="ocrS">${L('Menyiapkan pembaca…', 'Preparing reader…')}</div><div class="prog"><i id="ocrP" style="width:3%"></i></div><div class="hint">${L('Pertama kali butuh internet & ±20–40 detik.', 'First time needs internet & ~20–40 s.')}</div></div><button class="btn ghost block" id="skipScan">✍️ ${L('Lewati, isi manual', 'Skip, enter manually')}</button>`, '📷 ' + L('Scan rapor', 'Scan report'));
+    U.scanPhoto = small;
+    $('skipScan').onclick = () => A.reportForm(null, {photoData:small});
+    try {
+      const text = await runOCR(big, p => { if ($('ocrP')) { $('ocrP').style.width = Math.max(3, p) + '%'; $('ocrS').textContent = L('Membaca angka… ', 'Reading numbers… ') + p + '%'; } });
+      const r = parseReportText(text, kid());
+      if (!$('ocrS')) return;
+      if (!r.rows.length) { toast(L('Angka belum terbaca, isi manual ya', 'Could not read numbers, please enter manually')); return A.reportForm(null, {photoData:small, ocr:text}); }
+      const lv = (+r.meta.grade >= 10) ? 'SMA' : (+r.meta.grade >= 7) ? 'SMP' : 'SD';
+      A.reportForm(null, {level:lv, grade:r.meta.grade || '', sem:r.meta.sem || '1', type:r.meta.type || 'PAS', year:r.meta.year || '', school:r.meta.school || '', className:r.meta.name || '', rows:r.rows, abs:r.abs, photoData:small, scanned:true});
+      toast('✨ ' + r.rows.length + L(' nilai terbaca — cek lagi ya!', ' scores read — please double-check!'));
+    } catch (e) { if ($('ocrS')) { $('ocrS').textContent = L('Gagal membaca (cek internet). Isi manual saja ya.', 'Reading failed (check internet). Please enter manually.'); } }
+  },
+  reportForm(id, pre) {
+    const k = kid(); const c = currentClass(k) || {};
+    const r = id ? JSON.parse(JSON.stringify(k.reports.find(x => x.id === id))) : Object.assign({level:c.level || 'SD', grade:c.grade || '', sem:'1', type:'PAS', year:c.year || schoolYear(), school:c.school || '', className:c.name || '', rows:[], special:[], abs:{}, note:''}, pre || {});
+    U.repPhoto = pre && pre.photoData ? pre.photoData : undefined;
+    openSheet(`${r.scanned ? `<div class="banner bg-mint" style="margin:0 0 8px">✨ <span class="small">${L('Hasil scan — periksa nama mapel & angka sebelum simpan.', 'Scan result — check subjects & numbers before saving.')}</span></div>` : ''}
+    <div class="grid2"><div><label class="lb">${L('Jenjang', 'Level')}</label><select id="rLv" onchange="A.lvChange(this.value,'rGr')">${Object.keys(GRADES).map(x => `<option ${x === r.level ? 'selected' : ''}>${x}</option>`).join('')}</select></div><div><label class="lb">${L('Kelas', 'Grade')}</label><select id="rGr">${GRADES[r.level || 'SD'].map(g => `<option ${g == r.grade ? 'selected' : ''}>${g}</option>`).join('')}</select></div>
+    <div><label class="lb">Semester</label><select id="rSem"><option value="1" ${r.sem == 1 ? 'selected' : ''}>1 (${L('Ganjil', 'Odd')})</option><option value="2" ${r.sem == 2 ? 'selected' : ''}>2 (${L('Genap', 'Even')})</option></select></div><div><label class="lb">${L('Jenis', 'Type')}</label><select id="rType">${REPORT_TYPES.map(t => `<option value="${t[0]}" ${t[0] === r.type ? 'selected' : ''}>${L(t[1], t[2])}</option>`).join('')}</select></div>
+    <div><label class="lb">${L('Tahun ajaran', 'School year')}</label><input id="rYear" value="${esc(r.year)}"></div><div><label class="lb">${L('Nama kelas', 'Class name')}</label><input id="rCls" value="${esc(r.className || '')}"></div></div>
+    <label class="lb">${L('Sekolah', 'School')}</label><input id="rSch" value="${esc(r.school || '')}">
+    <div class="hd mt2"><h3 style="font-size:17px">📚 ${L('Nilai mata pelajaran', 'Subject scores')}</h3></div><datalist id="dlS">${allSubjects(k).map(s => `<option value="${esc(s)}">`).join('')}</datalist><div id="rr">${(r.rows || []).map(repRow).join('')}</div>
+    <div class="btns"><button class="btn ghost sm" onclick="A.repAdd()">＋ ${L('Mapel', 'Subject')}</button><button class="btn soft sm" onclick="A.repFill()">⚡ ${L('Isi daftar mapel standar', 'Fill standard subjects')}</button></div>
+    <div class="hd mt2"><h3 style="font-size:17px">📗 ${L('Kurikulum khusus (Tahsin, Tahfidz, dll.)', 'Special curriculum (Tahsin, Tahfidz…)')}</h3></div><div id="rk">${(r.special || []).map(specRow).join('')}</div><button class="btn ghost sm" onclick="A.specAdd()">＋ ${L('Tambah', 'Add')}</button>
+    <div class="hd mt2"><h3 style="font-size:17px">🏥 ${L('Ketidakhadiran (hari)', 'Absences (days)')}</h3></div><div class="grid3"><div><label class="lb">${L('Sakit', 'Sick')}</label><input id="aS" inputmode="numeric" value="${r.abs.sakit ?? ''}"></div><div><label class="lb">${L('Izin', 'Permit')}</label><input id="aI" inputmode="numeric" value="${r.abs.izin ?? ''}"></div><div><label class="lb">${L('Alpa', 'Absent')}</label><input id="aA" inputmode="numeric" value="${r.abs.alpa ?? ''}"></div></div>
+    <label class="lb">📝 ${L('Catatan wali kelas', "Teacher's note")}</label><textarea id="rNote">${esc(r.note || '')}</textarea>
+    <div class="row mt"><button class="btn ghost sm" onclick="A.repPhoto()">📷 ${(U.repPhoto || r.photo) ? L('Ganti foto rapor', 'Replace photo') : L('Lampirkan foto rapor', 'Attach report photo')}</button><span id="rpOk" class="small b8 muted">${(U.repPhoto || r.photo) ? '✓ ' + L('ada foto', 'photo attached') : ''}</span></div>
+    <button class="btn block mt2" onclick="A.reportSave(${id ? `'${id}'` : 'null'})">💾 ${L('Simpan rapor', 'Save report')}</button>`, (id ? '✏️ ' : '📒 ') + L('Rapor', 'Report card'));
+    if (!(r.rows || []).length) A.repFill();
+  },
+  repAdd() { $('rr').insertAdjacentHTML('beforeend', repRow({})); },
+  repFill() { const lv = $('rLv').value; const have = [...document.querySelectorAll('#rr .rs')].map(i => i.value.trim()); SUBJECTS[lv].filter(s => !have.includes(s)).forEach(s => $('rr').insertAdjacentHTML('beforeend', repRow({subject:s}))); },
+  specAdd() { $('rk').insertAdjacentHTML('beforeend', specRow({})); },
+  async repPhoto() { const f = await pickFile(); if (!f) return; U.repPhoto = await compressImage(f, 1400, .78); $('rpOk').textContent = '✓ ' + L('ada foto', 'photo attached'); },
+  async reportSave(id) {
+    const k = kid();
+    const rows = [...document.querySelectorAll('#rr .rrow')].map(x => ({subject:x.querySelector('.rs').value.trim(), score:num(x.querySelector('.s').value)})).filter(x => x.subject && x.score !== null);
+    const special = [...document.querySelectorAll('#rk .card')].map(x => ({name:x.querySelector('.kn').value.trim(), detail:x.querySelector('.kd').value.trim(), desc:x.querySelector('.kx').value.trim()})).filter(x => x.name);
+    if (!rows.length) return toast(L('Isi minimal satu nilai', 'Enter at least one score'));
+    const o = {level:$('rLv').value, grade:$('rGr').value, sem:$('rSem').value, type:$('rType').value, year:$('rYear').value.trim(), className:$('rCls').value.trim(), school:$('rSch').value.trim(), rows, special, abs:{sakit:num($('aS').value), izin:num($('aI').value), alpa:num($('aA').value)}, note:$('rNote').value};
+    let rep = id ? k.reports.find(x => x.id === id) : null;
+    if (rep) Object.assign(rep, o); else { rep = {id:uid(), ...o}; k.reports.push(rep); }
+    if (U.repPhoto) { const pid = 'rep_' + rep.id; await PDB.put(pid, U.repPhoto); rep.photo = pid; U.repPhoto = undefined; }
+    // otomatis tambahkan riwayat kelas jika belum ada
+    if (o.year && !k.classes.some(c => c.year === o.year && String(c.grade) === String(o.grade))) k.classes.push({id:uid(), level:o.level, grade:o.grade, name:o.className, year:o.year, school:o.school, teacher:'', phone:''});
+    save(); closeSheet(); U.tab = 'school'; U.school = 'grades'; render(); toast('📒 ' + L('Rapor tersimpan!', 'Report saved!'));
+  },
+  async reportView(id) {
+    const r = kid().reports.find(x => x.id === id); const av = repAvg(r);
+    const photo = r.photo ? await PDB.get(r.photo).catch(() => null) : null;
+    const rows = [...r.rows];
+    openSheet(`<div class="grid2"><div class="stat bg-lav"><div class="v">${av}</div><div class="l">${L('Rata-rata', 'Average')}</div></div><div class="stat bg-mint"><div class="v">${Math.max(...rows.map(x => x.score))}</div><div class="l">${L('Tertinggi', 'Highest')}</div></div></div>
+    <div class="meta mt">${esc([r.className, r.school, r.year].filter(Boolean).join(' · '))}</div>
+    <div class="mt">${rows.map(x => `<div class="item"><div class="emo" style="width:38px;height:38px;font-size:20px;background:${scoreColor(x.score)}33">${subjEmoji(x.subject)}</div><div class="grow"><div class="ttl" style="font-size:14px">${esc(x.subject)}</div><div class="bar mt"><i style="width:${x.score}%;background:${scoreColor(x.score)}"></i></div></div><div class="sc">${x.score}</div></div>`).join('')}</div>
+    ${(r.special || []).length ? `<div class="hd mt2"><h3 style="font-size:16px">📗 ${L('Kurikulum khusus', 'Special curriculum')}</h3></div>${r.special.map(s => `<div class="card" style="margin:8px 0"><div class="ttl">${esc(s.name)} ${s.detail ? `<span class="chip mint">${esc(s.detail)}</span>` : ''}</div>${s.desc ? `<div class="hint">${esc(s.desc)}</div>` : ''}</div>`).join('')}` : ''}
+    ${r.abs && (r.abs.sakit != null || r.abs.izin != null || r.abs.alpa != null) ? `<div class="info mt"><div><small>🤒 ${L('Sakit', 'Sick')}</small><b>${r.abs.sakit ?? 0}</b></div><div><small>📄 ${L('Izin', 'Permit')}</small><b>${r.abs.izin ?? 0}</b></div></div>` : ''}
+    ${r.note ? `<div class="hint">📝 ${esc(r.note)}</div>` : ''}${photo ? `<img src="${photo}" class="photo">` : ''}
+    <div class="grid2 mt2"><button class="btn soft" onclick="A.reportForm('${r.id}')">✏️ ${L('Ubah', 'Edit')}</button><button class="btn danger" onclick="A.reportDel('${r.id}')">🗑️ ${L('Hapus', 'Delete')}</button></div>`, '📒 ' + repLabel(r));
+  },
+  async reportDel(id) { if (!confirm(L('Hapus rapor ini?', 'Delete this report?'))) return; const k = kid(); const r = k.reports.find(x => x.id === id); if (r.photo) await PDB.del(r.photo).catch(() => {}); k.reports = k.reports.filter(x => x.id !== id); save(); closeSheet(); render(); },
+  /* classes */
+  classForm(id) {
+    const k = kid(); const c = id ? k.classes.find(x => x.id === id) : {level:'SD', grade:'1', year:schoolYear()};
+    openSheet(`<div class="grid2"><div><label class="lb">${L('Jenjang', 'Level')}</label><select id="cLv" onchange="A.lvChange(this.value,'cGr')">${Object.keys(GRADES).map(x => `<option ${x === c.level ? 'selected' : ''}>${x}</option>`).join('')}</select></div><div><label class="lb">${L('Kelas', 'Grade')}</label><select id="cGr">${GRADES[c.level].map(g => `<option ${g == c.grade ? 'selected' : ''}>${g}</option>`).join('')}</select></div></div>
+    <div class="grid2"><div><label class="lb">${L('Nama kelas', 'Class name')}</label><input id="cName" value="${esc(c.name || '')}" placeholder="5 Jabal Rahmah"></div><div><label class="lb">${L('Tahun ajaran', 'School year')}</label><input id="cYear" value="${esc(c.year || '')}"></div></div>
+    <label class="lb">${L('Sekolah', 'School')}</label><input id="cSchool" value="${esc(c.school || '')}"><label class="lb">${L('Alamat sekolah', 'School address')}</label><input id="cAddr" value="${esc(c.addr || '')}">
+    <div class="grid2"><div><label class="lb">👩‍🏫 ${L('Wali kelas', 'Homeroom teacher')}</label><input id="cT" value="${esc(c.teacher || '')}"></div><div><label class="lb">📞 ${L('Kontak', 'Contact')}</label><input id="cP" value="${esc(c.phone || '')}" inputmode="tel"></div></div>
+    <button class="btn block mt2" onclick="A.classSave(${id ? `'${id}'` : 'null'})">💾 ${L('Simpan', 'Save')}</button>${id ? `<button class="btn danger block mt" onclick="A.classDel('${id}')">🗑️ ${L('Hapus', 'Delete')}</button>` : ''}`, '🏫 ' + L('Kelas', 'Class'));
+  },
+  classSave(id) { const k = kid(); const o = {level:$('cLv').value, grade:$('cGr').value, name:$('cName').value.trim(), year:$('cYear').value.trim(), school:$('cSchool').value.trim(), addr:$('cAddr').value.trim(), teacher:$('cT').value.trim(), phone:$('cP').value.trim()}; if (id) Object.assign(k.classes.find(x => x.id === id), o); else k.classes.push({id:uid(), ...o}); save(); closeSheet(); render(); },
+  classDel(id) { const k = kid(); k.classes = k.classes.filter(x => x.id !== id); save(); closeSheet(); render(); },
+  addCustom() { const v = $('cs').value.trim(); if (!v) return; const k = kid(); if (!k.customSubjects.includes(v)) k.customSubjects.push(v); save(); render(); },
+  delCustom(i) { kid().customSubjects.splice(i, 1); save(); render(); },
+  /* snacks */
+  snackForm(id) {
+    const k = kid(); const s = id ? k.snacks.find(x => x.id === id) : {cat:'snack', date:U.sday || ds(), time:pad2(new Date().getHours()) + ':' + pad2(new Date().getMinutes()), place:''};
+    const recent = [...new Map(k.snacks.slice(-40).reverse().map(x => [x.name.toLowerCase(), x])).values()].slice(0, 8);
+    openSheet(`<label class="lb">${L('Cepat pilih', 'Quick pick')}</label><div class="chips">${[...recent.map(x => [x.name, x.cat, x.price]), ...SNACK_PRESETS.filter(p => !recent.some(r => r.name.toLowerCase() === p[0].toLowerCase()))].slice(0, 18).map(p => `<button onclick="A.snackPick(${esc(JSON.stringify(p[0]))},'${p[1]}',${+p[2] || 0})">${(SNACK_CATS.find(c => c[0] === p[1]) || SNACK_CATS[6])[1]} ${esc(p[0])}</button>`).join('')}</div>
+    <label class="lb">${L('Nama jajanan', 'Snack name')}</label><input id="sN" value="${esc(s.name || '')}">
+    <label class="lb">${L('Kategori', 'Category')}</label><div class="chips" id="sc">${SNACK_CATS.map(c => `<button class="${s.cat === c[0] ? 'on' : ''}" data-c="${c[0]}" onclick="A.snackCat('${c[0]}')">${c[1]} ${L(c[2], c[3])}</button>`).join('')}</div><input type="hidden" id="sC" value="${s.cat}">
+    <div class="grid2"><div><label class="lb">💵 ${L('Harga (Rp)', 'Price (Rp)')}</label><input id="sP" inputmode="numeric" value="${s.price || ''}"></div><div><label class="lb">🕒 ${L('Jam', 'Time')}</label><input id="sT" type="time" value="${s.time || ''}"></div></div>
+    <div class="grid2"><div><label class="lb">📅 ${L('Tanggal', 'Date')}</label><input id="sD" type="date" value="${s.date}"></div><div><label class="lb">📍 ${L('Beli di', 'Bought at')}</label><input id="sPl" list="dlPl" value="${esc(s.place || '')}"><datalist id="dlPl"><option value="Kantin sekolah"><option value="Warung"><option value="Depan sekolah"><option value="Minimarket"><option value="Rumah"></datalist></div></div>
+    <button class="btn block mt2" onclick="A.snackSave(${id ? `'${id}'` : 'null'})">💾 ${L('Simpan', 'Save')}</button>${id ? `<button class="btn danger block mt" onclick="A.snackDel('${id}')">🗑️ ${L('Hapus', 'Delete')}</button>` : ''}`, '🍡 ' + L('Jajan', 'Snack'));
+  },
+  snackPick(n, c, p) { $('sN').value = n; A.snackCat(c); if (p) $('sP').value = p; $('sP').focus(); },
+  snackCat(c) { $('sC').value = c; document.querySelectorAll('#sc button').forEach(b => b.classList.toggle('on', b.dataset.c === c)); },
+  snackSave(id) { const k = kid(); const o = {name:$('sN').value.trim(), cat:$('sC').value, price:num($('sP').value.replace(/\./g, '')) || 0, time:$('sT').value, date:$('sD').value || ds(), place:$('sPl').value.trim()}; if (!o.name) return toast(L('Nama jajan diisi dulu', 'Enter a snack name')); if (id) Object.assign(k.snacks.find(x => x.id === id), o); else k.snacks.push({id:uid(), ...o}); save(); closeSheet(); U.tab = 'snack'; U.sday = o.date; render(); toast('😋 ' + L('Tercatat!', 'Logged!')); },
+  snackDel(id) { const k = kid(); k.snacks = k.snacks.filter(x => x.id !== id); save(); closeSheet(); render(); },
+  pocketForm() { openSheet(`<label class="lb">${L('Uang saku per hari (Rp)', 'Daily pocket money (Rp)')}</label><input id="pk" inputmode="numeric" value="${kid().pocket.daily || ''}"><button class="btn block mt2" onclick="A.pocketSave()">💾 ${L('Simpan', 'Save')}</button>`, '💵 ' + L('Uang saku', 'Pocket money')); },
+  pocketSave() { kid().pocket.daily = num($('pk').value.replace(/\./g, '')) || 0; save(); closeSheet(); render(); },
+  goalForm(id) {
+    const g = id ? kid().pocket.goals.find(x => x.id === id) : {emoji:'🎁'};
+    const em = ['🎁','🚲','🎮','📚','🧸','⚽','🎨','🎧','👟','✈️','🐱','💻'];
+    openSheet(`<label class="lb">${L('Pilih ikon', 'Pick an icon')}</label><div class="emopick" id="gp">${em.map(e => `<button class="${g.emoji === e ? 'on' : ''}" onclick="document.querySelectorAll('#gp button').forEach(b=>b.classList.remove('on'));this.classList.add('on');$('gE').value='${e}'">${e}</button>`).join('')}</div><input type="hidden" id="gE" value="${g.emoji}">
+    <label class="lb">${L('Mau beli apa?', 'Saving for?')}</label><input id="gN" value="${esc(g.name || '')}"><label class="lb">${L('Target (Rp)', 'Target (Rp)')}</label><input id="gT" inputmode="numeric" value="${g.target || ''}">
+    <button class="btn block mt2" onclick="A.goalSave(${id ? `'${id}'` : 'null'})">💾 ${L('Simpan', 'Save')}</button>${id ? `<button class="btn danger block mt" onclick="A.goalDel('${id}')">🗑️ ${L('Hapus', 'Delete')}</button>` : ''}`, '🐷 ' + L('Target tabungan', 'Savings goal'));
+  },
+  goalSave(id) { const k = kid(); const o = {emoji:$('gE').value, name:$('gN').value.trim(), target:num($('gT').value.replace(/\./g, '')) || 0}; if (!o.name) return toast(L('Isi nama target', 'Enter a goal name')); if (id) Object.assign(k.pocket.goals.find(x => x.id === id), o); else k.pocket.goals.push({id:uid(), deposits:[], ...o}); save(); closeSheet(); render(); },
+  goalDel(id) { const k = kid(); k.pocket.goals = k.pocket.goals.filter(x => x.id !== id); save(); closeSheet(); render(); },
+  goalView(id) {
+    const g = kid().pocket.goals.find(x => x.id === id); const sv = goalSaved(g); const pc = g.target ? Math.min(100, Math.round(sv / g.target * 100)) : 0;
+    openSheet(`<div class="hero" style="text-align:center;margin:0"><div style="font-size:54px">${esc(g.emoji)}</div><h1 style="font-size:28px">${rp(sv)}</h1><p>${L('dari', 'of')} ${rp(g.target)} · ${pc}% ${pc >= 100 ? '🎉' : ''}</p><div class="prog" style="background:#fff"><i style="width:${pc}%"></i></div></div>
+    <div class="row mt2"><input id="dp" inputmode="numeric" placeholder="${L('Nominal', 'Amount')}"><button class="btn mint" onclick="A.deposit('${id}',1)">＋</button><button class="btn ghost" onclick="A.deposit('${id}',-1)">－</button></div>
+    <div class="mt">${[...(g.deposits || [])].reverse().slice(0, 15).map(d => `<div class="item"><span>${d.amt > 0 ? '🪙' : '💸'}</span><div class="grow meta" style="margin:0">${fmtDate(d.date)}</div><b style="color:${d.amt > 0 ? '#2F8A63' : '#B65454'}">${d.amt > 0 ? '+' : ''}${rp(d.amt)}</b></div>`).join('')}</div>
+    <button class="btn soft block mt2" onclick="A.goalForm('${id}')">✏️ ${L('Ubah target', 'Edit goal')}</button>`, '🐷 ' + esc(g.name));
+  },
+  deposit(id, sign) { const v = num(($('dp').value || '').replace(/\./g, '')); if (!v) return; const g = kid().pocket.goals.find(x => x.id === id); g.deposits.push({date:ds(), amt:v * sign}); save(); A.goalView(id); render(); if (sign > 0) toast('🪙 ' + L('Ditabung!', 'Saved!')); },
+  saveRest(d, amt) {
+    const goals = kid().pocket.goals; if (goals.length === 1) { goals[0].deposits.push({date:d, amt}); save(); render(); return toast('🐷 ' + L('Sisa uang saku ditabung!', 'Leftover saved!')); }
+    openSheet(goals.map(g => `<div class="item" onclick="A.saveRestTo('${g.id}','${d}',${amt})"><div class="emo bg-mint">${esc(g.emoji)}</div><div class="grow ttl">${esc(g.name)}</div><span>›</span></div>`).join(''), '🐷 ' + L('Tabung ke…', 'Save to…'));
+  },
+  saveRestTo(id, d, amt) { kid().pocket.goals.find(x => x.id === id).deposits.push({date:d, amt}); save(); closeSheet(); render(); toast('🐷 ' + L('Ditabung!', 'Saved!')); },
+  /* growth */
+  growForm(id) {
+    const g = id ? kid().growth.find(x => x.id === id) : {date:ds()};
+    openSheet(`<label class="lb">📅 ${L('Tanggal ukur', 'Date')}</label><input id="gD" type="date" value="${g.date}"><div class="grid2"><div><label class="lb">📏 ${L('Tinggi (cm)', 'Height (cm)')}</label><input id="gH" inputmode="decimal" value="${g.h || ''}"></div><div><label class="lb">⚖️ ${L('Berat (kg)', 'Weight (kg)')}</label><input id="gW" inputmode="decimal" value="${g.w || ''}"></div></div>
+    <label class="lb">📝 ${L('Catatan', 'Note')}</label><input id="gNo" value="${esc(g.note || '')}" placeholder="${L('mis. ukur di posyandu', 'e.g. measured at clinic')}"><button class="btn block mt2" onclick="A.growSave(${id ? `'${id}'` : 'null'})">💾 ${L('Simpan', 'Save')}</button>${id ? `<button class="btn danger block mt" onclick="A.growDel('${id}')">🗑️ ${L('Hapus', 'Delete')}</button>` : ''}`, '📏 ' + L('Pengukuran', 'Measurement'));
+  },
+  growSave(id) { const k = kid(); const o = {date:$('gD').value || ds(), h:num($('gH').value), w:num($('gW').value), note:$('gNo').value.trim()}; if (!o.h && !o.w) return toast(L('Isi tinggi atau berat', 'Enter height or weight')); if (id) Object.assign(k.growth.find(x => x.id === id), o); else k.growth.push({id:uid(), ...o}); save(); closeSheet(); U.tab = 'grow'; render(); toast('🌱 ' + L('Tercatat!', 'Logged!')); },
+  growDel(id) { const k = kid(); k.growth = k.growth.filter(x => x.id !== id); save(); closeSheet(); render(); },
+  achForm(id) {
+    const a = id ? kid().achievements.find(x => x.id === id) : {kind:'lomba', date:ds()};
+    openSheet(`<label class="lb">${L('Jenis', 'Type')}</label><div class="chips" id="ak">${ACH_KINDS.map(x => `<button class="${a.kind === x[0] ? 'on' : ''}" data-c="${x[0]}" onclick="$('akV').value='${x[0]}';document.querySelectorAll('#ak button').forEach(b=>b.classList.toggle('on',b.dataset.c==='${x[0]}'))">${x[1]} ${L(x[2], x[3])}</button>`).join('')}</div><input type="hidden" id="akV" value="${a.kind}">
+    <label class="lb">${L('Judul', 'Title')}</label><input id="akT" value="${esc(a.title || '')}" placeholder="${L('mis. Juara 2 Lomba Pidato / Hafal Surat Al-Mulk', 'e.g. 2nd place speech contest')}">
+    <div class="grid2"><div><label class="lb">📅 ${L('Tanggal', 'Date')}</label><input id="akD" type="date" value="${a.date || ''}"></div><div><label class="lb">🏅 ${L('Tingkat', 'Level')}</label><select id="akL"><option value="">-</option>${LEVELS.map(l => `<option ${a.level === l ? 'selected' : ''}>${l}</option>`).join('')}</select></div></div>
+    <label class="lb">📝 ${L('Catatan', 'Notes')}</label><textarea id="akN">${esc(a.note || '')}</textarea>
+    <div class="row mt"><button class="btn ghost sm" onclick="A.achPhoto()">📷 ${L('Foto sertifikat / karya', 'Certificate / artwork photo')}</button><span id="akOk" class="small b8 muted">${a.photo ? '✓' : ''}</span></div>
+    <div id="akImg"></div>
+    <button class="btn block mt2" onclick="A.achSave(${id ? `'${id}'` : 'null'})">💾 ${L('Simpan', 'Save')}</button>${id ? `<button class="btn danger block mt" onclick="A.achDel('${id}')">🗑️ ${L('Hapus', 'Delete')}</button>` : ''}`, '🏆 ' + L('Prestasi', 'Achievement'));
+    U.achPhoto = undefined;
+    if (a.photo) PDB.get(a.photo).then(p => { if (p && $('akImg')) $('akImg').innerHTML = `<img src="${p}" class="photo">`; });
+  },
+  async achPhoto() { const f = await pickFile(); if (!f) return; U.achPhoto = await compressImage(f, 1200, .78); $('akOk').textContent = '✓'; $('akImg').innerHTML = `<img src="${U.achPhoto}" class="photo">`; },
+  async achSave(id) {
+    const k = kid(); const o = {kind:$('akV').value, title:$('akT').value.trim(), date:$('akD').value, level:$('akL').value, note:$('akN').value};
+    if (!o.title) return toast(L('Isi judul dulu', 'Enter a title'));
+    let a = id ? k.achievements.find(x => x.id === id) : null; if (a) Object.assign(a, o); else { a = {id:uid(), ...o}; k.achievements.push(a); }
+    if (U.achPhoto) { a.photo = 'ach_' + a.id; await PDB.put(a.photo, U.achPhoto); U.achPhoto = undefined; }
+    save(); closeSheet(); U.tab = 'grow'; render(); toast('🏆 ' + L('Keren! Tersimpan', 'Awesome! Saved'));
+  },
+  async achDel(id) { const k = kid(); const a = k.achievements.find(x => x.id === id); if (a.photo) await PDB.del(a.photo).catch(() => {}); k.achievements = k.achievements.filter(x => x.id !== id); save(); closeSheet(); render(); },
+  /* backup & share */
+  async backup() {
+    openSheet(`<p class="b8 muted" style="margin-top:0">${L('File backup berisi semua catatan + foto. Simpan di Google Drive / iCloud / WhatsApp ke diri sendiri. File yang sama bisa dibuka di HP lain lewat “Pulihkan / gabung”.', 'The backup file holds all records + photos. Save it to Google Drive / iCloud. The same file can be opened on another phone via “Restore / merge”.')}</p>
+    <button class="btn block" onclick="A.doBackup(false)">💾 ${L('Backup ' + kid().profile.name + ' saja', 'Back up ' + kid().profile.name + ' only')}</button>${S.kids.length > 1 ? `<button class="btn soft block mt" onclick="A.doBackup(true)">👨‍👩‍👧 ${L('Backup semua anak', 'Back up all children')}</button>` : ''}`, '💾 Backup');
+  },
+  async doBackup(all) {
+    const kids = all ? S.kids : [kid()]; const photos = await PDB.all().catch(() => ({}));
+    const ids = new Set(); kids.forEach(k => { k.reports.forEach(r => r.photo && ids.add(r.photo)); k.achievements.forEach(a => a.photo && ids.add(a.photo)); });
+    const data = {app:'BrightKids', v:1, exported:new Date().toISOString(), kids, photos:Object.fromEntries([...ids].filter(i => photos[i]).map(i => [i, photos[i]]))};
+    const name = 'BrightKids-' + (all ? 'semua' : kids[0].profile.name.split(' ')[0]) + '-' + ds() + '.json';
+    S.lastBackup = ds(); save();
+    const blob = new Blob([JSON.stringify(data)], {type:'application/json'});
+    try { const file = new File([blob], name, {type:'application/json'}); if (navigator.canShare && navigator.canShare({files:[file]})) { await navigator.share({files:[file], title:name}); closeSheet(); render(); return; } } catch (e) { if (e.name === 'AbortError') return; }
+    downloadFile(blob, name); closeSheet(); render();
+  },
+  async restore() {
+    const f = await pickFile('.json,application/json'); if (!f) return;
+    try {
+      const d = JSON.parse(await f.text()); if (d.app !== 'BrightKids' || !Array.isArray(d.kids)) throw 0;
+      for (const [k, v] of Object.entries(d.photos || {})) await PDB.put(k, v);
+      let added = 0, upd = 0; d.kids.forEach(nk => { const i = S.kids.findIndex(x => x.id === nk.id); if (i >= 0) { S.kids[i] = nk; upd++; } else { S.kids.push(nk); added++; } });
+      if (!S.activeKid) S.activeKid = S.kids[0].id; save(); render(); toast('📥 ' + L(added + ' ditambah, ' + upd + ' diperbarui', added + ' added, ' + upd + ' updated'));
+    } catch (e) { toast(L('File backup tidak valid', 'Invalid backup file')); }
+  },
+  csv() {
+    const k = kid(); const q = v => '"' + String(v ?? '').replace(/"/g, '""') + '"';
+    let out = 'RAPOR\nJenjang,Kelas,Semester,Jenis,Tahun Ajaran,Sekolah,Mata Pelajaran,Nilai\n';
+    sortedReports(k).forEach(r => r.rows.forEach(x => out += [r.level, r.grade, r.sem, r.type, r.year, r.school, x.subject, x.score].map(q).join(',') + '\n'));
+    out += '\nTUGAS & UJIAN\nTanggal,Jenis,Mapel,Judul,Selesai,Nilai,Maks\n'; k.agenda.forEach(a => out += [a.date, a.type, a.subject, a.title, a.done ? 'ya' : 'belum', a.score, a.max].map(q).join(',') + '\n');
+    out += '\nJAJAN\nTanggal,Jam,Nama,Kategori,Harga,Tempat,Mood hari itu\n'; [...k.snacks].sort((a, b) => a.date.localeCompare(b.date)).forEach(s => out += [s.date, s.time, s.name, s.cat, s.price, s.place, (k.moods[s.date] || {}).m].map(q).join(',') + '\n');
+    out += '\nTUMBUH KEMBANG\nTanggal,Tinggi (cm),Berat (kg),Catatan\n'; k.growth.forEach(g => out += [g.date, g.h, g.w, g.note].map(q).join(',') + '\n');
+    downloadFile('﻿' + out, 'BrightKids-' + k.profile.name.split(' ')[0] + '-' + ds() + '.csv', 'text/csv');
+  },
+  async shareApp() {
+    const url = location.href.split('#')[0].split('?')[0]; const text = L(`Yuk pasang BrightKids 🌟 — catatan sekolah, rapor, tumbuh kembang & jajan anak.\n${url}\nKode undangan: ${INVITE_CODES[0]}`, `Install BrightKids 🌟 — school, report cards, growth & snack tracker for kids.\n${url}\nInvitation code: ${INVITE_CODES[0]}`);
+    try { if (navigator.share) return await navigator.share({title:'BrightKids', text}); } catch (e) { if (e.name === 'AbortError') return; }
+    try { await navigator.clipboard.writeText(text); toast('📋 ' + L('Link & kode disalin!', 'Link & code copied!')); } catch (e) { openSheet(`<textarea>${esc(text)}</textarea>`, '📲 Share'); }
+  },
+  installGuide() {
+    openSheet(`<div class="card" style="margin:6px 0"><h3>🍎 iPhone / iPad</h3><ol class="small b8" style="line-height:1.8;padding-left:18px"><li>${L('Buka link aplikasi di <b>Safari</b>', 'Open the app link in <b>Safari</b>')}</li><li>${L('Ketuk tombol Bagikan', 'Tap the Share button')} <b>⬆️</b></li><li>${L('Pilih <b>Tambah ke Layar Utama</b>', 'Choose <b>Add to Home Screen</b>')}</li><li>${L('Ketuk <b>Tambah</b> — ikon BrightKids muncul ✨', 'Tap <b>Add</b> — the BrightKids icon appears ✨')}</li></ol></div>
+    <div class="card" style="margin:10px 0"><h3>🤖 Android</h3><ol class="small b8" style="line-height:1.8;padding-left:18px"><li>${L('Buka link di <b>Chrome</b>', 'Open the link in <b>Chrome</b>')}</li><li>${L('Ketuk menu <b>⋮</b>', 'Tap the <b>⋮</b> menu')}</li><li>${L('Pilih <b>Instal aplikasi</b> / <b>Tambahkan ke layar utama</b>', 'Choose <b>Install app</b> / <b>Add to Home screen</b>')}</li></ol></div>
+    <div class="hint">💡 ${L('Data tersimpan di HP masing-masing. Rutin backup (menu Aku → Backup), terutama sebelum ganti HP.', "Data stays on each phone. Back up regularly (Me → Backup), especially before changing phones.")}</div>`, '📖 ' + L('Cara pasang', 'How to install'));
+  }
+};
+function schedRow(r) { return `<div class="card" style="margin:0 0 8px;padding:12px"><div class="rrow"><input class="ss" list="dlS" value="${esc(r.subject || '')}" placeholder="${L('Mapel', 'Subject')}"><button class="x" onclick="this.closest('.card').remove()">✕</button></div><div class="grid2"><input class="st" value="${esc(r.time || '')}" placeholder="🕒 07.30–09.00"><input class="sb" value="${esc(r.bring || '')}" placeholder="🎒 ${L('bawa…', 'bring…')}"></div></div>`; }
+function repRow(x) { return `<div class="rrow"><input class="rs" list="dlS" value="${esc(x.subject || '')}" placeholder="${L('Mapel', 'Subject')}"><input class="s" inputmode="decimal" value="${x.score ?? ''}" placeholder="0–100"><button class="x" onclick="this.parentNode.remove()">✕</button></div>`; }
+function specRow(s) { return `<div class="card" style="margin:0 0 8px;padding:12px"><div class="rrow"><input class="kn" value="${esc(s.name || '')}" placeholder="Tahsin / Tahfidz"><input class="kd" value="${esc(s.detail || '')}" placeholder="${L('Jilid / Surat', 'Level / Surah')}" style="width:42%"><button class="x" onclick="this.closest('.card').remove()">✕</button></div><textarea class="kx" style="min-height:60px" placeholder="${L('Deskripsi dari guru', "Teacher's description")}">${esc(s.desc || '')}</textarea></div>`; }
+function allSubjects(k) {
+  const set = new Set(); const lv = (currentClass(k) || {}).level || 'SD';
+  (SUBJECTS[lv] || []).forEach(s => set.add(s)); k.customSubjects.forEach(s => set.add(s));
+  Object.values(k.schedule).flat().forEach(r => r.subject && set.add(r.subject)); k.agenda.forEach(a => a.subject && set.add(a.subject));
+  [...SUBJECTS.SD, ...SUBJECTS.SMP, ...SUBJECTS.SMA, ...SUBJECTS.EXTRA].forEach(s => set.add(s));
+  return [...set];
+}
+function gcalUrl(a) {
+  const d = a.date.replace(/-/g, ''); let dates;
+  if (a.time) { const t = a.time.replace(':', '') + '00'; dates = d + 'T' + t + '/' + d + 'T' + pad2((+a.time.slice(0, 2) + 1) % 24) + a.time.slice(3) + '00'; } else dates = d + '/' + addDays(a.date, 1).replace(/-/g, '');
+  const T = TYPES[a.type] || TYPES.info;
+  return 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=' + encodeURIComponent(T.e + ' ' + (kid().profile.nick || kid().profile.name) + ': ' + a.title) + '&dates=' + dates + '&details=' + encodeURIComponent(((a.bring || []).length ? 'Bawa: ' + a.bring.join(', ') + '\n\n' : '') + (a.notes || ''));
+}
+function downloadFile(content, name, type) {
+  const blob = content instanceof Blob ? content : new Blob([content], {type});
+  const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 4000);
+}
+
+/* ---------- boot ---------- */
+load(); document.documentElement.lang = S.lang; render();
+if ('serviceWorker' in navigator && location.protocol === 'https:') navigator.serviceWorker.register('sw.js').catch(() => {});
+if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(() => {});
+let hiddenAt = 0;
+document.addEventListener('visibilitychange', () => { if (document.hidden) { hiddenAt = Date.now(); return; } if (S.pin && U.unlocked && Date.now() - hiddenAt > 120000) { U.unlocked = false; closeSheet(); render(); } });
+</script>
+</body>
+</html>
