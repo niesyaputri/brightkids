@@ -479,7 +479,7 @@ function nav() {
 /* ---------- invite / lock / welcome ---------- */
 function vInvite() {
   return `<div class="lock"><img src="icon-192.png" class="logo" alt="" onerror="this.style.display='none'"><h1 class="mt2" style="font-size:30px">BrightKids</h1><p class="b8 muted" style="margin:4px 0 18px">Learn · Grow · Shine ✨</p>
-  <div class="card" style="width:100%;max-width:360px;margin:0;text-align:left"><label class="lb">🔑 ${L('Kode undangan', 'Invitation code')}</label><input id="inv" placeholder="${L('Masukkan kode', 'Enter code')}" autocapitalize="characters" onkeydown="if(event.key==='Enter')A.invite()">
+  <div class="card" style="width:100%;max-width:360px;margin:0;text-align:left"><label class="lb">🔑 ${L('Kode undangan', 'Invitation code')}</label><input id="inv" placeholder="${L('Masukkan kode', 'Enter code')}" autocapitalize="characters" autocorrect="off" autocomplete="off" spellcheck="false" onkeydown="if(event.key==='Enter')A.invite()">
   <button class="btn block mt" onclick="A.invite()">${L('Masuk', 'Continue')} →</button><div class="hint">${L('Aplikasi ini khusus keluarga & teman. Minta kodenya ke yang membagikan aplikasi.', 'This app is for family & friends only. Ask the person who shared it for the code.')}</div></div>
   <button class="link mt2" onclick="A.toggleLang()">${S.lang === 'en' ? '🇮🇩 Bahasa Indonesia' : '🇬🇧 English'}</button>
   <div class="credit">Created by <b>CreanovativeCo</b></div></div>`;
@@ -683,7 +683,7 @@ const A = {
   gm(m) { U.gm = m; render(); },
   sday(n) { const d = addDays(U.sday || ds(), n); if (d > ds()) return; U.sday = d; render(); },
   toggleLang() { S.lang = S.lang === 'en' ? 'id' : 'en'; save(); render(); },
-  invite() { const v = ($('inv').value || '').trim().toUpperCase(); if (INVITE_CODES.includes(v)) { S.invited = true; save(); render(); } else toast(L('Kode tidak cocok 🙈', 'Code does not match 🙈')); },
+  invite() { const norm = x => String(x || '').toUpperCase().replace(/[^A-Z0-9]/g, ''); const v = norm($('inv').value); if (v && INVITE_CODES.map(norm).includes(v)) { S.invited = true; save(); render(); } else toast(L('Kode tidak cocok 🙈', 'Code does not match 🙈')); },
   async pinKey(d) {
     if (d === 'del') U.pinBuf = U.pinBuf.slice(0, -1); else if (U.pinBuf.length < 4) U.pinBuf += d;
     render();
