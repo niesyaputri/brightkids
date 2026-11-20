@@ -145,7 +145,7 @@ a{color:#6650C8;font-weight:800}
    Created by CreanovativeCo
    Data tersimpan di HP (localStorage + IndexedDB untuk foto)
    ========================================================= */
-const APP_VERSION = '1.0.0';
+const APP_VERSION = '1.1.0';
 const INVITE_CODES = ['BRIGHTKIDS']; // ganti/tambah kode undangan di sini
 const KEY = 'brightkids_v1';
 let S, U = {tab:'home', school:'agenda', filter:'up', sday:null, gm:'h', subj:null, unlocked:false, pinBuf:''};
@@ -200,10 +200,11 @@ function load() {
   try { S = JSON.parse(localStorage.getItem(KEY)); } catch (e) { S = null; }
   if (!S) S = {v:1, lang:'id', invited:false, pin:null, rec:null, activeKid:null, kids:[], lastBackup:null};
 }
-function save() {
+function persist() {
   try { localStorage.setItem(KEY, JSON.stringify(S)); }
   catch (e) { toast(L('Memori penuh — hapus beberapa foto atau backup dulu', 'Storage full — remove some photos or back up')); }
 }
+function save() { persist(); if (typeof queueSync === 'function') queueSync(); }
 const PDB = {
   db: null,
   open() { return new Promise((res, rej) => { if (this.db) return res(this.db); const r = indexedDB.open('brightkids_photos', 1); r.onupgradeneeded = () => r.result.createObjectStore('p'); r.onsuccess = () => { this.db = r.result; res(this.db); }; r.onerror = () => rej(r.error); }); },
@@ -230,7 +231,7 @@ function newKid(name) {
     classes:[], reports:[], agenda:[], schedule:{1:[],2:[],3:[],4:[],5:[],6:[]}, snacks:[], moods:{}, growth:[], achievements:[],
     pocket:{daily:0, goals:[]}, checks:{}, customSubjects:[]};
 }
-const kid = () => S.kids.find(k => k.id === S.activeKid) || S.kids[0];
+const kid = () => { const l = kidsList(); return l.find(k => k.id === S.activeKid) || l[0]; };
 function currentClass(k) {
   if (!k.classes.length) return null;
   return [...k.classes].sort((a, b) => (b.year || '').localeCompare(a.year || '') || (+b.grade || 0) - (+a.grade || 0))[0];
@@ -461,15 +462,15 @@ function render() {
   const app = $('app');
   if (!S.invited) return app.innerHTML = vInvite();
   if (S.pin && !U.unlocked) return app.innerHTML = vLock();
-  if (!S.kids.length) return app.innerHTML = vWelcome();
-  const k = kid(); if (!S.activeKid) S.activeKid = k.id;
-  const views = {home:vHome, school:vSchool, snack:vSnack, grow:vGrow, me:vMe};
+  if (!kidsList().length) return app.innerHTML = isParent() ? vParentEmpty() : vWelcome();
+  const k = kid(); if (!S.activeKid || !kidsList().some(x => x.id === S.activeKid)) S.activeKid = k.id;
+  const views = {home:isParent() ? vFamily : vHome, school:vSchool, snack:vSnack, grow:vGrow, me:vMe};
   app.innerHTML = header(k) + views[U.tab]() + `<div class="credit">BrightKids v${APP_VERSION} · Created by <b>CreanovativeCo</b> ✨</div>` + nav() + (['home','school','snack'].includes(U.tab) ? `<button class="fab" onclick="A.quick()" aria-label="add">+</button>` : '');
 }
 function header(k) {
   const p = k.profile, c = currentClass(k);
   return `<div class="top"><button class="kidbtn" onclick="A.kidSwitch()">${avatarHtml(p)}<div class="grow"><div class="nm">${esc(p.nick || p.name)} <span style="font-size:12px;color:#A9AAC2">▾</span></div><div class="sub">${c ? esc(classLabel(c)) : L('Atur kelas di Sekolahku', 'Set class in My School')}</div></div></button>
-  <div class="row"><button class="ib" onclick="A.toggleLang()" title="Language">${S.lang === 'en' ? '🇬🇧' : '🇮🇩'}</button></div></div>`;
+  <div class="row">${fam() ? `<button class="ib" onclick="${isParent() ? 'parentRefresh()' : 'A.family()'}" title="Sync">${syncIcon()}</button>` : ''}<button class="ib" onclick="A.toggleLang()" title="Language">${S.lang === 'en' ? '🇬🇧' : '🇮🇩'}</button></div></div>${isParent() ? `<div class="banner bg-sky" style="margin:4px 16px 0;padding:8px 12px;font-size:12.5px">👀 ${L('Mode Orang Tua — melihat catatan', 'Parent Mode — viewing')} ${esc(p.nick || p.name)} · ${L('bisa menambah tugas, pengingat, nilai & tinggi badan', 'can add tasks, reminders, grades & height')}</div>` : ''}`;
 }
 function nav() {
   const t = [['home','🏠',L('Beranda','Home')],['school','📚',L('Sekolah','School')],['snack','🍡',L('Jajan','Snacks')],['grow','🌱',L('Tumbuh','Growth')],['me','🧒',L('Aku','Me')]];
@@ -492,7 +493,8 @@ function vLock() {
 }
 function vWelcome() {
   return `<div class="hero" style="margin-top:24px"><span class="spark">🌟</span><h1>${L('Selamat datang!', 'Welcome!')}</h1><p>${L('Yuk buat profil anak pertama.', "Let's create the first child profile.")}</p></div>
-  <div class="card">${kidForm({}, true)}<button class="btn block mt2" onclick="A.saveKid(null,true)">✨ ${L('Mulai', 'Start')}</button></div>`;
+  <div class="card">${kidForm({}, true)}<button class="btn block mt2" onclick="A.saveKid(null,true)">✨ ${L('Mulai', 'Start')}</button></div>
+  <div class="card"><h3>👨‍👩‍👧 ${L('Orang tua?', 'Parent?')}</h3><div class="hint">${L('Ayah/Ibu tidak perlu membuat profil anak. Cukup gabung ke keluarga dengan kode keluarga untuk melihat catatan anak-anak.', 'Parents don’t need to create a child profile. Just join the family with the family code to see the children’s records.')}</div><button class="btn soft block mt" onclick="A.family()">🔗 ${L('Saya orang tua — gabung keluarga', 'I’m a parent — join family')}</button></div>`;
 }
 function kidForm(p, withClass) {
   const lv = 'SD';
@@ -552,7 +554,7 @@ function badges(k) {
 function agendaItem(a) {
   const T = TYPES[a.type] || TYPES.info; const [cc, ct] = a.date ? countdown(a.date) : ['chip gray', L('Tanpa tanggal', 'No date')];
   return `<div class="item ${a.done ? 'done' : ''}"><button class="check ${a.done ? 'on' : ''}" onclick="A.toggleDone('${a.id}')">${a.done ? '✓' : ''}</button><div class="emo bg-${T.c}" onclick="A.agendaView('${a.id}')">${a.subject ? subjEmoji(a.subject) : T.e}</div>
-  <div class="grow" onclick="A.agendaView('${a.id}')"><div class="ttl">${esc(a.title || L(T.id, T.en))}</div><div class="meta">${T.e} ${L(T.id, T.en)}${a.subject ? ' · ' + esc(shortSubj(a.subject)) : ''}${a.date ? ' · ' + fmtDate(a.date) : ''}${a.time ? ' ' + a.time : ''}${a.score != null && a.score !== '' ? ' · ⭐ ' + a.score : ''}</div>${(a.bring || []).length ? `<div class="meta">🎒 ${esc(a.bring.join(', '))}</div>` : ''}</div>${a.done ? '' : `<span class="${cc}">${ct}</span>`}</div>`;
+  <div class="grow" onclick="A.agendaView('${a.id}')"><div class="ttl">${esc(a.title || L(T.id, T.en))}</div><div class="meta">${T.e} ${L(T.id, T.en)}${a.subject ? ' · ' + esc(shortSubj(a.subject)) : ''}${a.date ? ' · ' + fmtDate(a.date) : ''}${a.time ? ' ' + a.time : ''}${a.score != null && a.score !== '' ? ' · ⭐ ' + a.score : ''}</div>${(a.bring || []).length ? `<div class="meta">🎒 ${esc(a.bring.join(', '))}</div>` : ''}${a.from ? `<div class="meta" style="color:#B84D7C">📨 ${L('dari', 'from')} ${esc(a.from)}${a._pending ? ' ⏳' : ''}</div>` : ''}</div>${a.done ? '' : `<span class="${cc}">${ct}</span>`}</div>`;
 }
 
 /* ---------- SCHOOL ---------- */
@@ -669,7 +671,7 @@ function vMe() {
   <div class="card"><div class="hd"><h3>🧒 ${L('Tentang aku', 'About me')}</h3></div><div class="info">${info.map(i => `<div><small>${i[0]} ${i[1]}</small><b>${esc(i[2] || '-')}</b></div>`).join('')}</div>${p.note ? `<div class="hint">📝 ${esc(p.note)}</div>` : ''}</div>
   ${bk === null || bk > 30 ? `<div class="banner bg-peach">💾 <span>${bk === null ? L('Belum pernah backup. Data ada di HP ini saja — yuk backup!', 'Never backed up. Data lives only on this phone — back it up!') : L('Backup terakhir ' + bk + ' hari lalu.', 'Last backup ' + bk + ' days ago.')}</span></div>` : ''}
   <div class="card"><div class="hd"><h3>⚙️ ${L('Pengaturan', 'Settings')}</h3></div>
-  ${[['👨‍👩‍👧',L('Profil anak lain / tambah anak', 'Other children / add child'),'A.kidSwitch()'],['🌐',L('Bahasa: Indonesia', 'Language: English'),'A.toggleLang()'],['🔒',S.pin ? L('Ubah / hapus PIN', 'Change / remove PIN') : L('Pasang PIN 4 digit', 'Set a 4-digit PIN'),'A.pinSetup()'],['💾',L('Backup data (simpan file)', 'Back up data (save file)'),'A.backup()'],['📥',L('Pulihkan / gabung dari backup', 'Restore / merge from backup'),'A.restore()'],['📊',L('Ekspor nilai & jajan (CSV/Excel)', 'Export grades & snacks (CSV/Excel)'),'A.csv()'],['📲',L('Bagikan aplikasi ke keluarga', 'Share app with family'),'A.shareApp()'],['📖',L('Cara pasang di HP', 'How to install'),'A.installGuide()'],['🗑️',L('Hapus profil anak ini', "Delete this child's profile"),'A.delKid()']].map(x => `<div class="item" onclick="${x[2]}"><div class="emo bg-lav" style="width:38px;height:38px;font-size:19px">${x[0]}</div><div class="grow ttl" style="font-size:14.5px">${x[1]}</div><span class="muted">›</span></div>`).join('')}</div>`;
+  ${[['🔗',L('Keluarga & sinkron', 'Family & sync') + (fam() ? ' ✅' : ''),'A.family()'],['👨‍👩‍👧',isParent() ? L('Pilih anak', 'Choose child') : L('Profil anak lain / tambah anak', 'Other children / add child'),'A.kidSwitch()'],['🌐',L('Bahasa: Indonesia', 'Language: English'),'A.toggleLang()'],['🔒',S.pin ? L('Ubah / hapus PIN', 'Change / remove PIN') : L('Pasang PIN 4 digit', 'Set a 4-digit PIN'),'A.pinSetup()'],['💾',L('Backup data (simpan file)', 'Back up data (save file)'),'A.backup()'],['📥',L('Pulihkan / gabung dari backup', 'Restore / merge from backup'),'A.restore()'],['📊',L('Ekspor nilai & jajan (CSV/Excel)', 'Export grades & snacks (CSV/Excel)'),'A.csv()'],['📲',L('Bagikan aplikasi ke keluarga', 'Share app with family'),'A.shareApp()'],['📖',L('Cara pasang di HP', 'How to install'),'A.installGuide()'],...(isParent() ? [] : [['🗑️',L('Hapus profil anak ini', "Delete this child's profile"),'A.delKid()']])].map(x => `<div class="item" onclick="${x[2]}"><div class="emo bg-lav" style="width:38px;height:38px;font-size:19px">${x[0]}</div><div class="grow ttl" style="font-size:14.5px">${x[1]}</div><span class="muted">›</span></div>`).join('')}</div>`;
 }
 
 /* =========================================================
@@ -716,8 +718,8 @@ const A = {
     if (first) toast('🎉 ' + L('Profil dibuat!', 'Profile created!'));
   },
   kidSwitch() {
-    openSheet(S.kids.map(k => `<div class="item" onclick="A.useKid('${k.id}')">${avatarHtml(k.profile, 46)}<div class="grow"><div class="ttl">${esc(k.profile.name)}</div><div class="meta">${esc(classLabel(currentClass(k)) || '')}</div></div>${k.id === kid().id ? '<span class="chip mint">✓</span>' : ''}</div>`).join('') +
-      `<div class="card" style="margin:14px 0 0">${kidForm({}, true)}<button class="btn block mt2" onclick="A.saveKid(null)">＋ ${L('Tambah anak', 'Add child')}</button></div>`, '👨‍👩‍👧 ' + L('Pilih anak', 'Choose child'));
+    openSheet(kidsList().map(k => `<div class="item" onclick="A.useKid('${k.id}')">${avatarHtml(k.profile, 46)}<div class="grow"><div class="ttl">${esc(k.profile.name)}</div><div class="meta">${esc(classLabel(currentClass(k)) || '')}</div></div>${k.id === kid().id ? '<span class="chip mint">✓</span>' : ''}</div>`).join('') +
+      (isParent() ? `<div class="hint mt2">${L('Anak baru muncul di sini setelah BrightKids di HP-nya digabungkan ke keluarga (Aku → Keluarga & sinkron).', "A child appears here once their phone joins the family (Me → Family & sync).")}</div>` : `<div class="card" style="margin:14px 0 0">${kidForm({}, true)}<button class="btn block mt2" onclick="A.saveKid(null)">＋ ${L('Tambah anak', 'Add child')}</button></div>`), '👨‍👩‍👧 ' + L('Pilih anak', 'Choose child'));
   },
   useKid(id) { S.activeKid = id; save(); closeSheet(); render(); },
   delKid() {
@@ -769,6 +771,7 @@ const A = {
   agendaSave(id) {
     const k = kid(); const o = {type:$('aType').value, title:$('aTitle').value.trim(), subject:$('aSubj').value.trim(), date:$('aDate').value, time:$('aTime').value, bring:$('aBring').value.split(',').map(x => x.trim()).filter(Boolean), link:$('aLink').value.trim(), notes:$('aNotes').value, score:$('aScore').value.trim() === '' ? null : num($('aScore').value), max:num($('aMax').value) || 100};
     if (!o.title && !o.subject) return toast(L('Isi judul atau mapel dulu', 'Fill in a title or subject'));
+    if (isParent()) { if (id) return toast(parentRO()); closeSheet(); return parentSend('agenda', {id:uid(), done:false, created:ds(), ...o}); }
     if (id) Object.assign(k.agenda.find(x => x.id === id), o); else k.agenda.push({id:uid(), done:false, created:ds(), ...o});
     save(); closeSheet(); render(); toast('✅ ' + L('Tersimpan', 'Saved'));
   },
@@ -779,7 +782,8 @@ const A = {
     <div class="info mt"><div><small>📅 ${L('Tanggal', 'Date')}</small><b>${a.date ? fmtDate(a.date, true) : '-'}</b></div><div><small>🕒 ${L('Jam', 'Time')}</small><b>${a.time || '-'}</b></div>${(a.bring || []).length ? `<div style="grid-column:1/-1"><small>🎒 ${L('Bawa', 'Bring')}</small><b>${esc(a.bring.join(', '))}</b></div>` : ''}${a.score != null && a.score !== '' ? `<div><small>⭐ ${L('Nilai', 'Score')}</small><b>${a.score} / ${a.max || 100}</b></div>` : ''}</div>
     ${a.link ? `<p><a href="${esc(a.link)}" target="_blank" rel="noopener">🔗 ${L('Buka link', 'Open link')}</a></p>` : ''}${a.notes ? `<div class="card" style="margin:12px 0;white-space:pre-wrap;font-size:14px">${esc(a.notes)}</div>` : ''}
     ${a.date ? `<div class="b8 small muted mt">📅 ${L('Pasang pengingat di kalender HP', 'Add a reminder to the phone calendar')}</div><div class="grid2 mt"><a class="btn ghost sm" href="${gcalUrl(a)}" target="_blank" rel="noopener">Google Calendar</a><button class="btn ghost sm" onclick="A.ics('${a.id}')">${L('Kalender iPhone (.ics)', 'iPhone Calendar (.ics)')}</button></div>` : ''}
-    <div class="grid2 mt2"><button class="btn ${a.done ? 'ghost' : 'mint'}" onclick="A.toggleDone('${a.id}')">${a.done ? '↩️ ' + L('Belum selesai', 'Not done') : '✅ ' + L('Selesai', 'Done')}</button><button class="btn soft" onclick="A.agendaForm('${a.id}')">✏️ ${L('Ubah', 'Edit')}</button></div>`, '');
+    ${a.from ? `<div class="hint">📨 ${L('Ditambahkan oleh', 'Added by')} <b>${esc(a.from)}</b>${a._pending ? ' · ⏳ ' + L('menunggu HP anak tersinkron', 'waiting for child’s phone to sync') : ''}</div>` : ''}
+    ${isParent() ? '' : `<div class="grid2 mt2"><button class="btn ${a.done ? 'ghost' : 'mint'}" onclick="A.toggleDone('${a.id}')">${a.done ? '↩️ ' + L('Belum selesai', 'Not done') : '✅ ' + L('Selesai', 'Done')}</button><button class="btn soft" onclick="A.agendaForm('${a.id}')">✏️ ${L('Ubah', 'Edit')}</button></div>`}`, '');
   },
   toggleDone(id) {
     const k = kid(); const a = k.agenda.find(x => x.id === id); a.done = !a.done; save(); closeSheet(); render();
@@ -804,7 +808,7 @@ const A = {
     if (!rows.length) A.schedAdd();
   },
   schedAdd() { $('sr').insertAdjacentHTML('beforeend', schedRow({})); },
-  schedSave(d) { kid().schedule[d] = [...document.querySelectorAll('#sr .card')].map(c => ({subject:c.querySelector('.ss').value.trim(), time:c.querySelector('.st').value.trim(), bring:c.querySelector('.sb').value.trim()})).filter(r => r.subject); save(); closeSheet(); render(); },
+  schedSave(d) { const rows = [...document.querySelectorAll('#sr .card')].map(c => ({subject:c.querySelector('.ss').value.trim(), time:c.querySelector('.st').value.trim(), bring:c.querySelector('.sb').value.trim()})).filter(r => r.subject); if (isParent()) { closeSheet(); return parentSend('schedule', {id:uid(), day:d, rows}); } kid().schedule[d] = rows; save(); closeSheet(); render(); },
   /* reports */
   async scan() {
     const f = await pickFile(); if (!f) return;
@@ -850,6 +854,7 @@ const A = {
     const special = [...document.querySelectorAll('#rk .card')].map(x => ({name:x.querySelector('.kn').value.trim(), detail:x.querySelector('.kd').value.trim(), desc:x.querySelector('.kx').value.trim()})).filter(x => x.name);
     if (!rows.length) return toast(L('Isi minimal satu nilai', 'Enter at least one score'));
     const o = {level:$('rLv').value, grade:$('rGr').value, sem:$('rSem').value, type:$('rType').value, year:$('rYear').value.trim(), className:$('rCls').value.trim(), school:$('rSch').value.trim(), rows, special, abs:{sakit:num($('aS').value), izin:num($('aI').value), alpa:num($('aA').value)}, note:$('rNote').value};
+    if (isParent()) { if (id) return toast(parentRO()); U.repPhoto = undefined; closeSheet(); U.tab = 'school'; U.school = 'grades'; return parentSend('report', {id:uid(), ...o}); }
     let rep = id ? k.reports.find(x => x.id === id) : null;
     if (rep) Object.assign(rep, o); else { rep = {id:uid(), ...o}; k.reports.push(rep); }
     if (U.repPhoto) { const pid = 'rep_' + rep.id; await PDB.put(pid, U.repPhoto); rep.photo = pid; U.repPhoto = undefined; }
@@ -879,7 +884,7 @@ const A = {
     <div class="grid2"><div><label class="lb">👩‍🏫 ${L('Wali kelas', 'Homeroom teacher')}</label><input id="cT" value="${esc(c.teacher || '')}"></div><div><label class="lb">📞 ${L('Kontak', 'Contact')}</label><input id="cP" value="${esc(c.phone || '')}" inputmode="tel"></div></div>
     <button class="btn block mt2" onclick="A.classSave(${id ? `'${id}'` : 'null'})">💾 ${L('Simpan', 'Save')}</button>${id ? `<button class="btn danger block mt" onclick="A.classDel('${id}')">🗑️ ${L('Hapus', 'Delete')}</button>` : ''}`, '🏫 ' + L('Kelas', 'Class'));
   },
-  classSave(id) { const k = kid(); const o = {level:$('cLv').value, grade:$('cGr').value, name:$('cName').value.trim(), year:$('cYear').value.trim(), school:$('cSchool').value.trim(), addr:$('cAddr').value.trim(), teacher:$('cT').value.trim(), phone:$('cP').value.trim()}; if (id) Object.assign(k.classes.find(x => x.id === id), o); else k.classes.push({id:uid(), ...o}); save(); closeSheet(); render(); },
+  classSave(id) { const k = kid(); const o = {level:$('cLv').value, grade:$('cGr').value, name:$('cName').value.trim(), year:$('cYear').value.trim(), school:$('cSchool').value.trim(), addr:$('cAddr').value.trim(), teacher:$('cT').value.trim(), phone:$('cP').value.trim()}; if (isParent()) { if (id) return toast(parentRO()); closeSheet(); return parentSend('class', {id:uid(), ...o}); } if (id) Object.assign(k.classes.find(x => x.id === id), o); else k.classes.push({id:uid(), ...o}); save(); closeSheet(); render(); },
   classDel(id) { const k = kid(); k.classes = k.classes.filter(x => x.id !== id); save(); closeSheet(); render(); },
   addCustom() { const v = $('cs').value.trim(); if (!v) return; const k = kid(); if (!k.customSubjects.includes(v)) k.customSubjects.push(v); save(); render(); },
   delCustom(i) { kid().customSubjects.splice(i, 1); save(); render(); },
@@ -928,7 +933,7 @@ const A = {
     openSheet(`<label class="lb">📅 ${L('Tanggal ukur', 'Date')}</label><input id="gD" type="date" value="${g.date}"><div class="grid2"><div><label class="lb">📏 ${L('Tinggi (cm)', 'Height (cm)')}</label><input id="gH" inputmode="decimal" value="${g.h || ''}"></div><div><label class="lb">⚖️ ${L('Berat (kg)', 'Weight (kg)')}</label><input id="gW" inputmode="decimal" value="${g.w || ''}"></div></div>
     <label class="lb">📝 ${L('Catatan', 'Note')}</label><input id="gNo" value="${esc(g.note || '')}" placeholder="${L('mis. ukur di posyandu', 'e.g. measured at clinic')}"><button class="btn block mt2" onclick="A.growSave(${id ? `'${id}'` : 'null'})">💾 ${L('Simpan', 'Save')}</button>${id ? `<button class="btn danger block mt" onclick="A.growDel('${id}')">🗑️ ${L('Hapus', 'Delete')}</button>` : ''}`, '📏 ' + L('Pengukuran', 'Measurement'));
   },
-  growSave(id) { const k = kid(); const o = {date:$('gD').value || ds(), h:num($('gH').value), w:num($('gW').value), note:$('gNo').value.trim()}; if (!o.h && !o.w) return toast(L('Isi tinggi atau berat', 'Enter height or weight')); if (id) Object.assign(k.growth.find(x => x.id === id), o); else k.growth.push({id:uid(), ...o}); save(); closeSheet(); U.tab = 'grow'; render(); toast('🌱 ' + L('Tercatat!', 'Logged!')); },
+  growSave(id) { const k = kid(); const o = {date:$('gD').value || ds(), h:num($('gH').value), w:num($('gW').value), note:$('gNo').value.trim()}; if (!o.h && !o.w) return toast(L('Isi tinggi atau berat', 'Enter height or weight')); if (isParent()) { if (id) return toast(parentRO()); closeSheet(); U.tab = 'grow'; return parentSend('growth', {id:uid(), ...o}); } if (id) Object.assign(k.growth.find(x => x.id === id), o); else k.growth.push({id:uid(), ...o}); save(); closeSheet(); U.tab = 'grow'; render(); toast('🌱 ' + L('Tercatat!', 'Logged!')); },
   growDel(id) { const k = kid(); k.growth = k.growth.filter(x => x.id !== id); save(); closeSheet(); render(); },
   achForm(id) {
     const a = id ? kid().achievements.find(x => x.id === id) : {kind:'lomba', date:ds()};
@@ -946,6 +951,7 @@ const A = {
   async achSave(id) {
     const k = kid(); const o = {kind:$('akV').value, title:$('akT').value.trim(), date:$('akD').value, level:$('akL').value, note:$('akN').value};
     if (!o.title) return toast(L('Isi judul dulu', 'Enter a title'));
+    if (isParent()) { if (id) return toast(parentRO()); U.achPhoto = undefined; closeSheet(); U.tab = 'grow'; return parentSend('achievement', {id:uid(), ...o}); }
     let a = id ? k.achievements.find(x => x.id === id) : null; if (a) Object.assign(a, o); else { a = {id:uid(), ...o}; k.achievements.push(a); }
     if (U.achPhoto) { a.photo = 'ach_' + a.id; await PDB.put(a.photo, U.achPhoto); U.achPhoto = undefined; }
     save(); closeSheet(); U.tab = 'grow'; render(); toast('🏆 ' + L('Keren! Tersimpan', 'Awesome! Saved'));
@@ -1016,12 +1022,190 @@ function downloadFile(content, name, type) {
   const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 4000);
 }
 
+/* =========================================================
+   FAMILY SYNC (v1.1) — Google Sheet + Apps Script milik keluarga
+   - Anak: data di HP anak otomatis terkirim; tambahan dari orang tua masuk ke HP anak
+   - Orang tua: melihat semua anak & menambah catatan baru
+   ========================================================= */
+const fam = () => S.family || null;
+const isParent = () => !!(S.family && S.family.role === 'parent');
+const isChild = () => !!(S.family && S.family.role === 'child');
+const kidsList = () => isParent() ? ((S.family.cache && S.family.cache.kids) || []) : S.kids;
+const parentRO = () => L('Mode orang tua: bisa melihat & menambah catatan baru. Mengubah/menghapus dilakukan dari HP anak 🙂', 'Parent mode: you can view & add new records. Editing/deleting is done on the child’s phone 🙂');
+function ago(iso) {
+  if (!iso) return '-'; const m = Math.round((Date.now() - new Date(iso)) / 60000);
+  if (m < 1) return L('baru saja', 'just now'); if (m < 60) return m + L(' menit lalu', ' min ago');
+  const h = Math.round(m / 60); if (h < 24) return h + L(' jam lalu', ' h ago'); return Math.round(h / 24) + L(' hari lalu', ' d ago');
+}
+function syncIcon() { const f = fam(); if (!f) return ''; if (f.err) return '⚠️'; return isParent() ? '🔄' : '☁️'; }
+function encJoin(u, k) { return 'BK1-' + btoa(unescape(encodeURIComponent(JSON.stringify({u, k})))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, ''); }
+function decJoin(c) {
+  try { c = String(c || '').replace(/\s+/g, '').replace(/^BK1-/i, '').replace(/-/g, '+').replace(/_/g, '/'); while (c.length % 4) c += '=';
+    const o = JSON.parse(decodeURIComponent(escape(atob(c)))); if (o.u && o.k) return o; } catch (e) {}
+  return null;
+}
+async function api(body, url, key) {
+  const f = fam() || {};
+  const r = await fetch(url || f.url, {method:'POST', headers:{'Content-Type':'text/plain;charset=utf-8'}, body:JSON.stringify({...body, key:key || f.key})});
+  const j = await r.json();
+  if (!j.ok) throw new Error(j.err || 'error');
+  return j;
+}
+function normKid(k) { const b = newKid((k.profile && k.profile.name) || ''); return {...b, ...k, profile:{...b.profile, ...(k.profile || {})}, pocket:{...b.pocket, ...(k.pocket || {})}, schedule:{...b.schedule, ...(k.schedule || {})}}; }
+const KIND_ARR = {agenda:'agenda', growth:'growth', report:'reports', achievement:'achievements', class:'classes'};
+function mergeOne(k, kind, item) {
+  if (kind === 'schedule') { k.schedule[item.day] = item.rows || []; return true; }
+  const arr = KIND_ARR[kind]; if (!arr) return false;
+  k[arr] = k[arr] || [];
+  if (k[arr].some(x => x.id === item.id)) return false;
+  k[arr].push(item); return true;
+}
+function mergeInbox(k, inbox) {
+  let n = 0; const who = new Set();
+  inbox.forEach(m => { const it = m.kind === 'schedule' ? m.item : {...m.item, from:m.from}; delete it._pending; if (mergeOne(k, m.kind, it)) { n++; who.add(m.from); } });
+  return {n, who:[...who].join(' & ')};
+}
+
+/* --- anak --- */
+let syncTimer = null, syncing = false;
+function queueSync() { if (!isChild()) return; clearTimeout(syncTimer); syncTimer = setTimeout(childSync, 2500); }
+async function childSync(ack = []) {
+  if (!isChild() || syncing) return;
+  const k = S.kids.find(x => x.id === S.family.kidId); if (!k) return;
+  syncing = true;
+  try {
+    const j = await api({op:'sync', kidId:k.id, data:k, ack, device:S.family.device, name:S.family.name});
+    S.family.lastSync = new Date().toISOString(); S.family.err = null;
+    const inbox = j.inbox || [];
+    if (inbox.length) {
+      const r = mergeInbox(k, inbox); syncing = false; persist(); render();
+      if (r.n) toast('📬 ' + (r.who || L('Orang tua', 'Parent')) + L(' menambahkan ', ' added ') + r.n + L(' catatan baru', ' new item(s)'));
+      return childSync(inbox.map(x => x.id));
+    }
+  } catch (e) { S.family.err = String(e.message || e); }
+  syncing = false; persist(); if (U.tab === 'me' || $('famSheet')) render();
+}
+
+/* --- orang tua --- */
+let refreshing = false;
+async function parentRefresh(quiet) {
+  if (!isParent() || refreshing) return; refreshing = true;
+  try {
+    const j = await api({op:'family', device:S.family.device, name:S.family.name});
+    const kids = (j.kids || []).map(raw => { const k = normKid(raw); (raw._inbox || []).forEach(m => mergeOne(k, m.kind, m.kind === 'schedule' ? m.item : {...m.item, from:m.from, _pending:true})); return k; });
+    S.family.cache = {kids, at:new Date().toISOString(), members:j.members || {}}; S.family.err = null;
+    if (!kids.some(k => k.id === S.activeKid) && kids[0]) S.activeKid = kids[0].id;
+    persist(); render(); if (!quiet) toast('🔄 ' + L('Data anak diperbarui', 'Children’s data refreshed'));
+  } catch (e) { S.family.err = String(e.message || e); persist(); render(); if (!quiet) toast(L('Gagal memuat — cek internet', 'Could not load — check internet')); }
+  refreshing = false;
+}
+async function parentSend(kind, item) {
+  const k = kid(); const from = S.family.name || L('Orang tua', 'Parent');
+  mergeOne(k, kind, kind === 'schedule' ? item : {...item, from, _pending:true}); persist(); render();
+  try { await api({op:'send', kidId:k.id, from, msg:{id:item.id, kind, item}}); toast('📨 ' + L('Terkirim ke HP ', 'Sent to ') + (k.profile.nick || k.profile.name)); }
+  catch (e) { toast(L('Gagal mengirim — cek internet lalu coba lagi', 'Sending failed — check internet and retry')); }
+}
+function autoSync() { if (isChild()) childSync(); else if (isParent()) parentRefresh(true); }
+
+/* --- tampilan orang tua --- */
+function vParentEmpty() {
+  return `<div class="hero" style="margin-top:24px"><span class="spark">👨‍👩‍👧</span><h1>${L('Halo', 'Hi')}, ${esc(S.family.name)}!</h1><p>${L('Belum ada data anak.', 'No children’s data yet.')}</p></div>
+  <div class="card"><p class="b8" style="margin-top:0">${L('Data anak muncul setelah BrightKids di HP anak digabungkan ke keluarga:', 'Children appear once their phones join the family:')}</p>
+  <ol class="small b8" style="line-height:1.8;padding-left:18px"><li>${L('Di HP anak: menu <b>Aku → Keluarga & sinkron</b>', 'On the child’s phone: <b>Me → Family & sync</b>')}</li><li>${L('Tempel <b>kode keluarga</b>, pilih <b>Anak</b>, lalu Gabung', 'Paste the <b>family code</b>, choose <b>Child</b>, then Join')}</li></ol>
+  <div class="btns"><button class="btn" onclick="parentRefresh()">🔄 ${L('Muat ulang', 'Refresh')}</button><button class="btn soft" onclick="A.family()">🔗 ${L('Kode keluarga', 'Family code')}</button></div>${S.family.err ? `<div class="hint">⚠️ ${esc(S.family.err)}</div>` : ''}</div>
+  <div class="credit">BrightKids v${APP_VERSION} · Created by <b>CreanovativeCo</b> ✨</div>`;
+}
+function vFamily() {
+  const td = ds(), f = fam(), kids = kidsList();
+  let html = `<div class="hero"><span class="spark">👨‍👩‍👧</span><h1>${L('Halo', 'Hi')}, ${esc(f.name)}! 👋</h1><p>${fmtDate(td, true)}</p><div class="small b8 mt">🔄 ${f.cache && f.cache.at ? L('Dimuat ', 'Loaded ') + ago(f.cache.at) : '-'} · <a onclick="parentRefresh()">${L('Muat ulang', 'Refresh')}</a></div></div>`;
+  html += kids.map(k => {
+    const p = k.profile, md = (k.moods || {})[td], mm = md && moodOf(md.m);
+    const soon = k.agenda.filter(a => !a.done && a.date && a.date >= td && diffDays(td, a.date) <= 7).sort((a, b) => (a.date + (a.time || '')).localeCompare(b.date + (b.time || '')));
+    const over = k.agenda.filter(a => !a.done && a.type === 'task' && a.date && a.date < td).length;
+    const spent = k.snacks.filter(s => s.date === td).reduce((a, s) => a + (+s.price || 0), 0);
+    const rep = sortedReports(k).slice(-1)[0];
+    const g = [...k.growth].sort((a, b) => a.date.localeCompare(b.date)); const lh = [...g].reverse().find(x => x.h), lw = [...g].reverse().find(x => x.w);
+    return `<div class="card"><div class="hd"><div class="row" style="min-width:0">${avatarHtml(p, 50)}<div style="min-width:0"><h3>${esc(p.nick || p.name)}</h3><div class="meta">${esc(classLabel(currentClass(k)) || '')}</div><div class="meta">☁️ ${L('Sinkron', 'Synced')} ${ago(k._updated)}</div></div></div><button class="btn soft sm" onclick="A.useKid('${k.id}');A.tab('school')">${L('Detail', 'Open')} →</button></div>
+    <div class="grid3"><div class="stat bg-pink" style="padding:10px"><div class="v" style="font-size:24px">${mm ? mm[1] : '—'}</div><div class="l">${mm ? L(mm[2], mm[3]) : L('Mood belum diisi', 'No mood yet')}</div></div><div class="stat bg-peach" style="padding:10px"><div class="v" style="font-size:17px">${rp(spent)}</div><div class="l">${L('Jajan hari ini', 'Snacks today')}</div></div><div class="stat bg-lav" style="padding:10px"><div class="v" style="font-size:20px">${rep ? repAvg(rep) : '—'}</div><div class="l">${L('Rapor terakhir', 'Last report')}</div></div></div>
+    ${md && md.note ? `<div class="hint">💭 “${esc(md.note)}”</div>` : ''}
+    ${lh || lw ? `<div class="meta mt">📏 ${lh ? lh.h + ' cm' : '-'} · ⚖️ ${lw ? lw.w + ' kg' : '-'}</div>` : ''}
+    ${over ? `<div class="banner bg-coral" style="margin:10px 0 0">⏰ ${over} ${L('tugas lewat tenggat', 'overdue task(s)')}</div>` : ''}
+    <div class="mt">${soon.length ? soon.slice(0, 4).map(agendaItem).join('') : `<div class="meta">🌤️ ${L('Tidak ada tugas/ujian 7 hari ke depan', 'No tasks/exams in the next 7 days')}</div>`}</div>
+    <div class="btns mt"><button class="btn soft sm" onclick="A.useKid('${k.id}');A.agendaForm()">＋ ${L('Tugas / pengingat', 'Task / reminder')}</button><button class="btn ghost sm" onclick="A.useKid('${k.id}');A.paste()">📋 ${L('Tempel pesan guru', 'Paste message')}</button></div></div>`;
+  }).join('');
+  if (f.err) html += `<div class="banner bg-coral">⚠️ ${L('Gagal memuat data terbaru', 'Could not load latest data')}: ${esc(f.err)}</div>`;
+  return html;
+}
+
+/* --- lembar Keluarga & sinkron --- */
+A.family = function () {
+  const f = fam();
+  if (f) {
+    const k = isChild() ? S.kids.find(x => x.id === f.kidId) : null;
+    const members = isParent() && f.cache && f.cache.members ? Object.values(f.cache.members) : [];
+    openSheet(`<div id="famSheet"></div><div class="hero" style="margin:0"><h1 style="font-size:22px">${isParent() ? '👀 ' + L('Orang tua', 'Parent') : '🧒 ' + L('Anak', 'Child')}: ${esc(isParent() ? f.name : (k ? k.profile.nick || k.profile.name : '-'))}</h1><p class="small">${isParent() ? L('Melihat semua anak & menambah catatan', 'Viewing all children & adding records') : L('Catatan di HP ini otomatis terkirim ke orang tua', 'Records on this phone are shared with parents automatically')}</p>
+    <p class="small">☁️ ${isParent() ? L('Dimuat ', 'Loaded ') + ago(f.cache && f.cache.at) : L('Sinkron terakhir ', 'Last sync ') + ago(f.lastSync)}${f.err ? ' · ⚠️ ' + esc(f.err) : ' ✅'}</p></div>
+    <div class="btns mt2"><button class="btn" onclick="${isParent() ? 'parentRefresh()' : 'childSync()'};closeSheet()">🔄 ${L('Sinkron sekarang', 'Sync now')}</button>${isParent() ? `<button class="btn soft" onclick="A.shareFamily()">📤 ${L('Bagikan kode keluarga', 'Share family code')}</button>` : ''}</div>
+    ${members.length ? `<div class="card" style="margin:14px 0"><h3>👨‍👩‍👧 ${L('Anggota', 'Members')}</h3>${members.map(m => `<div class="item"><span style="font-size:22px">${m.role === 'parent' ? '🧑' : '🧒'}</span><div class="grow"><div class="ttl">${esc(m.name)}</div><div class="meta">${m.role === 'parent' ? L('Orang tua', 'Parent') : L('Anak', 'Child')} · ${L('aktif ', 'active ')}${ago(m.seen)}</div></div></div>`).join('')}</div>` : ''}
+    <button class="btn danger block mt2" onclick="A.leaveFamily()">🔌 ${L('Putuskan dari keluarga', 'Leave family')}</button><div class="hint">${L('Memutuskan tidak menghapus data di Google Sheet maupun di HP ini.', 'Leaving does not delete data in the Google Sheet or on this phone.')}</div>`, '🔗 ' + L('Keluarga & sinkron', 'Family & sync'));
+    return;
+  }
+  openSheet(`<div class="card" style="margin:0 0 12px"><h3>🔗 ${L('Gabung dengan kode keluarga', 'Join with family code')}</h3><div class="hint" style="margin-top:4px">${L('Minta kode keluarga (diawali BK1-) ke Ibu/Ayah.', 'Ask Mum/Dad for the family code (starts with BK1-).')}</div>
+    <textarea id="jc" style="min-height:70px;margin-top:8px" placeholder="BK1-…" autocapitalize="off" autocorrect="off" spellcheck="false"></textarea>
+    <label class="lb">${L('Saya adalah', 'I am')}</label><div class="chips" id="rl"><button onclick="A.pickRole('parent')" data-r="parent">🧑 ${L('Orang tua', 'Parent')}</button><button onclick="A.pickRole('child')" data-r="child">🧒 ${L('Anak', 'Child')}</button></div><div id="rbox"></div>
+    <button class="btn block mt2" onclick="A.joinFamily()">✨ ${L('Gabung', 'Join')}</button></div>
+    <div class="card" style="margin:0"><h3>🛠️ ${L('Pengelola: buat kode keluarga', 'Admin: create family code')}</h3><div class="hint" style="margin-top:4px">${L('Sekali saja, setelah Google Sheet + Apps Script disiapkan (lihat panduan).', 'Once only, after the Google Sheet + Apps Script are set up (see guide).')}</div>
+    <label class="lb">URL Web App</label><input id="fu" placeholder="https://script.google.com/macros/s/…/exec" autocapitalize="off" autocorrect="off" spellcheck="false">
+    <label class="lb">${L('Kunci keluarga', 'Family key')}</label><input id="fk" placeholder="ABCD1234…" autocapitalize="characters" autocorrect="off" spellcheck="false">
+    <button class="btn soft block mt" onclick="A.createFamily()">🔑 ${L('Cek & buat kode', 'Check & create code')}</button></div>`, '🔗 ' + L('Keluarga & sinkron', 'Family & sync'));
+};
+A.pickRole = function (r) {
+  U.role = r; document.querySelectorAll('#rl button').forEach(b => b.classList.toggle('on', b.dataset.r === r));
+  $('rbox').innerHTML = r === 'parent'
+    ? `<label class="lb">${L('Nama panggilan (muncul di HP anak)', 'Display name (shown to children)')}</label><input id="pn" placeholder="${L('mis. Ibu / Ayah / Bunda', 'e.g. Mum / Dad')}">`
+    : (S.kids.length ? `<label class="lb">${L('Profil anak di HP ini', 'Child profile on this phone')}</label><select id="pk2">${S.kids.map(k => `<option value="${k.id}" ${k.id === S.activeKid ? 'selected' : ''}>${esc(k.profile.name)}</option>`).join('')}</select>` : `<div class="hint">${L('Buat profil anak dulu di HP ini, baru gabung.', 'Create the child profile on this phone first, then join.')}</div>`);
+};
+A.createFamily = async function () {
+  const u = $('fu').value.trim(), k = $('fk').value.trim().toUpperCase();
+  if (!/^https:\/\/script\.google(usercontent)?\.com\//.test(u)) return toast(L('URL harus diawali https://script.google.com/', 'URL must start with https://script.google.com/'));
+  toast('⏳ ' + L('Mengecek…', 'Checking…'));
+  try { await api({op:'ping'}, u, k); $('jc').value = encJoin(u, k); A.pickRole('parent'); toast('✅ ' + L('Kunci benar! Isi nama lalu Gabung', 'Key OK! Enter your name then Join')); }
+  catch (e) { toast(String(e.message) === 'key' ? L('Kunci keluarga salah', 'Wrong family key') : L('URL belum bisa dihubungi — cek langkah deploy', 'URL not reachable — check the deploy steps')); }
+};
+A.joinFamily = async function () {
+  const o = decJoin($('jc').value); if (!o) return toast(L('Kode keluarga tidak valid', 'Invalid family code'));
+  if (!U.role) return toast(L('Pilih Orang tua atau Anak', 'Choose Parent or Child'));
+  let name = '', kidId = '';
+  if (U.role === 'parent') { name = ($('pn').value || '').trim(); if (!name) return toast(L('Isi nama panggilan', 'Enter a display name')); }
+  else { if (!$('pk2')) return toast(L('Buat profil anak dulu', 'Create a child profile first')); kidId = $('pk2').value; const kk = S.kids.find(x => x.id === kidId); name = kk.profile.nick || kk.profile.name; }
+  toast('⏳ ' + L('Menghubungkan…', 'Connecting…'));
+  try { await api({op:'ping'}, o.u, o.k); } catch (e) { return toast(L('Gagal terhubung — cek internet / kode', 'Could not connect — check internet / code')); }
+  S.family = {url:o.u, key:o.k, role:U.role, name, kidId, device:uid(), cache:{kids:[]}, lastSync:null, err:null};
+  if (U.role === 'child') S.activeKid = kidId;
+  U.tab = 'home'; persist(); closeSheet(); render();
+  toast('🎉 ' + L('Tergabung ke keluarga!', 'Joined the family!'));
+  autoSync();
+};
+A.shareFamily = async function () {
+  const code = encJoin(S.family.url, S.family.key);
+  const text = L(`Kode keluarga BrightKids 👨‍👩‍👧\nBuka BrightKids → Aku → Keluarga & sinkron → tempel kode ini:\n\n${code}`, `BrightKids family code 👨‍👩‍👧\nOpen BrightKids → Me → Family & sync → paste this code:\n\n${code}`);
+  try { if (navigator.share) return await navigator.share({title:'BrightKids', text}); } catch (e) { if (e.name === 'AbortError') return; }
+  try { await navigator.clipboard.writeText(code); toast('📋 ' + L('Kode keluarga disalin!', 'Family code copied!')); } catch (e) { openSheet(`<textarea style="min-height:120px">${esc(code)}</textarea>`, '📤 ' + L('Kode keluarga', 'Family code')); }
+};
+A.leaveFamily = function () {
+  openSheet(`<p class="b8">${L('Yakin memutuskan HP ini dari keluarga?', 'Disconnect this phone from the family?')}</p><button class="btn danger block" onclick="S.family=null;U.tab='home';persist();closeSheet();render();toast('🔌 ${L('Terputus', 'Disconnected')}')">${L('Ya, putuskan', 'Yes, disconnect')}</button><button class="btn ghost block mt" onclick="A.family()">${L('Batal', 'Cancel')}</button>`, '🔌');
+};
+/* tindakan yang tidak untuk orang tua (dilakukan anak di HP-nya) */
+['toggleDone','mood','moodNote','check','snackForm','snackSave','snackDel','pocketForm','pocketSave','goalForm','goalSave','goalDel','deposit','saveRest','saveRestTo','profileForm','profileSave','delKid','agendaDel','reportDel','growDel','achDel','classDel','addCustom','delCustom','scoreAsk','scoreSave','saveKid','restore'].forEach(n => {
+  const f = A[n]; if (!f) return; A[n] = function (...a) { if (isParent()) return toast(parentRO()); return f.apply(this, a); };
+});
+
 /* ---------- boot ---------- */
-load(); document.documentElement.lang = S.lang; render();
+load(); document.documentElement.lang = S.lang; render(); setTimeout(autoSync, 800);
 if ('serviceWorker' in navigator && location.protocol === 'https:') navigator.serviceWorker.register('sw.js').catch(() => {});
 if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(() => {});
 let hiddenAt = 0;
-document.addEventListener('visibilitychange', () => { if (document.hidden) { hiddenAt = Date.now(); return; } if (S.pin && U.unlocked && Date.now() - hiddenAt > 120000) { U.unlocked = false; closeSheet(); render(); } });
+document.addEventListener('visibilitychange', () => { if (document.hidden) { hiddenAt = Date.now(); return; } if (S.pin && U.unlocked && Date.now() - hiddenAt > 120000) { U.unlocked = false; closeSheet(); render(); } if (Date.now() - hiddenAt > 20000) autoSync(); });
 </script>
 </body>
 </html>
