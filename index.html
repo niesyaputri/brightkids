@@ -146,7 +146,27 @@ a{color:#6650C8;font-weight:800}
    Data tersimpan di HP (localStorage + IndexedDB untuk foto)
    ========================================================= */
 const APP_VERSION = '1.1.0';
-const INVITE_CODES = ['BRIGHTKIDS']; // ganti/tambah kode undangan di sini
+/* KODE UNDANGAN — disimpan sebagai "sidik jari" (hash), bukan tulisan asli.
+   Untuk mengganti: buka file "buat-kode-undangan.html" di HP/laptop, ketik kode baru,
+   lalu salin baris yang dihasilkan dan ganti baris INVITE_HASHES di bawah ini. */
+const INVITE_HASHES = ['2ccb90c2380712896f928e0a7fbd86072d51d11ac8b7c59165bb1c296548a309'];
+function sha256(str) {
+  const b = new TextEncoder().encode(str), K = [], H = [1779033703,-1150833019,1013904242,-1521486534,1359893119,-1694144372,528734635,1541459225];
+  for (let i = 0, n = 2; i < 64; n++) { let p = true; for (let d = 2; d * d <= n; d++) if (n % d === 0) { p = false; break; } if (p) K[i++] = (Math.pow(n, 1 / 3) % 1) * 4294967296 | 0; }
+  const l = b.length, w = new Uint8Array(((l + 9 + 63) >> 6) << 6); w.set(b); w[l] = 0x80; const dv = new DataView(w.buffer); dv.setUint32(w.length - 4, l * 8);
+  const r = (x, n) => (x >>> n) | (x << (32 - n)), W = new Int32Array(64);
+  for (let o = 0; o < w.length; o += 64) {
+    for (let i = 0; i < 16; i++) W[i] = dv.getInt32(o + i * 4);
+    for (let i = 16; i < 64; i++) { const a = W[i - 15], c = W[i - 2]; W[i] = (W[i - 16] + (r(a, 7) ^ r(a, 18) ^ (a >>> 3)) + W[i - 7] + (r(c, 17) ^ r(c, 19) ^ (c >>> 10))) | 0; }
+    let [a, bb, c, d, e, f, g, h] = H;
+    for (let i = 0; i < 64; i++) { const t1 = (h + (r(e, 6) ^ r(e, 11) ^ r(e, 25)) + ((e & f) ^ (~e & g)) + K[i] + W[i]) | 0, t2 = ((r(a, 2) ^ r(a, 13) ^ r(a, 22)) + ((a & bb) ^ (a & c) ^ (bb & c))) | 0; h = g; g = f; f = e; e = (d + t1) | 0; d = c; c = bb; bb = a; a = (t1 + t2) | 0; }
+    H[0] = (H[0] + a) | 0; H[1] = (H[1] + bb) | 0; H[2] = (H[2] + c) | 0; H[3] = (H[3] + d) | 0; H[4] = (H[4] + e) | 0; H[5] = (H[5] + f) | 0; H[6] = (H[6] + g) | 0; H[7] = (H[7] + h) | 0;
+  }
+  return H.map(x => (x >>> 0).toString(16).padStart(8, '0')).join('');
+}
+const normCode = x => String(x || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
+const inviteHash = x => sha256('bk-invite::' + normCode(x));
+
 const KEY = 'brightkids_v1';
 let S, U = {tab:'home', school:'agenda', filter:'up', sday:null, gm:'h', subj:null, unlocked:false, pinBuf:''};
 
@@ -685,7 +705,7 @@ const A = {
   gm(m) { U.gm = m; render(); },
   sday(n) { const d = addDays(U.sday || ds(), n); if (d > ds()) return; U.sday = d; render(); },
   toggleLang() { S.lang = S.lang === 'en' ? 'id' : 'en'; save(); render(); },
-  invite() { const norm = x => String(x || '').toUpperCase().replace(/[^A-Z0-9]/g, ''); const v = norm($('inv').value); if (v && INVITE_CODES.map(norm).includes(v)) { S.invited = true; save(); render(); } else toast(L('Kode tidak cocok 🙈', 'Code does not match 🙈')); },
+  invite() { const v = normCode($('inv').value); if (v && INVITE_HASHES.includes(inviteHash(v))) { S.invited = true; save(); render(); } else toast(L('Kode tidak cocok 🙈', 'Code does not match 🙈')); },
   async pinKey(d) {
     if (d === 'del') U.pinBuf = U.pinBuf.slice(0, -1); else if (U.pinBuf.length < 4) U.pinBuf += d;
     render();
@@ -991,9 +1011,9 @@ const A = {
     downloadFile('﻿' + out, 'BrightKids-' + k.profile.name.split(' ')[0] + '-' + ds() + '.csv', 'text/csv');
   },
   async shareApp() {
-    const url = location.href.split('#')[0].split('?')[0]; const text = L(`Yuk pasang BrightKids 🌟 — catatan sekolah, rapor, tumbuh kembang & jajan anak.\n${url}\nKode undangan: ${INVITE_CODES[0]}`, `Install BrightKids 🌟 — school, report cards, growth & snack tracker for kids.\n${url}\nInvitation code: ${INVITE_CODES[0]}`);
+    const url = location.href.split('#')[0].split('?')[0]; const text = L(`Yuk pasang BrightKids 🌟 — catatan sekolah, rapor, tumbuh kembang & jajan anak.\n${url}\nKode undangan: minta langsung ke yang membagikan 🔑`, `Install BrightKids 🌟 — school, report cards, growth & snack tracker for kids.\n${url}\nInvitation code: ask the person who shared it 🔑`);
     try { if (navigator.share) return await navigator.share({title:'BrightKids', text}); } catch (e) { if (e.name === 'AbortError') return; }
-    try { await navigator.clipboard.writeText(text); toast('📋 ' + L('Link & kode disalin!', 'Link & code copied!')); } catch (e) { openSheet(`<textarea>${esc(text)}</textarea>`, '📲 Share'); }
+    try { await navigator.clipboard.writeText(text); toast('📋 ' + L('Link disalin! Kirim kode undangan terpisah ya', 'Link copied! Send the invitation code separately')); } catch (e) { openSheet(`<textarea>${esc(text)}</textarea>`, '📲 Share'); }
   },
   installGuide() {
     openSheet(`<div class="card" style="margin:6px 0"><h3>🍎 iPhone / iPad</h3><ol class="small b8" style="line-height:1.8;padding-left:18px"><li>${L('Buka link aplikasi di <b>Safari</b>', 'Open the app link in <b>Safari</b>')}</li><li>${L('Ketuk tombol Bagikan', 'Tap the Share button')} <b>⬆️</b></li><li>${L('Pilih <b>Tambah ke Layar Utama</b>', 'Choose <b>Add to Home Screen</b>')}</li><li>${L('Ketuk <b>Tambah</b> — ikon BrightKids muncul ✨', 'Tap <b>Add</b> — the BrightKids icon appears ✨')}</li></ol></div>
